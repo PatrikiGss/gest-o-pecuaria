@@ -1,0 +1,14 @@
+# Python
+__pycache__/
+venvs/
+venv/
+
+# Django
+migrations/
+media/
+
+# Ambiente
+.env
+
+# Gerados automaticamente
+public/
