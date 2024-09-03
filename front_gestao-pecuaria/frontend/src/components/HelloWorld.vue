@@ -1,9 +1,8 @@
 <template>
   <div> 
-  <h1>HelloWorld</h1>
-  <P>Link da API: {{ url_api }}</P>
-  <P>Modo: {{ modo_env }}</P>
-  <p>token: {{ token }}</p>
+  <h1>Tela Principal Vue <br>
+    selecione o tipo de cadastro acima!
+  </h1>
   </div>
 </template>
 
