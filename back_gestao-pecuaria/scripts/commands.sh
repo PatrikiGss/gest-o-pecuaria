@@ -1,6 +1,12 @@
 #!/bin/sh
 set -e
 
+echo $POSTGRES_PASSWORD
+echo $DB_NAME
+echo $POSTGRES_USER
+echo $POSTGRES_HOST
+echo $POSTGRES_PORT
+
 echo "test"
 
 # Verifica se as variáveis de ambiente estão definidas

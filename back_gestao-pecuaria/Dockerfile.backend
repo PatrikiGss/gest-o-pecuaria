@@ -8,8 +8,9 @@ ENV PYTHONUNBUFFERED 1
 WORKDIR /Projeto_Pesquisa_e_Gestão_Pecuaria
 
 # Cópia do código do projeto e scripts
-COPY ./back_gestao-pecuaria/Projeto_Pesquisa_e_Gestão_Pecuaria /Projeto_Pesquisa_e_Gestão_Pecuaria
-COPY ./back_gestao-pecuaria/scripts /scripts
+COPY ./back_gestao-pecuaria/Projeto_Pesquisa_e_Gestão_Pecuaria /Projeto_Pesquisa_e_Gestão_Pecuaria/
+COPY ./back_gestao-pecuaria/scripts /scripts 
+#COPY ./back_gestao-pecuaria/Projeto_Pesquisa_e_Gestão_Pecuaria/manage.py /Projeto_Pesquisa_e_Gestão_Pecuaria
 
 # Expor a porta 8000
 EXPOSE 8000
@@ -20,25 +21,26 @@ RUN python -m venv /venv && \
     /venv/bin/pip install -r /Projeto_Pesquisa_e_Gestão_Pecuaria/requirements.txt
 
 # Ajuste do PATH / Verificar a rota!
-ENV PATH="/back_gestao-pecuaria/scripts:/venv/bin:$PATH"
+ENV PATH="/scripts:/venv/bin:$PATH"
 
 # Adiciona usuário não privilegiado com UID e GID específicos
 RUN addgroup -g 1000 duser && \
     adduser -D -u 1000 -G duser duser
 
-# Cria diretórios e ajustar permissões
-RUN mkdir -p ./back_gestao-pecuaria/data/web/static/admin ./back_gestao-pecuaria/data/web/media && \
-    chown -R duser:duser ./back_gestao-pecuaria/data/web && \
-    chmod -R 755 ./back_gestao-pecuaria/data/web
+# Cria diretórios e ajusta permissões
+RUN mkdir -p /Projeto_Pesquisa_e_Gestão_Pecuaria/data/web/static/admin /Projeto_Pesquisa_e_Gestão_Pecuaria/data/web/media && \
+    chown -R duser:duser /Projeto_Pesquisa_e_Gestão_Pecuaria/data/web && \
+    chmod -R 755 /Projeto_Pesquisa_e_Gestão_Pecuaria/data/web
 
+    RUN mkdir -p /data/web/static /data/web/media && \
+    chown -R duser:duser /data && \
+    chmod -R 755 /data
+    
 RUN chmod -R +x /scripts
 
 # Verifica permissões e usuário atual (comando de depuração)
-RUN ls -la ./back_gestao-pecuaria/data/web/static ./back_gestao-pecuaria/data/web/media ./back_gestao-pecuaria/data/web/static/admin
+RUN ls -la /Projeto_Pesquisa_e_Gestão_Pecuaria/data/web/static /Projeto_Pesquisa_e_Gestão_Pecuaria/data/web/media /Projeto_Pesquisa_e_Gestão_Pecuaria/data/web/static/admin
 RUN whoami
-
-#teste
-RUN pwd && ls
 
 
 # Usa o usuário não privilegiado
