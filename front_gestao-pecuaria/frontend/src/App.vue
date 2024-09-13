@@ -8,7 +8,7 @@
           </button>
           <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
             <li><router-link class="dropdown-item" to="/">Home</router-link></li>
-            <li><router-link class="dropdown-item" to="/about">About</router-link></li>
+            <!--<li><router-link class="dropdown-item" to="/about">About</router-link></li>-->
             <li><router-link class="dropdown-item" to="/tela-usuario">Usuário</router-link></li>
             <li><router-link class="dropdown-item" to="/tela-produtor">Produtor</router-link></li>
             <li><router-link class="dropdown-item" to="/tela-Propriedade">Propriedade</router-link></li>

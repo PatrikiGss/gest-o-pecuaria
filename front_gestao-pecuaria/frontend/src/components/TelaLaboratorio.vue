@@ -1,152 +1,338 @@
 <template>
-    <div class="form-container">
-      <h1>Cadastro de Laboratorio</h1>
-      <form @submit.prevent="submitForm" class="producer-form">
-        <div class="form-group">
-          <label for="usuario">Usuário:</label>
-          <select id="usuario" v-model="formData.usuario" class="form-control">
+  <div class="container-fluid">
+    <h1></h1>
+    <!-- Título da Lista de laboratórios -->
+    <h1 v-if="!showForm" class="mt-4"> <br> Lista de Laboratórios</h1>
+    <!-- Formulário de cadastro/edição de laboratórios -->
+    <div v-if="showForm" class="form-container">
+      <h1>{{ editingLab ? 'Editar Laboratório' : "Cadastrar Laboratório" }}</h1>
+      <form @submit.prevent="submitForm" class="lab-form">
+        <!-- Campo para o usuário -->
+        <div class="mb-3">
+          <label for="usuario" class="form-label">Usuário</label>
+          <select id="usuario" v-model="formData.usuario" class="form-control" required>
+            <option disabled value="">Selecione um usuário</option>
             <option v-for="usuario in usuarios" :key="usuario.id" :value="usuario.id">
               {{ usuario.nome }}
             </option>
           </select>
         </div>
-  
-        <div class="form-group">
-          <label for="nome">Nome:</label>
-          <input type="text" id="nome" v-model="formData.nome" class="form-control" placeholder="digite o nome do laboratorio:">
+        <!-- Campo para o Endereço -->
+        <div class="mb-3">
+          <label for="endereco" class="form-label">Endereço</label>
+          <input type="text" class="form-control" id="endereco" v-model="formData.endereco" placeholder="Digite seu endereço" required />
         </div>
-  
-        <div class="form-group">
-        <label for="endereco">Endereço:</label>
-        <input type="text" id="endereco" v-model="formData.endereco" class="form-control" placeholder="digite o endereço do laboratorio:">
-      </div>
-  
-        <div class="form-group">
-          <label for="estado">Estado:</label>
-          <input type="text" id="estado" v-model="formData.estado" class="form-control" placeholder="digite o estado do laboratorio:">
+        <!-- Campo para o Nome -->
+        <div class="mb-3">
+          <label for="nome" class="form-label">Nome</label>
+          <input type="text" class="form-control" id="nome" v-model="formData.nome" placeholder="Digite o nome da propriedade" required />
         </div>
-
-        <div class="form-group">
-          <label for="cidade">Cidade:</label>
-          <input type="text" id="cidade" v-model="formData.cidade" class="form-control" placeholder="digite o cidade do laboratorio:">
+        <!-- Campo para o telefone -->
+        <div class="mb-3">
+          <label for="telefone" class="form-label">Telefone</label>
+          <input type="text" class="form-control" id="telefone" v-model="formData.telefone" placeholder="Ex: (49)123112233" required />
         </div>
-
-        <div class="form-group">
-          <label for="telefone">Telefone:</label>
-          <input type="text" id="telefone" v-model="formData.telefone" class="form-control" placeholder="ex: 32330950">
+        <!-- Campo para o email -->
+        <div class="mb-3">
+          <label for="email" class="form-label">Email</label>
+          <input type="email" class="form-control" id="email" v-model="formData.email" placeholder="Ex: email@gmail.com" required />
         </div>
-
-        <div class="form-group">
-          <label for="email">Email:</label>
-          <input type="email" id="email" v-model="formData.email" class="form-control" placeholder="ex: lab@gmail.com">
+        <!-- Campo para a Cidade -->
+        <div class="mb-3">
+          <label for="cidade" class="form-label">Cidade</label>
+          <input type="text" class="form-control" id="cidade" v-model="formData.cidade" placeholder="Digite sua cidade" required />
         </div>
-  
-        <button type="submit" class="btn-submit">Enviar</button>
+        <!-- Campo para o Estado -->
+        <div class="mb-3">
+          <label for="estado" class="form-label">Estado</label>
+          <input type="text" class="form-control" id="estado" v-model="formData.estado" placeholder="EX: SC, SP, RS, PR" required />
+        </div>
+        <!-- Botões de ação -->
+        <div class="button-group">
+          <button @click="toggleForm" class="btn-back">Voltar</button>
+          <button type="submit" class="btn-submit">{{ editingLab ? 'Salvar' : 'Cadastrar' }}</button>
+        </div>
       </form>
     </div>
-  </template>
-  
-  <script>
-  import api from '@/interceptadorAxios';
-  
-  export default {
-    data() {
-      return {
-        formData: {
-          usuario: null,
-          endereco: '',
-          nome: '',
-          telefone: '',
-          email: '',
-          cidade:'',
-          estado:'',
-        },
-        usuarios: [],
-        laboratorios: []
-      };
-    },
-    methods: {
-      async fetchUsuarios() {
-        try {
-          const response = await api.get('/usuarios/');
-          this.usuarios = response.data;
-        } catch (error) {
-          console.error('Erro ao buscar usuários:', error);
-        }
+     <!-- Lista de laboratórios -->
+     <div v-if="!showForm" class="lab-list mt-5">
+      <div class="container-fluidd">
+        <!-- Botão para abrir o formulário de cadastro -->
+        <br>
+        <div class="button-container">
+          <button @click="toggleForm" class="btn-submit">Cadastrar novo laboratorio</button>
+        </div>
+        <!-- Verifica se há laboratórios cadastrados -->
+        <div v-if="laboratorios.length">
+          <div class="row font-weight-bold mb-2">
+            <div class="col-6 col-md-2">Usuário</div>
+            <div class="col-6 col-md-2">Endereço</div>
+            <div class="col-6 col-md-2">Nome</div>
+            <div class="col-6 col-md-2">Email</div>
+            <div class="col-6 col-md-1">Telefone</div>
+            <div class="col-6 col-md-1">Cidade</div>
+            <div class="col-6 col-md-1">Estado</div>
+            <div class="col-6 col-md-1">Ação</div>
+          </div>
+          <div v-for="laboratorio in laboratorios" :key="laboratorio.id" class="row user-info mb-2">
+            <div class="col-6 col-md-2">{{ getUsuarioNome(laboratorio.usuario) }}</div>
+            <div class="col-6 col-md-2">{{ laboratorio.endereco }}</div>
+            <div class="col-6 col-md-2">{{ laboratorio.nome }}</div>
+            <div class="col-6 col-md-2">{{ laboratorio.email }}</div>
+            <div class="col-6 col-md-1">{{ laboratorio.telefone }}</div>
+            <div class="col-6 col-md-1">{{ laboratorio.cidade }}</div>
+            <div class="col-6 col-md-1">{{ laboratorio.estado }}</div>
+            <!-- Botões para editar e excluir laboratórios -->
+            <div class="col-6 col-md-1">
+              <button @click="startEditing(laboratorio)" class="btn-edit">🖊️</button>
+              <button @click="deleteLab(laboratorio.id)" class="btn-delete">🗑️</button>
+            </div>
+          </div>
+        </div>
+        <!-- Mensagem caso não existam laboratórios -->
+        <div v-else>
+          <p>Nenhum laboratório encontrado.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</template>
+
+<script>
+import api from '@/interceptadorAxios';
+
+export default {
+  data() {
+    return {
+      formData: {
+        usuario: null,
+        endereco: '',
+        nome: '',
+        telefone: '',
+        email: '',
+        cidade: '',
+        estado: '',
       },
-      async submitForm() {
-        try {
-          const response = await api.post('/laboratorios/', this.formData);
-          if (response.status === 201) {
-            alert('laboratorio cadastrado com sucesso!');
-            this.laboratorios.push(response.data);
-          } else {
-            alert('Erro ao cadastrar laboratorio. Tente novamente mais tarde.');
-          }
-        } catch (error) {
-          console.error('Erro ao enviar requisição:', error);
-          alert('Erro ao enviar requisição. Verifique o console para mais detalhes.');
-        }
+      usuarios: [],
+      laboratorios: [],
+      showForm: false,
+      editingLab: false
+    };
+  },
+  methods: {
+    // Alterna a exibição do formulário e reseta os dados
+    toggleForm() {
+      this.showForm = !this.showForm;
+      this.editingLab = false;
+      this.formData = { usuario: '', endereco: '', nome: '', telefone: '', email: '', cidade: '', estado: '' };
+    },
+    // Obtém o nome do usuário a partir do ID
+    getUsuarioNome(usuarioId) {
+      const usuario = this.usuarios.find(u => u.id === usuarioId);
+      return usuario ? usuario.nome : 'Desconhecido';
+    },
+    // Busca todos os usuários
+    async fetchUsuarios() {
+      try {
+        const response = await api.get('/usuarios/');
+        this.usuarios = response.data;
+      } catch (error) {
+        console.error('Erro ao buscar usuários:', error);
+        alert('Erro ao buscar usuários. Verifique o console para mais detalhes.');
       }
     },
-    created() {
-      this.fetchUsuarios();
+    // Busca todos os laboratórios
+    async fetchlaboratorios() {
+      try {
+        const response = await api.get('/laboratorios/');
+        this.laboratorios = response.data;
+      } catch (error) {
+        console.error('Erro ao buscar laboratórios:', error);
+        alert('Erro ao buscar laboratórios. Verifique o console para mais detalhes.');
+      }
+    },
+    // Submete o formulário para cadastro ou edição
+    async submitForm() {
+      try {
+        if (this.editingLab) {
+          // Atualiza o laboratório existente
+          const response = await api.put(`/laboratorios/${this.formData.id}/`, this.formData);
+          if (response.status === 200) {
+            alert('Laboratório atualizado com sucesso!');
+            this.fetchlaboratorios();
+            this.toggleForm();
+          } else {
+            alert('Erro ao atualizar laboratório.');
+          }
+        } else {
+          // Cadastra um novo laboratório
+          const response = await api.post('/laboratorios/', this.formData);
+          if (response.status === 201) {
+            alert('Laboratório cadastrado com sucesso!');
+            this.laboratorios.push(response.data);
+            this.toggleForm();
+          } else {
+            alert('Erro ao cadastrar laboratório. Tente novamente mais tarde.');
+          }
+        }
+      } catch (error) {
+        console.error('Erro ao enviar requisição:', error);
+        alert('Erro ao enviar requisição. Verifique o console para mais detalhes.');
+      }
+    },
+    // Inicia o modo de edição
+    startEditing(laboratorio) {
+      this.showForm = true;
+      this.editingLab = true;
+      this.formData = { ...laboratorio };
+    },
+    // Deleta um laboratório
+    async deleteLab(laboratorioId) {
+      if (!confirm('Tem certeza que deseja deletar este laboratório?')) {
+        return;
+      }
+      try {
+        const response = await api.delete(`/laboratorios/${laboratorioId}/`);
+        if (response.status === 204) {
+          alert('Laboratório deletado com sucesso!');
+          this.laboratorios = this.laboratorios.filter(p => p.id !== laboratorioId);
+        } else {
+          alert('Erro ao deletar laboratório.');
+        }
+      } catch (error) {
+        console.error('Erro ao deletar laboratórios:', error);
+        alert('Erro ao deletar laboratórios. Verifique o console para mais detalhes.');
+      }
     }
-  };
-  </script>
-  
-  <style scoped>
-  /* Estilos conforme sugerido anteriormente */
-  .form-container {
-    max-width: 600px;
-    margin: 0 auto;
-    padding: 20px;
-    background-color: #f9f9f9;
-    border-radius: 8px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  },
+  mounted() {
+    this.fetchUsuarios();
+    this.fetchlaboratorios();
   }
-  
-  .producer-form {
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
-  }
-  
-  .form-group {
-    display: flex;
-    flex-direction: column;
-  }
-  
-  .form-control {
-    padding: 8px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-  }
-  
-  .btn-submit {
-    padding: 10px 15px;
-    background-color: #007bff;
-    color: white;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 16px;
-  }
-  
-  .btn-submit:hover {
-    background-color: #0056b3;
-  }
-  
-  .producer-list {
-    margin-top: 20px;
-  }
-  
-  .producer-item {
-    background-color: #fff;
-    padding: 10px;
-    margin-bottom: 5px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-  }
-  </style>
-  
+};
+</script>
+
+<style scoped>
+/* Container geral com fundo e borda */
+.container-fluidd {
+  width: 100%;
+  padding: 0 15px;
+  background-color: whitesmoke;
+  border: 2px solid grey;
+  border-radius: 10px;
+}
+
+/* Container do formulário com sombra e borda */
+.form-container {
+  width: 100%;
+  padding: 20px;
+  background-color: whitesmoke;
+  border: 2px solid grey;
+  border-radius: 10px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Estilo do formulário de laboratório */
+.lab-form {
+  display: flex;
+  flex-direction: column;
+}
+
+/* Estilo das linhas do formulário */
+.form-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+/* Grupo de campos do formulário, ajusta o tamanho das colunas */
+.form-group {
+  flex: 1 1 150px;
+  min-width: 150px;
+}
+
+/* Grupo de botões, alinha os botões ao final */
+.button-group {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 20px;
+}
+
+/* Container de botões, alinha o texto à esquerda */
+.button-container {
+  text-align: left;
+  margin-bottom: 20px;
+}
+
+/* Estilo das linhas da lista de usuários */
+.user-info {
+  display: flex;
+  align-items: center;
+  padding: 10px 0;
+  border-bottom: 1px solid #ddd;
+  position: relative;
+}
+
+/* Linha dos usuários, separadores entre colunas */
+.user-info > div {
+  position: relative;
+  padding-right: 10px;
+}
+
+.user-info > div:not(:last-child)::after {
+  content: '';
+  position: absolute;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  width: 1px;
+  background-color: grey;
+}
+
+/* Botões estilizados para ações de formulário e lista */
+.btn-submit, .btn-edit, .btn-delete, .btn-cancel, .btn-back {
+  padding: 8px 10px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+  margin-right: 5px;
+}
+
+/* Estilo dos botões de submit, back e edit */
+.btn-submit, .btn-back, .btn-edit {
+  background-color: #237837;
+  color: white;
+}
+
+.btn-submit:hover, .btn-back:hover, .btn-edit:hover {
+  background-color: #218838;
+}
+
+/* Estilo do botão de delete */
+.btn-delete {
+  background-color: #dc3545;
+  color: white;
+}
+
+.btn-delete:hover {
+  background-color: #c82333;
+}
+
+/* Estilo do botão de cancel */
+.btn-cancel {
+  background-color: #6c757d;
+  color: white;
+}
+
+.btn-cancel:hover {
+  background-color: #5a6268;
+}
+
+/* Estilo das labels dos campos do formulário */
+.form-label {
+  text-align: left;
+  display: block;
+  margin-bottom: 0.5rem;
+}
+</style>

@@ -16,11 +16,6 @@ const routes = [
     component: HomeView
   },
   {
-    path: '/about',
-    name: 'about',
-    component: () => import('../views/AboutView.vue')
-  },
-  {
     path: '/tela-usuario',
     name: 'Usuario',
     component: TelaUsuario

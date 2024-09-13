@@ -51,40 +51,41 @@
         </div>
       </form>
     </div>
-    
+   
     <!-- Lista de usuários cadastrados -->
     <div v-else class="user-list-container">
       <!-- Botão para abrir o formulário de cadastro -->
       <div class="button-container">
         <button @click="toggleForm" class="btn-submit">Cadastrar Novo Usuário</button>
       </div>
-      <!-- Verifica se há usuários para exibir -->
-      <div v-if="usuarios.length">
-        <div class="container-fluid">
-          <!-- Cabeçalho da tabela de usuários -->
-          <div class="row font-weight-bold mb-2">
-            <div class="col-2">Nome</div>
-            <div class="col-2">E-mail</div>
-            <div class="col-2">Telefone</div>
-            <div class="col-2">CPF</div>
-            <div class="col-2">Créditos</div>
-            <div class="col-2">Ações</div>
-          </div>
-          <!-- Loop para exibir cada usuário na tabela -->
-          <div v-for="usuario in usuarios" :key="usuario.id" class="row user-info mb-2">
-            <div class="col-2">{{ usuario.nome }}</div>
-            <div class="col-2">{{ usuario.email }}</div>
-            <div class="col-2">{{ usuario.telefone }}</div>
-            <div class="col-2">{{ usuario.cpf }}</div>
-            <div class="col-2">{{ usuario.creditos }}</div>
-            <!-- Botões para editar e excluir usuários -->
-            <div class="col-2">
-              <button @click="editUser(usuario)" class="btn-edit">🖊️</button>
-              <button @click="deleteUser(usuario.id)" class="btn-delete">🗑️</button>
-            </div>
-          </div>
-        </div>
-      </div>
+<!-- Verifica se há usuários para exibir -->
+<div v-if="usuarios.length">
+  <div class="container-fluid">
+    <!-- Cabeçalho da tabela de usuários -->
+<!-- Cabeçalho da tabela de usuários -->
+<div class="row font-weight-bold mb-2">
+  <div class="col-12 col-sm-6 col-md-4 col-lg-2">Nome</div>
+  <div class="col-12 col-sm-6 col-md-4 col-lg-2">E-mail</div>
+  <div class="col-12 col-sm-6 col-md-4 col-lg-2">Telefone</div>
+  <div class="col-12 col-sm-6 col-md-4 col-lg-2">CPF</div>
+  <div class="col-12 col-sm-6 col-md-4 col-lg-2">Créditos</div>
+  <div class="col-12 col-sm-6 col-md-4 col-lg-2">Ações</div>
+</div>
+<!-- Loop para exibir cada usuário na tabela -->
+<div v-for="usuario in usuarios" :key="usuario.id" class="row user-info mb-2">
+  <div class="col-12 col-sm-6 col-md-4 col-lg-2">{{ usuario.nome }}</div>
+  <div class="col-12 col-sm-6 col-md-4 col-lg-2">{{ usuario.email }}</div>
+  <div class="col-12 col-sm-6 col-md-4 col-lg-2">{{ usuario.telefone }}</div>
+  <div class="col-12 col-sm-6 col-md-4 col-lg-2">{{ usuario.cpf }}</div>
+  <div class="col-12 col-sm-6 col-md-4 col-lg-2">{{ usuario.creditos }}</div>
+  <!-- Botões para editar e excluir usuários -->
+  <div class="col-12 col-sm-6 col-md-4 col-lg-2">
+    <button @click="editUser(usuario)" class="btn-edit">🖊️</button>
+    <button @click="deleteUser(usuario.id)" class="btn-delete">🗑️</button>
+  </div>
+</div>
+</div>
+  </div>
       <!-- Exibe mensagem se não houver usuários cadastrados -->
       <div v-else>
         <p>Nenhum usuário encontrado.</p>

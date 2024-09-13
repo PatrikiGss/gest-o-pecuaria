@@ -1,8 +1,6 @@
 <template>
   <div> 
-  <h1>Tela Principal Vue <br>
-    selecione o tipo de cadastro acima!
-  </h1>
+    <h1>local onde ficara a tela de login</h1>
   </div>
 </template>
 

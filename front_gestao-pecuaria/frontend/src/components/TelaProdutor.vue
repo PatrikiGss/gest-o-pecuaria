@@ -1,80 +1,77 @@
 <template>
-  <div class="form-container">
-    <h1>Cadastro de Produtores</h1>
-    <!-- Formulário para criação de um novo produtor -->
-    <form @submit.prevent="submitForm" class="producer-form">
-      <div class="form-group">
-        <label for="usuario">Usuário:</label>
-        <select id="usuario" v-model="formData.usuario" class="form-control" required>
-          <option disabled value="">Selecione um usuário</option>
-          <option v-for="usuario in usuarios" :key="usuario.id" :value="usuario.id">
-            {{ usuario.nome }}
-          </option>
-        </select>
-      </div>
-      <div class="form-group">
-        <label for="cpf">CPF:</label>
-        <input type="text" id="cpf" v-model="formData.cpf" class="form-control" placeholder="Digite apenas os números" required />
-      </div>
-      <div class="form-group">
-        <label for="nome">Nome:</label>
-        <input type="text" id="nome" v-model="formData.nome" class="form-control" placeholder="Digite seu nome completo" required />
-      </div>
-      <div class="form-group">
-        <label for="telefone">Telefone:</label>
-        <input type="text" id="telefone" v-model="formData.telefone" class="form-control" placeholder="Ex: (49)123112233" required />
-      </div>
-      <div class="form-group">
-        <label for="email">Email:</label>
-        <input type="email" id="email" v-model="formData.email" class="form-control" placeholder="Ex: email@gmail.com" required />
-      </div>
-      <button type="submit" class="btn-submit">Enviar</button>
-    </form>
+  <div class="container-fluid">
+    <h1></h1>
+    <!-- Título da Lista de Produtores -->
+    <h1 v-if="!showForm" class="mt-4"> <br> Lista de Produtores</h1>
+    <!-- Formulário de cadastro/edição de produtores -->
+    <div v-if="showForm" class="form-container">
+      <h1>{{ editingProdutor ? 'Editar Produtor' : 'Cadastro de Produtores' }}</h1>
+      <form @submit.prevent="submitForm" class="producer-form">
+        <!-- Campo para o usuário -->
+        <div class="mb-3">
+          <label for="usuario" class="form-label">Usuário</label>
+          <select id="usuario" v-model="formData.usuario" class="form-control" required>
+            <option disabled value="">Selecione um usuário</option>
+            <option v-for="usuario in usuarios" :key="usuario.id" :value="usuario.id">
+              {{ usuario.nome }}
+            </option>
+          </select>
+        </div>
+        <!-- Campo para o CPF -->
+        <div class="mb-3">
+          <label for="cpf" class="form-label">CPF</label>
+          <input type="text" class="form-control" id="cpf" v-model="formData.cpf" placeholder="Digite apenas os números" required />
+        </div>
+        <!-- Campo para o nome -->
+        <div class="mb-3">
+          <label for="nome" class="form-label">Nome</label>
+          <input type="text" class="form-control" id="nome" v-model="formData.nome" placeholder="Digite seu nome completo" required />
+        </div>
+        <!-- Campo para o telefone -->
+        <div class="mb-3">
+          <label for="telefone" class="form-label">Telefone</label>
+          <input type="text" class="form-control" id="telefone" v-model="formData.telefone" placeholder="Ex: (49)123112233" required />
+        </div>
+        <!-- Campo para o email -->
+        <div class="mb-3">
+          <label for="email" class="form-label">Email</label>
+          <input type="email" class="form-control" id="email" v-model="formData.email" placeholder="Ex: email@gmail.com" required />
+        </div>
+        <!-- Botões de ação -->
+        <div class="button-group">
+          <button @click="toggleForm" class="btn-back">Voltar</button>
+          <button type="submit" class="btn-submit">{{ editingProdutor ? 'Salvar' : 'Cadastrar' }}</button>
+        </div>
+      </form>
+    </div>
 
-    <!-- Lista de produtores com opções de editar e deletar -->
-    <div class="producer-list">
-      <h1>Lista de Produtores</h1>
+    <!-- Lista de produtores -->
+    <div v-if="!showForm" class="producer-list mt-5">
+    <!-- Botão para abrir o formulário de cadastro -->
+    <div v-if="!showForm" class="button-container">
+      <button @click="toggleForm" class="btn-submit">Cadastrar Novo Produtor</button>
+    </div>
       <div v-if="produtores.length">
-        <div v-for="produtor in produtores" :key="produtor.id" class="produtor-item">
-          <div v-if="editProdutor === produtor.id">
-            <!-- Formulário de Edição -->
-            <div class="form-group">
-              <label for="usuario">Usuário:</label>
-              <select id="usuario" v-model="editFormData.usuario" class="form-control" required>
-                <option disabled value="">Selecione um usuário</option>
-                <option v-for="usuario in usuarios" :key="usuario.id" :value="usuario.id">
-                  {{ usuario.nome }}
-                </option>
-              </select>
-            </div>
-            <div class="form-group">
-              <label for="cpf">CPF:</label>
-              <input type="text" v-model="editFormData.cpf" class="form-control" required />
-            </div>
-            <div class="form-group">
-              <label for="nome">Nome:</label>
-              <input type="text" v-model="editFormData.nome" class="form-control" required />
-            </div>
-            <div class="form-group">
-              <label for="telefone">Telefone:</label>
-              <input type="text" v-model="editFormData.telefone" class="form-control" required />
-            </div>
-            <div class="form-group">
-              <label for="email">Email:</label>
-              <input type="email" v-model="editFormData.email" class="form-control" required />
-            </div>
-            <button @click="saveProdutor(produtor.id)" class="btn-submit">Salvar</button>
-            <button @click="cancelEdit" class="btn-cancel">Cancelar</button>
+        <div class="container-fluid">
+          <div class="row font-weight-bold mb-2">
+            <div class="col-2">Usuário</div>
+            <div class="col-2">CPF</div>
+            <div class="col-2">Nome</div>
+            <div class="col-2">Telefone</div>
+            <div class="col-3">Email</div>
+            <div class="col-1">Ações</div>
           </div>
-          <div v-else>
-            <!-- Exibição dos Dados -->
-            <p><strong>Usuário:</strong> {{ getUsuarioNome(produtor.usuario) }}</p>
-            <p><strong>CPF:</strong> {{ produtor.cpf }}</p>
-            <p><strong>Nome:</strong> {{ produtor.nome }}</p>
-            <p><strong>Telefone:</strong> {{ produtor.telefone }}</p>
-            <p><strong>Email:</strong> {{ produtor.email }}</p>
-            <button @click="startEditing(produtor)" class="btn-edit">🖊️</button>
-            <button @click="deleteProdutor(produtor.id)" class="btn-delete">🗑️</button>
+          <div v-for="produtor in produtores" :key="produtor.id" class="row user-info mb-2">
+            <div class="col-2">{{ getUsuarioNome(produtor.usuario) }}</div>
+            <div class="col-2">{{ produtor.cpf }}</div>
+            <div class="col-2">{{ produtor.nome }}</div>
+            <div class="col-2">{{ produtor.telefone }}</div>
+            <div class="col-3">{{ produtor.email }}</div>
+            <!-- Botões para editar e excluir produtores -->
+            <div class="col-1">
+              <button @click="startEditing(produtor)" class="btn-edit">🖊️</button>
+              <button @click="deleteProdutor(produtor.id)" class="btn-delete">🗑️</button>
+            </div>
           </div>
         </div>
       </div>
@@ -91,14 +88,8 @@ import api from '@/interceptadorAxios';
 export default {
   data() {
     return {
+      showForm: false,
       formData: {
-        usuario: '',
-        cpf: '',
-        nome: '',
-        telefone: '',
-        email: ''
-      },
-      editFormData: {
         usuario: '',
         cpf: '',
         nome: '',
@@ -107,11 +98,17 @@ export default {
       },
       usuarios: [],
       produtores: [],
-      editProdutor: null,
+      editingProdutor: false,
     };
   },
   methods: {
-    // Método para obter o nome do usuário a partir do ID
+    // Alterna a exibição do formulário e reseta os dados
+    toggleForm() {
+      this.showForm = !this.showForm;
+      this.editingProdutor = false;
+      this.formData = { usuario: '', cpf: '', nome: '', telefone: '', email: '' };
+    },
+    // Obtém o nome do usuário a partir do ID
     getUsuarioNome(usuarioId) {
       const usuario = this.usuarios.find(u => u.id === usuarioId);
       return usuario ? usuario.nome : 'Desconhecido';
@@ -136,48 +133,40 @@ export default {
         alert('Erro ao buscar usuários. Verifique o console para mais detalhes.');
       }
     },
-    // Envia o formulário para criar um novo produtor
+    // Envia o formulário de cadastro ou edição
     async submitForm() {
       try {
-        const response = await api.post('/produtores/', this.formData);
-        if (response.status === 201) {
-          alert('Produtor cadastrado com sucesso!');
-          this.produtores.push(response.data);
-          // Limpa o formulário
-          this.formData = { usuario: '', cpf: '', nome: '', telefone: '', email: '' };
+        if (this.editingProdutor) {
+          // Atualiza o produtor existente
+          const response = await api.put(`/produtores/${this.formData.id}/`, this.formData);
+          if (response.status === 200) {
+            alert('Produtor atualizado com sucesso!');
+            this.fetchProdutores();
+            this.toggleForm();
+          } else {
+            alert('Erro ao atualizar produtor.');
+          }
         } else {
-          alert('Erro ao cadastrar produtor. Tente novamente mais tarde.');
+          // Cadastra um novo produtor
+          const response = await api.post('/produtores/', this.formData);
+          if (response.status === 201) {
+            alert('Produtor cadastrado com sucesso!');
+            this.produtores.push(response.data);
+            this.toggleForm();
+          } else {
+            alert('Erro ao cadastrar produtor. Tente novamente mais tarde.');
+          }
         }
       } catch (error) {
         console.error('Erro ao enviar requisição:', error);
         alert('Erro ao enviar requisição. Verifique o console para mais detalhes.');
       }
     },
-    // Inicia a edição de um produtor
+    // Inicia o modo de edição
     startEditing(produtor) {
-      this.editProdutor = produtor.id;
-      this.editFormData = { ...produtor };
-    },
-    // Cancela a edição
-    cancelEdit() {
-      this.editProdutor = null;
-      this.editFormData = { usuario: '', cpf: '', nome: '', telefone: '', email: '' };
-    },
-    // Salva as alterações de um produtor
-    async saveProdutor(produtorId) {
-      try {
-        const response = await api.put(`/produtores/${produtorId}/`, this.editFormData);
-        if (response.status === 200) {
-          alert('Produtor atualizado com sucesso!');
-          this.fetchProdutores();
-          this.cancelEdit();
-        } else {
-          alert('Erro ao atualizar produtor.');
-        }
-      } catch (error) {
-        console.error('Erro ao atualizar produtor:', error);
-        alert('Erro ao atualizar produtor. Verifique o console para mais detalhes.');
-      }
+      this.showForm = true;
+      this.editingProdutor = true;
+      this.formData = { ...produtor };
     },
     // Deleta um produtor
     async deleteProdutor(produtorId) {
@@ -188,7 +177,7 @@ export default {
         const response = await api.delete(`/produtores/${produtorId}/`);
         if (response.status === 204) {
           alert('Produtor deletado com sucesso!');
-          this.fetchProdutores();
+          this.produtores = this.produtores.filter(p => p.id !== produtorId);
         } else {
           alert('Erro ao deletar produtor.');
         }
@@ -196,9 +185,9 @@ export default {
         console.error('Erro ao deletar produtor:', error);
         alert('Erro ao deletar produtor. Verifique o console para mais detalhes.');
       }
-    },
+    }
   },
-  created() {
+  mounted() {
     this.fetchUsuarios();
     this.fetchProdutores();
   }
@@ -206,92 +195,106 @@ export default {
 </script>
 
 <style scoped>
+.container-fluid {
+  width: 100%;
+  padding: 0 15px;
+}
+
+.button-container {
+  text-align: left;
+  margin-bottom: 20px;
+}
+
 .form-container {
-  max-width: 600px;
-  margin: 0 auto;
+  width: 100%;
   padding: 20px;
-  background-color: #f9f9f9;
-  border-radius: 8px;
+  background-color: whitesmoke;
+  border: 2px solid grey;
+  border-radius: 10px;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 }
 
-.producer-form {
+.producer-list {
+  width: 100%;
+  padding: 20px;
+  background-color: whitesmoke;
+  border: 2px solid grey;
+  border-radius: 10px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.user-info {
   display: flex;
-  flex-direction: column;
-  gap: 15px;
+  align-items: center;
+  padding: 10px 0;
+  border-bottom: 1px solid #ddd;
+  position: relative;
 }
 
-.form-group {
-  display: flex;
-  flex-direction: column;
+.user-info > div {
+  position: relative;
+  padding-right: 10px;
 }
 
-.form-control {
-  padding: 8px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
+.user-info > div:not(:last-child)::after {
+  content: '';
+  position: absolute;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  width: 1px;
+  background-color: grey;
 }
 
-.btn-submit, .btn-cancel, .btn-edit, .btn-delete {
-  padding: 10px 15px;
-  margin-top: 10px;
-  color: white;
+.btn-submit, .btn-edit, .btn-delete, .btn-cancel, .btn-back {
+  padding: 8px 10px;
   border: none;
   border-radius: 4px;
   cursor: pointer;
   font-size: 16px;
+  margin-right: 5px;
 }
 
-.btn-submit {
-  background-color: #007bff;
+.btn-submit, .btn-back, .btn-edit {
+  background-color: #237837;
+  color: white;
 }
 
-.btn-cancel {
-  background-color: #ffc107;
-  color: #212529;
-}
-
-.btn-edit {
-  background-color: #28a745;
+.btn-submit:hover, .btn-back:hover, .btn-edit:hover {
+  background-color: #218838;
 }
 
 .btn-delete {
   background-color: #dc3545;
-}
-
-.btn-submit:hover {
-  background-color: #0056b3;
-}
-
-.btn-cancel:hover {
-  background-color: #e0a800;
-}
-
-.btn-edit:hover {
-  background-color: #218838;
+  color: white;
 }
 
 .btn-delete:hover {
   background-color: #c82333;
 }
 
-.producer-list {
+.btn-cancel {
+  background-color: #6c757d;
+  color: white;
+}
+
+.btn-cancel:hover {
+  background-color: #5a6268;
+}
+
+.form-label {
+  text-align: left;
+  display: block;
+  margin-bottom: 0.5rem;
+}
+
+.button-group {
+  display: flex;
+  justify-content: flex-end;
   margin-top: 20px;
 }
 
-.produtor-item {
-  background-color: #fff;
-  padding: 15px;
-  margin-bottom: 10px;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-}
-
-.produtor-item p {
-  margin: 5px 0;
-}
-
-.produtor-item button {
+.button-group .btn-back {
   margin-right: 10px;
 }
 </style>
