@@ -2,241 +2,246 @@
   <div>
     <br>
     <br>
-    <h1 v-if="!showForm" class="mt-4"><br>Lista de Analises de Solo</h1>
+    <h1 v-if="!showForm && !showDetail" class="mt-4"><br>Lista de Analises de Solo</h1>
     <br>
     <div br class="form-container"><br>
       <h1></h1>
-      
+
       <!-- Formulário de cadastro/edição de analises de solo -->
       <div v-if="showForm" class="form-container1">
-        <h1>{{ editingSolo ? 'editar analise de solo': 'cadastro de analise de solo' }}</h1>
+        <h1>{{ editingSolo ? 'editar analise de solo' : 'cadastro de analise de solo' }}</h1>
         <form @submit.prevent="submitForm" class="lab-form">
-        <!-- Campo para o laboratorio -->
-        <div class="mb-3">
-          <label for="laboratorio" class="form-label">laboratorio</label>
-          <select id="laboratorio" v-model="formData.laboratorio" class="form-control" required>
-            <option disabled value="">Selecione um laboratorio</option>
-            <option v-for="laboratorio in laboratorios" :key="laboratorio.id" :value="laboratorio.id">
-              {{ laboratorio.nome }}
-            </option>
-          </select>
-        </div>
-                <!-- Campo para o propriedade -->
-                <div class="mb-3">
-          <label for="propriedade" class="form-label">propriedade</label>
-          <select id="propriedade" v-model="formData.propriedade" class="form-control" required>
-            <option disabled value="">Selecione uma propriedade</option>
-            <option v-for="propriedade in propriedades" :key="propriedade.id" :value="propriedade.id">
-              {{ propriedade.nome }}
-            </option>
-          </select>
-        </div>
-                <!-- Campo para o cultura -->
-                <div class="mb-3">
-          <label for="cultura" class="form-label">cultura</label>
-          <select id="cultura" v-model="formData.cultura" class="form-control" required>
-            <option disabled value="">Selecione uma cultura</option>
-            <option v-for="cultura in culturas" :key="cultura.id" :value="cultura.id">
-              {{ cultura.nome }}
-            </option>
-          </select>
-        </div>
-        <!-- Campo para o data -->
+          <!-- Campo para o laboratorio -->
           <div class="mb-3">
-          <label for="data" class="form-label">Data</label>
-          <input type="date" class="form-control" id="data" v-model="formData.data" required />
-        </div>
-        <!-- Campo para o gleba -->
+            <label for="laboratorio" class="form-label">laboratorio</label>
+            <select id="laboratorio" v-model="formData.laboratorio" class="form-control" required>
+              <option disabled value="">Selecione um laboratorio</option>
+              <option v-for="laboratorio in laboratorios" :key="laboratorio.id" :value="laboratorio.id">
+                {{ laboratorio.nome }}
+              </option>
+            </select>
+          </div>
+          <!-- Campo para o propriedade -->
           <div class="mb-3">
-          <label for="gleba" class="form-label">Gleba</label>
-          <input type="text" class="form-control" id="gleba" v-model="formData.gleba" placeholder="Ex: Gleba A" required />
-        </div>
-        <!-- Campo para o area -->
-        <div class="mb-3">
-          <label for="area" class="form-label">Area</label>
-          <input type="number" step="0.1" id="area" v-model="formData.area" placeholder="Ex: 10.50" required />
-        </div>
-        <div class="mb-3">
-          <label for="laudo" class="form-label">laudo</label>
-          <input type="laudo" id="laudo" v-model="formData.laudo" placeholder="Insira o laudo" required />
-        </div>
-        <!-- Campo para o ph_h2o -->
-         <div class="mb-3">
-          <label for="ph_h2o" class="form-label">pH em H2O</label>
-          <input type="number" step="0.01" id="ph_h2o" v-model="formData.ph_h2o" placeholder="Ex: 5.5" required />
-        </div>
-        <!-- Campo para o s -->
-        <div class="mb-3">
-          <label for="s" class="form-label">Enxofre (S)</label>
-          <input type="number" step="0.01" id="s" v-model="formData.s" placeholder="Ex: 12.5" required />
-        </div>
-        <!-- Campo para o p -->
-        <div class="mb-3">
-          <label for="p" class="form-label">Potássio (K)</label>
-          <input type="number" step="0.01" id="p" v-model="formData.p" placeholder="Ex: 0.05" required />
-        </div>
-        <!-- Campo para o K -->
-        <div class="mb-3">
-          <label for="k" class="form-label">Fósforo (P)</label>
-          <input type="number" step="0.01" id="k" v-model="formData.k" placeholder="Ex: 5.0" required />
-        </div>
-      <!-- Campo para o ca -->
-      <div class="mb-3">
-          <label for="ca" class="form-label">Cálcio (Ca)</label>
-          <input type="number" step="0.01" id="ca" v-model="formData.ca" placeholder="Ex: 3.0" required />
-        </div>
-     <!-- Campo para o mg -->
-      <div class="mb-3">
-          <label for="mg" class="form-label">Magnésio (Mg)</label>
-          <input type="number" step="0.01" id="mg" v-model="formData.mg" placeholder="Ex: 1.5" required />
-        </div>
-        <!-- Campo para o na -->
-      <div class="mb-3">
-          <label for="na" class="form-label">Sódio (Na)</label>
-          <input type="number" step="0.01" id="na" v-model="formData.na" placeholder="Ex: 0.5" required />
-        </div>
-        <!-- Campo para o al -->
-      <div class="mb-3">
-          <label for="al" class="form-label">Alumínio (Al)</label>
-          <input type="number" step="0.01" id="al" v-model="formData.al" placeholder="Ex: 0.2" required />
-        </div>
-        <!-- Campo para o h -->
-      <div class="mb-3">
-          <label for="h" class="form-label">Hidrogenio (H)</label>
-          <input type="number" step="0.01" id="h" v-model="formData.h" placeholder="Ex: 1.0" required />
-        </div>
-        <!-- Campo para o materia organica -->
-      <div class="mb-3">
-          <label for="materia_organica" class="form-label">Matéria Orgânica</label>
-          <input type="number" step="0.01" id="materia_organica" v-model="formData.materia_organica" placeholder="Ex: 2.0" required />
-        </div>
-        <!-- Campo para o areia -->
-      <div class="mb-3">
-          <label for="areia" class="form-label">Areia</label>
-          <input type="number" step="0.01" id="areia" v-model="formData.areia" placeholder="Ex: 45.0" required />
-        </div>
-        <!-- Campo para o silte -->
-      <div class="mb-3">
-          <label for="silte" class="form-label">Silte</label>
-          <input type="number" step="0.01" id="silte" v-model="formData.silte" placeholder="Ex: 30.0" required />
-        </div>
-        <!-- Campo para o argila -->
-      <div class="mb-3">
-          <label for="mn" class="form-label">Manganês (Mn)</label>
-          <input type="number" step="0.01" id="mn" v-model="formData.mn" placeholder="Ex: 0.02" required />
-        </div>
-        <!-- Campo para o argila -->
-      <div class="mb-3">
-          <label for="argila" class="form-label">Argila</label>
-          <input type="number" step="0.01" id="argila" v-model="formData.argila" placeholder="Ex: 25.0" required />
-        </div>
-        <!-- Campo para o fe -->
-      <div class="mb-3">
-          <label for="fe" class="form-label">Ferro (Fe)</label>
-          <input type="number" step="0.01" id="fe" v-model="formData.fe" placeholder="Ex: 0.10" required />
-        </div>
-        <!-- Campo para o cu -->
-      <div class="mb-3">
-          <label for="cu" class="form-label">Cobre (Cu)</label>
-          <input type="number" step="0.01" id="cu" v-model="formData.cu" placeholder="Ex: 0.05" required />
-        </div>
-        <!-- Campo para o zn -->
-      <div class="mb-3">
-          <label for="zn" class="form-label">Zinco (Zn)</label>
-          <input type="number" step="0.01" id="zn" v-model="formData.zn" placeholder="Ex: 0.10" required />
-        </div>
-        <!-- Campo para o b -->
-      <div class="mb-3">
-          <label for="b" class="form-label">Boro (B)</label>
-          <input type="number" step="0.01" id="b" v-model="formData.b" placeholder="Ex: 0.02" required />
-        </div>
-            <!-- Botões de ação -->
-            <div class="button-group">
-          <button @click="toggleForm" class="btn-back">Voltar</button>
-          <button type="submit" class="btn-submit">{{ editingSolo ? 'Salvar' : 'Cadastrar' }}</button>
-        </div>
-      </form>
-    </div>
-        <!-- Botão para abrir o formulário de cadastro, sempre visível -->
-    <div v-if="!showForm" class="button-container">
-      <button @click="toggleForm" class="btn-submit">Cadastrar nova analise de solo</button>
-    </div>
-
-    <!-- Lista de Análises de Solo, oculta quando o formulário está ativo -->
-    <div v-if="!showForm && analisesSolo.length" class="table-responsive mt-5">
-      <table class="table table-bordered table-hover">
-        <thead class="thead-dark">
-          <tr>
-            <th>Laboratório</th>
-            <th>Propriedade</th>
-            <th>Cultura</th>
-            <th>Data</th>
-            <th>Gleba</th>
-            <th>Área</th>
-            <th>Laudo</th>
-            <th>pH H2O</th>
-            <th>S (Enxofre)</th>
-            <th>K (Potássio)</th>
-            <th>P (Fósforo)</th>
-            <th>Ca (Cálcio)</th>
-            <th>Mg (Magnésio)</th>
-            <th>Na (Sódio)</th>
-            <th>Al (Alumínio)</th>
-            <th>H (Hidrogênio)</th>
-            <th>Matéria Orgânica</th>
-            <th>Areia</th>
-            <th>Silte</th>
-            <th>Argila</th>
-            <th>Mn (Manganês)</th>
-            <th>Fe (Ferro)</th>
-            <th>Cu (Cobre)</th>
-            <th>Zn (Zinco)</th>
-            <th>B (Boro)</th>
-            <th>Ação</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr v-for="analisesolo in analisesSolo" :key="analisesolo.id">
-            <td>{{ getlaboratorioNome(analisesolo.laboratorio) }}</td>
-            <td>{{ getpropriedadeNome(analisesolo.propriedade) }}</td>
-            <td>{{ getculturaNome(analisesolo.cultura) }}</td>
-            <td>{{ analisesolo.data }}</td>
-            <td>{{ analisesolo.gleba }}</td>
-            <td>{{ analisesolo.area }}</td>
-            <td>{{ analisesolo.laudo }}</td>
-            <td>{{ analisesolo.ph_h2o }}</td>
-            <td>{{ analisesolo.s }}</td>
-            <td>{{ analisesolo.p }}</td>
-            <td>{{ analisesolo.k }}</td>
-            <td>{{ analisesolo.ca }}</td>
-            <td>{{ analisesolo.mg }}</td>
-            <td>{{ analisesolo.na }}</td>
-            <td>{{ analisesolo.al }}</td>
-            <td>{{ analisesolo.h }}</td>
-            <td>{{ analisesolo.materia_organica }}</td>
-            <td>{{ analisesolo.areia }}</td>
-            <td>{{ analisesolo.silte }}</td>
-            <td>{{ analisesolo.argila }}</td>
-            <td>{{ analisesolo.mn }}</td>
-            <td>{{ analisesolo.fe }}</td>
-            <td>{{ analisesolo.cu }}</td>
-            <td>{{ analisesolo.zn }}</td>
-            <td>{{ analisesolo.b }}</td>
-            <td>
+            <label for="propriedade" class="form-label">propriedade</label>
+            <select id="propriedade" v-model="formData.propriedade" class="form-control" required>
+              <option disabled value="">Selecione uma propriedade</option>
+              <option v-for="propriedade in propriedades" :key="propriedade.id" :value="propriedade.id">
+                {{ propriedade.nome }}
+              </option>
+            </select>
+          </div>
+          <!-- Campo para o cultura -->
+          <div class="mb-3">
+            <label for="cultura" class="form-label">cultura</label>
+            <select id="cultura" v-model="formData.cultura" class="form-control" required>
+              <option disabled value="">Selecione uma cultura</option>
+              <option v-for="cultura in culturas" :key="cultura.id" :value="cultura.id">
+                {{ cultura.nome }}
+              </option>
+            </select>
+          </div>
+          <!-- Campo para o data -->
+          <div class="mb-3">
+            <label for="data" class="form-label">Data</label>
+            <input type="date" class="form-control" id="data" v-model="formData.data" required />
+          </div>
+          <!-- Campo para o gleba -->
+          <div class="mb-3">
+            <label for="gleba" class="form-label">Gleba</label>
+            <input type="text" class="form-control" id="gleba" v-model="formData.gleba" placeholder="Ex: Gleba A"
+              required />
+          </div>
+          <!-- Campo para o area -->
+          <div class="mb-3">
+            <label for="area" class="form-label">Area</label>
+            <input type="number" step="0.1" id="area" v-model="formData.area" placeholder="Ex: 10.50" required />
+          </div>
+          <div class="mb-3">
+            <label for="laudo" class="form-label">laudo</label>
+            <input type="laudo" id="laudo" v-model="formData.laudo" placeholder="Insira o laudo" required />
+          </div>
+          <!-- Campo para o ph_h2o -->
+          <div class="mb-3">
+            <label for="ph_h2o" class="form-label">pH em H2O</label>
+            <input type="number" step="0.01" id="ph_h2o" v-model="formData.ph_h2o" placeholder="Ex: 5.5" required />
+          </div>
+          <!-- Campo para o s -->
+          <div class="mb-3">
+            <label for="s" class="form-label">Enxofre (S)</label>
+            <input type="number" step="0.01" id="s" v-model="formData.s" placeholder="Ex: 12.5" required />
+          </div>
+          <!-- Campo para o p -->
+          <div class="mb-3">
+            <label for="p" class="form-label">Potássio (K)</label>
+            <input type="number" step="0.01" id="p" v-model="formData.p" placeholder="Ex: 0.05" required />
+          </div>
+          <!-- Campo para o K -->
+          <div class="mb-3">
+            <label for="k" class="form-label">Fósforo (P)</label>
+            <input type="number" step="0.01" id="k" v-model="formData.k" placeholder="Ex: 5.0" required />
+          </div>
+          <!-- Campo para o ca -->
+          <div class="mb-3">
+            <label for="ca" class="form-label">Cálcio (Ca)</label>
+            <input type="number" step="0.01" id="ca" v-model="formData.ca" placeholder="Ex: 3.0" required />
+          </div>
+          <!-- Campo para o mg -->
+          <div class="mb-3">
+            <label for="mg" class="form-label">Magnésio (Mg)</label>
+            <input type="number" step="0.01" id="mg" v-model="formData.mg" placeholder="Ex: 1.5" required />
+          </div>
+          <!-- Campo para o na -->
+          <div class="mb-3">
+            <label for="na" class="form-label">Sódio (Na)</label>
+            <input type="number" step="0.01" id="na" v-model="formData.na" placeholder="Ex: 0.5" required />
+          </div>
+          <!-- Campo para o al -->
+          <div class="mb-3">
+            <label for="al" class="form-label">Alumínio (Al)</label>
+            <input type="number" step="0.01" id="al" v-model="formData.al" placeholder="Ex: 0.2" required />
+          </div>
+          <!-- Campo para o h -->
+          <div class="mb-3">
+            <label for="h" class="form-label">Hidrogenio (H)</label>
+            <input type="number" step="0.01" id="h" v-model="formData.h" placeholder="Ex: 1.0" required />
+          </div>
+          <!-- Campo para o materia organica -->
+          <div class="mb-3">
+            <label for="materia_organica" class="form-label">Matéria Orgânica</label>
+            <input type="number" step="0.01" id="materia_organica" v-model="formData.materia_organica"
+              placeholder="Ex: 2.0" required />
+          </div>
+          <!-- Campo para o areia -->
+          <div class="mb-3">
+            <label for="areia" class="form-label">Areia</label>
+            <input type="number" step="0.01" id="areia" v-model="formData.areia" placeholder="Ex: 45.0" required />
+          </div>
+          <!-- Campo para o silte -->
+          <div class="mb-3">
+            <label for="silte" class="form-label">Silte</label>
+            <input type="number" step="0.01" id="silte" v-model="formData.silte" placeholder="Ex: 30.0" required />
+          </div>
+          <!-- Campo para o argila -->
+          <div class="mb-3">
+            <label for="mn" class="form-label">Manganês (Mn)</label>
+            <input type="number" step="0.01" id="mn" v-model="formData.mn" placeholder="Ex: 0.02" required />
+          </div>
+          <!-- Campo para o argila -->
+          <div class="mb-3">
+            <label for="argila" class="form-label">Argila</label>
+            <input type="number" step="0.01" id="argila" v-model="formData.argila" placeholder="Ex: 25.0" required />
+          </div>
+          <!-- Campo para o fe -->
+          <div class="mb-3">
+            <label for="fe" class="form-label">Ferro (Fe)</label>
+            <input type="number" step="0.01" id="fe" v-model="formData.fe" placeholder="Ex: 0.10" required />
+          </div>
+          <!-- Campo para o cu -->
+          <div class="mb-3">
+            <label for="cu" class="form-label">Cobre (Cu)</label>
+            <input type="number" step="0.01" id="cu" v-model="formData.cu" placeholder="Ex: 0.05" required />
+          </div>
+          <!-- Campo para o zn -->
+          <div class="mb-3">
+            <label for="zn" class="form-label">Zinco (Zn)</label>
+            <input type="number" step="0.01" id="zn" v-model="formData.zn" placeholder="Ex: 0.10" required />
+          </div>
+          <!-- Campo para o b -->
+          <div class="mb-3">
+            <label for="b" class="form-label">Boro (B)</label>
+            <input type="number" step="0.01" id="b" v-model="formData.b" placeholder="Ex: 0.02" required />
+          </div>
+          <!-- Botões de ação -->
+          <div class="button-group">
+            <button @click="toggleForm" class="btn-back">Voltar</button>
+            <button type="submit" class="btn-submit">{{ editingSolo ? 'Salvar' : 'Cadastrar' }}</button>
+          </div>
+        </form>
+      </div>
+      <!-- Botão para abrir o formulário de cadastro, sempre visível -->
+      <div v-if="!showForm && !showDetail" class="button-container">
+        <button @click="toggleForm" class="btn-submit">Cadastrar nova análise de solo</button>
+      </div>
+      <!--LISTA DE ANALISES DE SOLOS CADASTRADAS -->
+      <div v-if="!showForm && !showDetail && analisesSolo.length">
+        <div class="container-fluid">
+          <!-- Cabeçalho da tabela de analises -->
+          <div class="row font-weight-bold mb-2">
+            <div class="col-12 col-sm-6 col-md-4 col-lg-2">laboratorio</div>
+            <div class="col-12 col-sm-6 col-md-4 col-lg-2">propriedade</div>
+            <div class="col-12 col-sm-6 col-md-4 col-lg-1">cultura</div>
+            <div class="col-12 col-sm-6 col-md-4 col-lg-1">data</div>
+            <div class="col-12 col-sm-6 col-md-4 col-lg-1">gleba</div>
+            <div class="col-12 col-sm-6 col-md-4 col-lg-1">area</div>
+            <div class="col-12 col-sm-6 col-md-4 col-lg-2">laudo</div>
+            <div class="col-12 col-sm-6 col-md-4 col-lg-2">ação</div>
+          </div>
+          <!-- Loop para exibir cada analise de solo na tabela -->
+          <div v-for="analisesolo in analisesSolo" :key="analisesolo.id" class="row user-info mb-2">
+            <div class="col-12 col-sm-6 col-md-4 col-lg-2">{{ getlaboratorioNome(analisesolo.laboratorio) }}</div>
+            <div class="col-12 col-sm-6 col-md-4 col-lg-2">{{ getpropriedadeNome(analisesolo.propriedade) }}</div>
+            <div class="col-12 col-sm-6 col-md-4 col-lg-1">{{ getculturaNome(analisesolo.cultura) }}</div>
+            <div class="col-12 col-sm-6 col-md-4 col-lg-1">{{ analisesolo.data }}</div>
+            <div class="col-12 col-sm-6 col-md-4 col-lg-1">{{ analisesolo.gleba }}</div>
+            <div class="col-12 col-sm-6 col-md-4 col-lg-1">{{ analisesolo.area }}</div>
+            <div class="col-12 col-sm-6 col-md-4 col-lg-2">{{ analisesolo.laudo }}</div>
+            <div class="col-12 col-sm-6 col-md-4 col-lg-2">
+              <!-- Lista de Análises de Solo, oculta quando o formulário está ativo -->
               <button @click="startEditing(analisesolo)" class="btn-edit">🖊️</button>
               <button @click="deleteSolo(analisesolo.id)" class="btn-delete">🗑️</button>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-
-    <div v-if="!showForm && !analisesSolo.length" class="mt-5">
-      <p>Nenhuma análise de solo cadastrada.</p>
-    </div>
+              <button @click="viewDetails(analisesolo)" class="btn-VerMais">🔎</button> <!-- Alterado -->
+            </div>
+            <!-- Exibe campos adicionais se 'vermaiscampos' da análise estiver ativado -->
+            <div v-if="analisesolo.vermaiscampos" class="extra-fields">
+              <div class="col-12 col-sm-6 col-md-4 col-lg-1">{{ analisesolo.ph_h2o }}</div>
+              <div class="col-12 col-sm-6 col-md-4 col-lg-1">{{ analisesolo.s }}</div>
+              <div class="col-12 col-sm-6 col-md-4 col-lg-1">{{ analisesolo.p }}</div>
+              <!-- Continue com os outros campos... -->
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Visualização dos detalhes da análise de solo -->
+      <div v-if="showDetail">
+        <h2>Detalhes da Análise de Solo de laudo: {{ selectedSolo.laudo }}</h2>
+        <div class="detail-view">
+          <!-- Exibe os campos adicionais -->
+          <br>
+          <p><strong>pH em H2O:</strong> {{ selectedSolo.ph_h2o }}</p>
+          <p><strong>Enxofre (S):</strong> {{ selectedSolo.s }}</p>
+          <p><strong>Potassio (P):</strong> {{ selectedSolo.p }}</p>
+          <p><strong>Potássio (K):</strong> {{ selectedSolo.k }}</p>
+          <p><strong>calcio (ca):</strong> {{ selectedSolo.ca }}</p>
+          <p><strong>Magnesio (mg):</strong> {{ selectedSolo.mg }}</p>
+          <p><strong>Sodio (na):</strong> {{ selectedSolo.na }}</p>
+          <p><strong>Alumínio (al):</strong> {{ selectedSolo.al }}</p>
+          <p><strong>Hidrogenio (h):</strong> {{ selectedSolo.h }}</p>
+          <p><strong>Materia Organica:</strong> {{ selectedSolo.materia_organica }}</p>
+          <p><strong>Areia:</strong> {{ selectedSolo.areia }}</p>
+          <p><strong>Silte:</strong> {{ selectedSolo.silte }}</p>
+          <p><strong>Argila:</strong> {{ selectedSolo.argila }}</p>
+          <p><strong>Meganes (mn):</strong> {{ selectedSolo.mn }}</p>
+          <p><strong>Ferro (mn):</strong> {{ selectedSolo.fe }}</p>
+          <p><strong>Cobre (cu):</strong> {{ selectedSolo.cu }}</p>
+          <p><strong>Zinco (zn):</strong> {{ selectedSolo.zn }}</p>
+          <p><strong>Boro (b):</strong> {{ selectedSolo.b }}</p>
+          <!-- Botão para voltar para a lista -->
+          <button @click="showDetail = false" class="btn-back">Voltar</button>
+          <br>
+        </div>
+        <br>
+      </div>
+      <!-- Exibe mensagem se não houver análises de solo cadastradas -->
+      <div v-else-if="!showForm && analisesSolo.length === 0">
+        <p>Nenhuma análise de solo encontrada.</p>
       </div>
     </div>
+  </div>
 </template>
+
+
+<!---->
 
 
 <script>
@@ -277,13 +282,21 @@ export default {
       propriedades: [],
       culturas: [],
       showForm: false,
+      showDetail: false, // Novo: controla a exibição dos detalhes
       editingSolo: false,
+      selectedSolo: null, // Novo: armazena a análise de solo selecionada para detalhes
     };
   },
   methods: {
+    // Exibe os detalhes da análise de solo selecionada
+    viewDetails(analisesolo) {
+      this.selectedSolo = analisesolo; // Armazena a análise selecionada
+      this.showDetail = true; // Exibe os detalhes
+    },
     // Alterna a exibição do formulário e reseta os dados
     toggleForm() {
       this.showForm = !this.showForm;
+      this.vermaiscampos = !this.vermaiscampos;
       this.editingSolo = false;
       this.formData = {
         laboratorio: '',
@@ -424,8 +437,10 @@ export default {
 </script>
 
 
-<style scoped>
+<!---->
 
+
+<style scoped>
 /* Container do formulário com sombra e borda */
 .form-container {
   width: 100%;
@@ -478,12 +493,12 @@ export default {
 }
 
 /* Linha dos usuários, separadores entre colunas */
-.user-info > div {
+.user-info>div {
   position: relative;
   padding-right: 10px;
 }
 
-.user-info > div:not(:last-child)::after {
+.user-info>div:not(:last-child)::after {
   content: '';
   position: absolute;
   right: 0;
@@ -494,7 +509,12 @@ export default {
 }
 
 /* Botões estilizados para ações de formulário e lista */
-.btn-submit, .btn-edit, .btn-delete, .btn-cancel, .btn-back {
+.btn-submit,
+.btn-edit,
+.btn-delete,
+.btn-cancel,
+.btn-back,
+.btn-VerMais {
   padding: 8px 10px;
   border: none;
   border-radius: 4px;
@@ -504,13 +524,22 @@ export default {
 }
 
 /* Estilo dos botões de submit, back e edit */
-.btn-submit, .btn-back, .btn-edit {
+.btn-submit,
+.btn-back,
+.btn-edit {
   background-color: #237837;
   color: white;
 }
 
-.btn-submit:hover, .btn-back:hover, .btn-edit:hover {
+.btn-submit:hover,
+.btn-back:hover,
+.btn-edit:hover {
   background-color: #218838;
+}
+
+.btn-VerMais {
+  background-color: rgb(76, 76, 199);
+  color: white;
 }
 
 /* Estilo do botão de delete */
@@ -546,7 +575,8 @@ export default {
 .form-container input[type="date"],
 .form-container select {
   width: 100%;
-  box-sizing: border-box; /* Inclui padding e border na largura total */
+  box-sizing: border-box;
+  /* Inclui padding e border na largura total */
 }
 
 /* Certifica-se de que os campos de formulário ocupem o máximo de espaço horizontal */
@@ -559,10 +589,12 @@ export default {
 .table-responsive {
   margin-top: 20px;
 }
+
 .table {
   border: 1px solid grey;
   background-color: whitesmoke;
 }
+
 .thead-dark th {
   background-color: whitesmoke;
   color: black;

@@ -19,13 +19,15 @@
         <!-- Campo para o Nome -->
         <div class="mb-3">
           <label for="nome" class="form-label">Nome</label>
-          <input type="text" class="form-control" id="nome" v-model="formData.nome" placeholder="Digite o nome da propriedade" required />
+          <input type="text" class="form-control" id="nome" v-model="formData.nome"
+            placeholder="Digite o nome da propriedade" required />
         </div>
 
         <!-- Botões de ação para enviar e cancelar -->
         <div class="button-group">
           <button type="button" @click="toggleForm" class="btn-cancel">Voltar</button>
-          <button type="submit" class="btn-submit">{{ editingcultura ? 'Atualizar Cultura' : 'Cadastrar Cultura' }}</button>
+          <button type="submit" class="btn-submit">{{ editingcultura ? 'Atualizar Cultura' : 'Cadastrar Cultura'
+            }}</button>
         </div>
       </form>
     </div>
@@ -64,44 +66,44 @@
   </div>
 </template>
 
-  
-  <script>
-  import api from '@/interceptadorAxios';
-  
-  export default {
-    data() {
-      return {
-        formData: {
-          usuario: null,
-          nome: '',
-        },
-        usuarios: [],
-        culturas: [],
-        showForm: false,
-        editingcultura: false
-      };
-    },
-    methods: {
+
+<script>
+import api from '@/interceptadorAxios';
+
+export default {
+  data() {
+    return {
+      formData: {
+        usuario: null,
+        nome: '',
+      },
+      usuarios: [],
+      culturas: [],
+      showForm: false,
+      editingcultura: false
+    };
+  },
+  methods: {
     // Alterna a exibição do formulário e reseta os dados
     toggleForm() {
       this.showForm = !this.showForm;
       this.editingcultura = false;
-      this.formData = { usuario: '', nome: ''};
+      this.formData = { usuario: '', nome: '' };
     },
     // Obtém o nome do usuário a partir do ID
     getUsuarioNome(usuarioId) {
       const usuario = this.usuarios.find(u => u.id === usuarioId);
       return usuario ? usuario.nome : 'Desconhecido';
     },
-       // Busca todos os usuários
-      async fetchUsuarios() {
-        try {
-          const response = await api.get('/usuarios/');
-          this.usuarios = response.data;
-        } catch (error) {
-          console.error('Erro ao buscar usuários:', error);
-        }
-      },
+    // Busca todos os usuários
+    async fetchUsuarios() {
+      try {
+        const response = await api.get('/usuarios/');
+        this.usuarios = response.data;
+      } catch (error) {
+        console.error('Erro ao buscar usuários:', error);
+      }
+    },
     // Busca todos as culturas
     async fetchculturas() {
       try {
@@ -141,8 +143,8 @@
         alert('Erro ao enviar requisição. Verifique o console para mais detalhes.');
       }
     },
-     // Inicia o modo de edição
-     startEditing(cultura) {
+    // Inicia o modo de edição
+    startEditing(cultura) {
       this.showForm = true;
       this.editingcultura = true;
       this.formData = { ...cultura };
@@ -165,15 +167,15 @@
         alert('Erro ao deletar culturas. Verifique o console para mais detalhes.');
       }
     }
-    },
-    mounted() {
-      this.fetchUsuarios();
-      this.fetchculturas();
-    }
-  };
-  </script>
-  
-  <style scoped>
+  },
+  mounted() {
+    this.fetchUsuarios();
+    this.fetchculturas();
+  }
+};
+</script>
+
+<style scoped>
 /* Container geral com fundo e borda */
 .container-fluidd {
   width: 100%;
@@ -235,12 +237,12 @@
 }
 
 /* Linha dos usuários, separadores entre colunas */
-.user-info > div {
+.user-info>div {
   position: relative;
   padding-right: 10px;
 }
 
-.user-info > div:not(:last-child)::after {
+.user-info>div:not(:last-child)::after {
   content: '';
   position: absolute;
   right: 0;
@@ -251,7 +253,11 @@
 }
 
 /* Botões estilizados para ações de formulário e lista */
-.btn-submit, .btn-edit, .btn-delete, .btn-cancel, .btn-back {
+.btn-submit,
+.btn-edit,
+.btn-delete,
+.btn-cancel,
+.btn-back {
   padding: 8px 10px;
   border: none;
   border-radius: 4px;
@@ -261,12 +267,16 @@
 }
 
 /* Estilo dos botões de submit, back e edit */
-.btn-submit, .btn-back, .btn-edit {
+.btn-submit,
+.btn-back,
+.btn-edit {
   background-color: #237837;
   color: white;
 }
 
-.btn-submit:hover, .btn-back:hover, .btn-edit:hover {
+.btn-submit:hover,
+.btn-back:hover,
+.btn-edit:hover {
   background-color: #218838;
 }
 

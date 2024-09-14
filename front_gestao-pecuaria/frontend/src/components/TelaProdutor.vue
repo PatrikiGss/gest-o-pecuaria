@@ -20,22 +20,26 @@
         <!-- Campo para o CPF -->
         <div class="mb-3">
           <label for="cpf" class="form-label">CPF</label>
-          <input type="text" class="form-control" id="cpf" v-model="formData.cpf" placeholder="Digite apenas os números" required />
+          <input type="text" class="form-control" id="cpf" v-model="formData.cpf" placeholder="Digite apenas os números"
+            required />
         </div>
         <!-- Campo para o nome -->
         <div class="mb-3">
           <label for="nome" class="form-label">Nome</label>
-          <input type="text" class="form-control" id="nome" v-model="formData.nome" placeholder="Digite seu nome completo" required />
+          <input type="text" class="form-control" id="nome" v-model="formData.nome"
+            placeholder="Digite seu nome completo" required />
         </div>
         <!-- Campo para o telefone -->
         <div class="mb-3">
           <label for="telefone" class="form-label">Telefone</label>
-          <input type="text" class="form-control" id="telefone" v-model="formData.telefone" placeholder="Ex: (49)123112233" required />
+          <input type="text" class="form-control" id="telefone" v-model="formData.telefone"
+            placeholder="Ex: (49)123112233" required />
         </div>
         <!-- Campo para o email -->
         <div class="mb-3">
           <label for="email" class="form-label">Email</label>
-          <input type="email" class="form-control" id="email" v-model="formData.email" placeholder="Ex: email@gmail.com" required />
+          <input type="email" class="form-control" id="email" v-model="formData.email" placeholder="Ex: email@gmail.com"
+            required />
         </div>
         <!-- Botões de ação -->
         <div class="button-group">
@@ -47,10 +51,10 @@
 
     <!-- Lista de produtores -->
     <div v-if="!showForm" class="producer-list mt-5">
-    <!-- Botão para abrir o formulário de cadastro -->
-    <div v-if="!showForm" class="button-container">
-      <button @click="toggleForm" class="btn-submit">Cadastrar Novo Produtor</button>
-    </div>
+      <!-- Botão para abrir o formulário de cadastro -->
+      <div v-if="!showForm" class="button-container">
+        <button @click="toggleForm" class="btn-submit">Cadastrar Novo Produtor</button>
+      </div>
       <div v-if="produtores.length">
         <div class="container-fluid">
           <div class="row font-weight-bold mb-2">
@@ -231,12 +235,12 @@ export default {
   position: relative;
 }
 
-.user-info > div {
+.user-info>div {
   position: relative;
   padding-right: 10px;
 }
 
-.user-info > div:not(:last-child)::after {
+.user-info>div:not(:last-child)::after {
   content: '';
   position: absolute;
   right: 0;
@@ -246,7 +250,11 @@ export default {
   background-color: grey;
 }
 
-.btn-submit, .btn-edit, .btn-delete, .btn-cancel, .btn-back {
+.btn-submit,
+.btn-edit,
+.btn-delete,
+.btn-cancel,
+.btn-back {
   padding: 8px 10px;
   border: none;
   border-radius: 4px;
@@ -255,12 +263,16 @@ export default {
   margin-right: 5px;
 }
 
-.btn-submit, .btn-back, .btn-edit {
+.btn-submit,
+.btn-back,
+.btn-edit {
   background-color: #237837;
   color: white;
 }
 
-.btn-submit:hover, .btn-back:hover, .btn-edit:hover {
+.btn-submit:hover,
+.btn-back:hover,
+.btn-edit:hover {
   background-color: #218838;
 }
 

@@ -20,32 +20,38 @@
         <!-- Campo para o Endereço -->
         <div class="mb-3">
           <label for="endereco" class="form-label">Endereço</label>
-          <input type="text" class="form-control" id="endereco" v-model="formData.endereco" placeholder="Digite seu endereço" required />
+          <input type="text" class="form-control" id="endereco" v-model="formData.endereco"
+            placeholder="Digite seu endereço" required />
         </div>
         <!-- Campo para o Nome -->
         <div class="mb-3">
           <label for="nome" class="form-label">Nome</label>
-          <input type="text" class="form-control" id="nome" v-model="formData.nome" placeholder="Digite o nome da propriedade" required />
+          <input type="text" class="form-control" id="nome" v-model="formData.nome"
+            placeholder="Digite o nome da propriedade" required />
         </div>
         <!-- Campo para o telefone -->
         <div class="mb-3">
           <label for="telefone" class="form-label">Telefone</label>
-          <input type="text" class="form-control" id="telefone" v-model="formData.telefone" placeholder="Ex: (49)123112233" required />
+          <input type="text" class="form-control" id="telefone" v-model="formData.telefone"
+            placeholder="Ex: (49)123112233" required />
         </div>
         <!-- Campo para o email -->
         <div class="mb-3">
           <label for="email" class="form-label">Email</label>
-          <input type="email" class="form-control" id="email" v-model="formData.email" placeholder="Ex: email@gmail.com" required />
+          <input type="email" class="form-control" id="email" v-model="formData.email" placeholder="Ex: email@gmail.com"
+            required />
         </div>
         <!-- Campo para a Cidade -->
         <div class="mb-3">
           <label for="cidade" class="form-label">Cidade</label>
-          <input type="text" class="form-control" id="cidade" v-model="formData.cidade" placeholder="Digite sua cidade" required />
+          <input type="text" class="form-control" id="cidade" v-model="formData.cidade" placeholder="Digite sua cidade"
+            required />
         </div>
         <!-- Campo para o Estado -->
         <div class="mb-3">
           <label for="estado" class="form-label">Estado</label>
-          <input type="text" class="form-control" id="estado" v-model="formData.estado" placeholder="EX: SC, SP, RS, PR" required />
+          <input type="text" class="form-control" id="estado" v-model="formData.estado" placeholder="EX: SC, SP, RS, PR"
+            required />
         </div>
         <!-- Botões de ação -->
         <div class="button-group">
@@ -54,8 +60,8 @@
         </div>
       </form>
     </div>
-     <!-- Lista de laboratórios -->
-     <div v-if="!showForm" class="lab-list mt-5">
+    <!-- Lista de laboratórios -->
+    <div v-if="!showForm" class="lab-list mt-5">
       <div class="container-fluidd">
         <!-- Botão para abrir o formulário de cadastro -->
         <br>
@@ -274,12 +280,12 @@ export default {
 }
 
 /* Linha dos usuários, separadores entre colunas */
-.user-info > div {
+.user-info>div {
   position: relative;
   padding-right: 10px;
 }
 
-.user-info > div:not(:last-child)::after {
+.user-info>div:not(:last-child)::after {
   content: '';
   position: absolute;
   right: 0;
@@ -290,7 +296,11 @@ export default {
 }
 
 /* Botões estilizados para ações de formulário e lista */
-.btn-submit, .btn-edit, .btn-delete, .btn-cancel, .btn-back {
+.btn-submit,
+.btn-edit,
+.btn-delete,
+.btn-cancel,
+.btn-back {
   padding: 8px 10px;
   border: none;
   border-radius: 4px;
@@ -300,12 +310,16 @@ export default {
 }
 
 /* Estilo dos botões de submit, back e edit */
-.btn-submit, .btn-back, .btn-edit {
+.btn-submit,
+.btn-back,
+.btn-edit {
   background-color: #237837;
   color: white;
 }
 
-.btn-submit:hover, .btn-back:hover, .btn-edit:hover {
+.btn-submit:hover,
+.btn-back:hover,
+.btn-edit:hover {
   background-color: #218838;
 }
 

@@ -1,3 +1,28 @@
+<!--
+é correto afirmar que a abordagem padrão para projetos Vue.js utiliza "Single File Components" (SFCs) com a extensão .vue.
+Nesse formato, o HTML, CSS e JavaScript (ou TypeScript) são escritos em um único arquivo, cada um dentro de suas respectivas seções <template>, <style>, e <script>.
+Essa é a estrutura recomendada pela documentação oficial do Vue e amplamente utilizada pela comunidade.
+
+Aqui estão as principais características dessa abordagem:
+
+Modularidade: Cada componente em um arquivo .vue encapsula a lógica de negócio (JavaScript), o estilo (CSS), e o layout (HTML), promovendo modularidade e reutilização de código.
+
+Manutenibilidade: Manter a estrutura, o comportamento e o estilo de um componente no mesmo arquivo facilita a manutenção, especialmente em projetos de médio e grande porte.
+
+Facilidade de Desenvolvimento: Ferramentas como o Vue CLI e editores como VSCode oferecem suporte nativo para arquivos .vue, com recursos como linting, formatação e autocompletar, que tornam o desenvolvimento mais ágil.
+
+
+<template>: Define o layout e a estrutura HTML do componente.
+<script>: Contém a lógica de negócio e interatividade do componente.
+<style>: Define o estilo CSS do componente, que pode ser "scoped" (restrito ao componente).
+
+
+Por que essa é a abordagem padrão?
+Coesão: HTML, CSS e JavaScript estão intimamente relacionados dentro de um componente, então mantê-los no mesmo arquivo promove coesão e facilita o desenvolvimento.
+Reutilização: Um arquivo .vue pode ser facilmente reutilizado em diferentes partes da aplicação ou em outros projetos.
+Ferramentas de Build: O Vue CLI e outras ferramentas de build como Webpack são configuradas para compilar arquivos .vue automaticamente, transformando-os em JavaScript, CSS e HTML prontos para o navegador.
+Portanto, a utilização de Single File Components (SFCs) é, de fato, a abordagem recomendada e mais comum em projetos Vue.js.
+-->
 <template>
   <div class="container-fluid">
     <!-- Título da página -->
@@ -25,22 +50,26 @@
         <!-- Campo para a senha -->
         <div class="mb-3">
           <label for="senha" class="form-label">Senha</label>
-          <input type="password" class="form-control" id="senha" v-model="formData.senha" placeholder="Digite sua senha">
+          <input type="password" class="form-control" id="senha" v-model="formData.senha"
+            placeholder="Digite sua senha">
         </div>
         <!-- Campo para o telefone -->
         <div class="mb-3">
           <label for="telefone" class="form-label">Telefone</label>
-          <input type="text" class="form-control" id="telefone" v-model="formData.telefone" placeholder="(00)00000-0000">
+          <input type="text" class="form-control" id="telefone" v-model="formData.telefone"
+            placeholder="(00)00000-0000">
         </div>
         <!-- Campo para o CPF -->
         <div class="mb-3">
           <label for="cpf" class="form-label">CPF</label>
-          <input type="text" class="form-control" id="cpf" v-model="formData.cpf" placeholder="Apenas números, EX: 12345678900">
+          <input type="text" class="form-control" id="cpf" v-model="formData.cpf"
+            placeholder="Apenas números, EX: 12345678900">
         </div>
         <!-- Campo para os créditos -->
         <div class="mb-3">
           <label for="creditos" class="form-label">Créditos</label>
-          <input type="number" class="form-control" id="creditos" v-model="formData.creditos" placeholder="Digite quantidade de crédito">
+          <input type="number" class="form-control" id="creditos" v-model="formData.creditos"
+            placeholder="Digite quantidade de crédito">
         </div>
         <!-- Grupo de botões -->
         <div class="button-group">
@@ -51,41 +80,41 @@
         </div>
       </form>
     </div>
-   
+
     <!-- Lista de usuários cadastrados -->
     <div v-else class="user-list-container">
       <!-- Botão para abrir o formulário de cadastro -->
       <div class="button-container">
         <button @click="toggleForm" class="btn-submit">Cadastrar Novo Usuário</button>
       </div>
-<!-- Verifica se há usuários para exibir -->
-<div v-if="usuarios.length">
-  <div class="container-fluid">
-    <!-- Cabeçalho da tabela de usuários -->
-<!-- Cabeçalho da tabela de usuários -->
-<div class="row font-weight-bold mb-2">
-  <div class="col-12 col-sm-6 col-md-4 col-lg-2">Nome</div>
-  <div class="col-12 col-sm-6 col-md-4 col-lg-2">E-mail</div>
-  <div class="col-12 col-sm-6 col-md-4 col-lg-2">Telefone</div>
-  <div class="col-12 col-sm-6 col-md-4 col-lg-2">CPF</div>
-  <div class="col-12 col-sm-6 col-md-4 col-lg-2">Créditos</div>
-  <div class="col-12 col-sm-6 col-md-4 col-lg-2">Ações</div>
-</div>
-<!-- Loop para exibir cada usuário na tabela -->
-<div v-for="usuario in usuarios" :key="usuario.id" class="row user-info mb-2">
-  <div class="col-12 col-sm-6 col-md-4 col-lg-2">{{ usuario.nome }}</div>
-  <div class="col-12 col-sm-6 col-md-4 col-lg-2">{{ usuario.email }}</div>
-  <div class="col-12 col-sm-6 col-md-4 col-lg-2">{{ usuario.telefone }}</div>
-  <div class="col-12 col-sm-6 col-md-4 col-lg-2">{{ usuario.cpf }}</div>
-  <div class="col-12 col-sm-6 col-md-4 col-lg-2">{{ usuario.creditos }}</div>
-  <!-- Botões para editar e excluir usuários -->
-  <div class="col-12 col-sm-6 col-md-4 col-lg-2">
-    <button @click="editUser(usuario)" class="btn-edit">🖊️</button>
-    <button @click="deleteUser(usuario.id)" class="btn-delete">🗑️</button>
-  </div>
-</div>
-</div>
-  </div>
+      <!-- Verifica se há usuários para exibir -->
+      <div v-if="usuarios.length">
+        <div class="container-fluid">
+          <!-- Cabeçalho da tabela de usuários -->
+          <!-- Cabeçalho da tabela de usuários -->
+          <div class="row font-weight-bold mb-2">
+            <div class="col-12 col-sm-6 col-md-4 col-lg-2">Nome</div>
+            <div class="col-12 col-sm-6 col-md-4 col-lg-2">E-mail</div>
+            <div class="col-12 col-sm-6 col-md-4 col-lg-2">Telefone</div>
+            <div class="col-12 col-sm-6 col-md-4 col-lg-2">CPF</div>
+            <div class="col-12 col-sm-6 col-md-4 col-lg-2">Créditos</div>
+            <div class="col-12 col-sm-6 col-md-4 col-lg-2">Ações</div>
+          </div>
+          <!-- Loop para exibir cada usuário na tabela -->
+          <div v-for="usuario in usuarios" :key="usuario.id" class="row user-info mb-2">
+            <div class="col-12 col-sm-6 col-md-4 col-lg-2">{{ usuario.nome }}</div>
+            <div class="col-12 col-sm-6 col-md-4 col-lg-2">{{ usuario.email }}</div>
+            <div class="col-12 col-sm-6 col-md-4 col-lg-2">{{ usuario.telefone }}</div>
+            <div class="col-12 col-sm-6 col-md-4 col-lg-2">{{ usuario.cpf }}</div>
+            <div class="col-12 col-sm-6 col-md-4 col-lg-2">{{ usuario.creditos }}</div>
+            <!-- Botões para editar e excluir usuários -->
+            <div class="col-12 col-sm-6 col-md-4 col-lg-2">
+              <button @click="editUser(usuario)" class="btn-edit">🖊️</button>
+              <button @click="deleteUser(usuario.id)" class="btn-delete">🗑️</button>
+            </div>
+          </div>
+        </div>
+      </div>
       <!-- Exibe mensagem se não houver usuários cadastrados -->
       <div v-else>
         <p>Nenhum usuário encontrado.</p>
@@ -213,7 +242,8 @@ export default {
 }
 
 /* Estilo para o container do formulário e da lista de usuários */
-.form-container, .user-list-container {
+.form-container,
+.user-list-container {
   width: 100%;
   margin: 0 auto;
   padding: 20px;
@@ -232,13 +262,13 @@ export default {
   position: relative;
 }
 
-.user-info > div {
+.user-info>div {
   position: relative;
   padding-right: 10px;
 }
 
 /* Linha vertical entre as colunas */
-.user-info > div:not(:last-child)::after {
+.user-info>div:not(:last-child)::after {
   content: '';
   position: absolute;
   right: 0;
@@ -249,7 +279,11 @@ export default {
 }
 
 /* Estilos dos botões */
-.btn-submit, .btn-edit, .btn-delete, .btn-cancel, .btn-back {
+.btn-submit,
+.btn-edit,
+.btn-delete,
+.btn-cancel,
+.btn-back {
   padding: 8px 10px;
   border: none;
   border-radius: 4px;
@@ -258,12 +292,16 @@ export default {
   margin-right: 5px;
 }
 
-.btn-submit, .btn-back, .btn-edit {
+.btn-submit,
+.btn-back,
+.btn-edit {
   background-color: #237837;
   color: white;
 }
 
-.btn-submit:hover, .btn-back:hover, .btn-edit:hover {
+.btn-submit:hover,
+.btn-back:hover,
+.btn-edit:hover {
   background-color: #218838;
 }
 
@@ -304,4 +342,3 @@ export default {
   margin-right: 10px;
 }
 </style>
-

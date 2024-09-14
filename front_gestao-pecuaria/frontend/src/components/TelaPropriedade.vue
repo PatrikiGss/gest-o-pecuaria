@@ -12,7 +12,7 @@
           <label for="produtor" class="form-label">Produtor</label>
           <select id="produtor" v-model="formData.produtor" class="form-control" required>
             <option disabled value="">Selecione um produtor</option>
-     cd       <option v-for="produtor in produtores" :key="produtor.id" :value="produtor.id">
+            <option v-for="produtor in produtores" :key="produtor.id" :value="produtor.id">
               {{ produtor.nome }}
             </option>
           </select>
@@ -20,32 +20,38 @@
         <!-- Campo para o Nome -->
         <div class="mb-3">
           <label for="nome" class="form-label">Nome</label>
-          <input type="text" class="form-control" id="nome" v-model="formData.nome" placeholder="Digite o nome da propriedade" required />
+          <input type="text" class="form-control" id="nome" v-model="formData.nome"
+            placeholder="Digite o nome da propriedade" required />
         </div>
         <!-- Campo para a Latitude -->
         <div class="mb-3">
           <label for="latitude" class="form-label">Latitude</label>
-          <input type="text" class="form-control" id="latitude" v-model="formData.latitude" placeholder="ex: 12.3456789" required />
+          <input type="text" class="form-control" id="latitude" v-model="formData.latitude" placeholder="ex: 12.3456789"
+            required />
         </div>
         <!-- Campo para a Longitude -->
         <div class="mb-3">
           <label for="longitude" class="form-label">Longitude</label>
-          <input type="text" class="form-control" id="longitude" v-model="formData.longitude" placeholder="ex: 98.7654321" required />
+          <input type="text" class="form-control" id="longitude" v-model="formData.longitude"
+            placeholder="ex: 98.7654321" required />
         </div>
         <!-- Campo para o Endereço -->
         <div class="mb-3">
           <label for="endereco" class="form-label">Endereço</label>
-          <input type="text" class="form-control" id="endereco" v-model="formData.endereco" placeholder="Digite seu endereço" required />
+          <input type="text" class="form-control" id="endereco" v-model="formData.endereco"
+            placeholder="Digite seu endereço" required />
         </div>
         <!-- Campo para a Cidade -->
         <div class="mb-3">
           <label for="cidade" class="form-label">Cidade</label>
-          <input type="text" class="form-control" id="cidade" v-model="formData.cidade" placeholder="Digite sua cidade" required />
+          <input type="text" class="form-control" id="cidade" v-model="formData.cidade" placeholder="Digite sua cidade"
+            required />
         </div>
         <!-- Campo para o Estado -->
         <div class="mb-3">
           <label for="estado" class="form-label">Estado</label>
-          <input type="text" class="form-control" id="estado" v-model="formData.estado" placeholder="EX: SC, SP, RS, PR" required />
+          <input type="text" class="form-control" id="estado" v-model="formData.estado" placeholder="EX: SC, SP, RS, PR"
+            required />
         </div>
         <!-- Botões de ação -->
         <div class="button-group">
@@ -59,10 +65,10 @@
       <!-- Botão para abrir o formulário de cadastro, sempre visível -->
       <div class="container-fluidd">
         <br>
-      <div class="button-container">
-        <button @click="toggleForm" class="btn-submit">Cadastrar nova Propriedade</button>
-      </div>
-      <div v-if="propriedades.length">
+        <div class="button-container">
+          <button @click="toggleForm" class="btn-submit">Cadastrar nova Propriedade</button>
+        </div>
+        <div v-if="propriedades.length">
           <div class="row font-weight-bold mb-2">
             <div class="col-6 col-md-2">Produtor</div>
             <div class="col-6 col-md-2">Nome</div>
@@ -87,12 +93,12 @@
             </div>
           </div>
         </div>
-      <div v-else>
-        <p>Nenhuma propriedade encontrada.</p>
+        <div v-else>
+          <p>Nenhuma propriedade encontrada.</p>
+        </div>
       </div>
     </div>
   </div>
-</div>
 </template>
 
 
@@ -210,7 +216,6 @@ export default {
 
 
 <style scoped>
-
 .container-fluidd {
   width: 100%;
   padding: 0 15px;
@@ -263,12 +268,12 @@ export default {
   position: relative;
 }
 
-.user-info > div {
+.user-info>div {
   position: relative;
   padding-right: 10px;
 }
 
-.user-info > div:not(:last-child)::after {
+.user-info>div:not(:last-child)::after {
   content: '';
   position: absolute;
   right: 0;
@@ -278,7 +283,11 @@ export default {
   background-color: grey;
 }
 
-.btn-submit, .btn-edit, .btn-delete, .btn-cancel, .btn-back {
+.btn-submit,
+.btn-edit,
+.btn-delete,
+.btn-cancel,
+.btn-back {
   padding: 8px 10px;
   border: none;
   border-radius: 4px;
@@ -287,12 +296,16 @@ export default {
   margin-right: 5px;
 }
 
-.btn-submit, .btn-back, .btn-edit {
+.btn-submit,
+.btn-back,
+.btn-edit {
   background-color: #237837;
   color: white;
 }
 
-.btn-submit:hover, .btn-back:hover, .btn-edit:hover {
+.btn-submit:hover,
+.btn-back:hover,
+.btn-edit:hover {
   background-color: #218838;
 }
 
