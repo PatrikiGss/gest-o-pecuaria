@@ -108,11 +108,10 @@
             <div class="col-12 col-sm-6 col-md-4 col-lg-1">s</div>
             <div class="col-12 col-sm-6 col-md-4 col-lg-1">Ações</div>
           </div>
-
           <!-- Loop para exibir cada recomendação na tabela -->
           <div v-for="recomendacao in recomendacoes" :key="recomendacao.id" class="row recomendacao-info mb-2">
             <div class="col-12 col-sm-6 col-md-4 col-lg-2">
-              {{ getLaudoByAnaliseSoloId(recomendacao.analisesolo) }}
+              {{ getLaudoByAnaliseSoloId(recomendacao.analise_solo) }}
             </div>
             <div class="col-12 col-sm-6 col-md-4 col-lg-1">{{ recomendacao.camada_correcao }}</div>
             <div class="col-12 col-sm-6 col-md-4 col-lg-1">{{ recomendacao.calcario_calcitico }}</div>
@@ -123,7 +122,6 @@
             <div class="col-12 col-sm-6 col-md-4 col-lg-1">{{ recomendacao.p2o5 }}</div>
             <div class="col-12 col-sm-6 col-md-4 col-lg-1">{{ recomendacao.n }}</div>
             <div class="col-12 col-sm-6 col-md-4 col-lg-1">{{ recomendacao.s }}</div>
-
             <!-- Botões para editar e excluir recomendações -->
             <div class="col-12 col-sm-6 col-md-4 col-lg-1">
               <button @click="editRec(recomendacao)" class="btn-edit">🖊️</button>
@@ -172,32 +170,39 @@ export default {
     },
 
     getLaudoByAnaliseSoloId(analisesoloId) {
-      console.log('Conteúdo de analisesolo:', this.analisesolo);
+      console.log('ID da análise de solo recebido:', analisesoloId);
 
-      // Verifica se this.analisesolo é um array e não está vazio
-      if (!Array.isArray(this.analisesolo) || this.analisesolo.length === 0) {
-        return 'desconhecido 1';  // Se o array não estiver carregado ou estiver vazio
+      // Verifica se o array de análises de solo está carregado e contém elementos
+      if (!Array.isArray(this.analise_solo) || this.analise_solo.length === 0) {
+        console.log('Array analise_solo não carregado ou vazio');
+        return 'desconhecido';  // Retorna um valor padrão
       }
 
-      // Log para verificar o tipo de analisesoloId
-      console.log('ID fornecido:', analisesoloId, 'Tipo do ID fornecido:', typeof analisesoloId);
+      // Verifica se o ID da análise de solo é válido
+      if (!analisesoloId) {
+        console.log('ID da análise de solo não fornecido ou inválido');
+        return 'ID inválido';  // Retorna mensagem para ID inválido
+      }
 
-      const analise = this.analisesolo.find(a => {
-        // Log para verificar o tipo de a.id e a comparação
-        console.log('Verificando item:', a, 'Tipo do ID do item:', typeof a.id);
-        return a.id === analisesoloId;
+      // Busca a análise de solo no array com base no ID fornecido
+      const analise = this.analise_solo.find(a => {
+        console.log(`Comparando ${String(a.id)} com ${String(analisesoloId)}`);
+        return String(a.id) === String(analisesoloId);  // Converte ambos para string
       });
 
-      if (process.env.NODE_ENV === 'development') {
-        if (analise) {
-          console.log('Laudo encontrado:', analise.laudo);
-        } else {
-          console.log('Análise de solo não encontrada para o ID:', analisesoloId);
-        }
+      // Se a análise for encontrada, retorna o laudo ou uma mensagem padrão se estiver ausente
+      if (analise) {
+        console.log('Laudo encontrado:', analise.laudo);
+        return analise.laudo || 'Laudo não disponível';  // Retorna o laudo ou mensagem padrão
+      } else {
+        console.log('Análise de solo não encontrada para o ID:', analisesoloId);
+        return 'Análise não encontrada';  // Mensagem padrão quando o ID não é encontrado
       }
-
-      return analise ? analise.laudo : 'desconhecido 2';
     },
+
+
+
+
     // Busca todas as analises de solo
     async fetchAnaliseSolo() {
       try {

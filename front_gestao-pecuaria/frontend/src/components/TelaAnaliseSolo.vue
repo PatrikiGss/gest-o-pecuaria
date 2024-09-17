@@ -59,7 +59,7 @@
           </div>
           <div class="mb-3">
             <label for="laudo" class="form-label">laudo</label>
-            <input type="laudo" id="laudo" v-model="formData.laudo" placeholder="Insira o laudo" required />
+            <input type="text" id="laudo" v-model="formData.laudo" placeholder="Insira o laudo" required />
           </div>
           <!-- Campo para o ph_h2o -->
           <div class="mb-3">
@@ -122,15 +122,15 @@
             <label for="silte" class="form-label">Silte</label>
             <input type="number" step="0.01" id="silte" v-model="formData.silte" placeholder="Ex: 30.0" required />
           </div>
-          <!-- Campo para o argila -->
+                    <!-- Campo para o argila -->
+                   <div class="mb-3">
+            <label for="argila" class="form-label">Argila</label>
+            <input type="number" step="0.01" id="argila" v-model="formData.argila" placeholder="Ex: 25.0" required />
+          </div>
+          <!-- Campo para o mn -->
           <div class="mb-3">
             <label for="mn" class="form-label">Manganês (Mn)</label>
             <input type="number" step="0.01" id="mn" v-model="formData.mn" placeholder="Ex: 0.02" required />
-          </div>
-          <!-- Campo para o argila -->
-          <div class="mb-3">
-            <label for="argila" class="form-label">Argila</label>
-            <input type="number" step="0.01" id="argila" v-model="formData.argila" placeholder="Ex: 25.0" required />
           </div>
           <!-- Campo para o fe -->
           <div class="mb-3">
@@ -205,32 +205,57 @@
       <!-- Visualização dos detalhes da análise de solo -->
       <div v-if="showDetail">
         <h2>Detalhes da Análise de Solo de laudo: {{ selectedSolo.laudo }}</h2>
-        <div class="detail-view">
-          <!-- Exibe os campos adicionais -->
-          <br>
-          <p><strong>pH em H2O:</strong> {{ selectedSolo.ph_h2o }}</p>
-          <p><strong>Enxofre (S):</strong> {{ selectedSolo.s }}</p>
-          <p><strong>Potassio (P):</strong> {{ selectedSolo.p }}</p>
-          <p><strong>Potássio (K):</strong> {{ selectedSolo.k }}</p>
-          <p><strong>calcio (ca):</strong> {{ selectedSolo.ca }}</p>
-          <p><strong>Magnesio (mg):</strong> {{ selectedSolo.mg }}</p>
-          <p><strong>Sodio (na):</strong> {{ selectedSolo.na }}</p>
-          <p><strong>Alumínio (al):</strong> {{ selectedSolo.al }}</p>
-          <p><strong>Hidrogenio (h):</strong> {{ selectedSolo.h }}</p>
-          <p><strong>Materia Organica:</strong> {{ selectedSolo.materia_organica }}</p>
-          <p><strong>Areia:</strong> {{ selectedSolo.areia }}</p>
-          <p><strong>Silte:</strong> {{ selectedSolo.silte }}</p>
-          <p><strong>Argila:</strong> {{ selectedSolo.argila }}</p>
-          <p><strong>Meganes (mn):</strong> {{ selectedSolo.mn }}</p>
-          <p><strong>Ferro (mn):</strong> {{ selectedSolo.fe }}</p>
-          <p><strong>Cobre (cu):</strong> {{ selectedSolo.cu }}</p>
-          <p><strong>Zinco (zn):</strong> {{ selectedSolo.zn }}</p>
-          <p><strong>Boro (b):</strong> {{ selectedSolo.b }}</p>
-          <!-- Botão para voltar para a lista -->
-          <button @click="showDetail = false" class="btn-back">Voltar</button>
-          <br>
-        </div>
-        <br>
+        <div class="table-responsive">
+  <table class="table">
+    <thead>
+      <tr>
+        <th scope="col-12 col-sm-6 col-md-4 col-lg-2">Ph em H20</th>
+        <th scope="col-12 col-sm-6 col-md-4 col-lg-2">Enxofre (S)</th>
+        <th scope="col-12 col-sm-6 col-md-4 col-lg-2">Fosforo (P)</th>
+        <th scope="col-12 col-sm-6 col-md-4 col-lg-2">Potássio (K)</th>
+        <th scope="col-12 col-sm-6 col-md-4 col-lg-2">calcio (ca)</th>
+        <th scope="col-12 col-sm-6 col-md-4 col-lg-2">Magnesio (mg)</th>
+        <th scope="col-12 col-sm-6 col-md-4 col-lg-2">Sodio (na)</th>
+        <th scope="col-12 col-sm-6 col-md-4 col-lg-2">Alumínio (al)</th>
+        <th scope="col-12 col-sm-6 col-md-4 col-lg-2">Hidrogenio (h)</th>
+        <th scope="col-12 col-sm-6 col-md-4 col-lg-2">Materia Organica</th>
+        <th scope="col-12 col-sm-6 col-md-4 col-lg-2">Areia</th>
+        <th scope="col-12 col-sm-6 col-md-4 col-lg-2">Silte</th>
+        <th scope="col-12 col-sm-6 col-md-4 col-lg-2">Argila</th>
+        <th scope="col-12 col-sm-6 col-md-4 col-lg-2">Meganes (mn)</th>
+        <th scope="col-12 col-sm-6 col-md-4 col-lg-2">Ferro (fr)</th>
+        <th scope="col-12 col-sm-6 col-md-4 col-lg-2">Cobre (cu)</th>
+        <th scope="col-12 col-sm-6 col-md-4 col-lg-2">Zinco (zn)</th>
+        <th scope="col-12 col-sm-6 col-md-4 col-lg-2">Boro (b)</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+      <td>{{ selectedSolo.ph_h2o }}</td>
+      <td>{{ selectedSolo.s }}</td>
+      <td>{{ selectedSolo.p }}</td>
+      <td>{{ selectedSolo.k }}</td>
+      <td>{{ selectedSolo.ca }}</td>
+      <td>{{ selectedSolo.mg }}</td>
+      <td>{{ selectedSolo.na }}</td>
+      <td>{{ selectedSolo.al }}</td>
+      <td>{{ selectedSolo.h }}</td>
+      <td>{{ selectedSolo.materia_organica }}</td>
+      <td>{{ selectedSolo.areia }}</td>
+      <td>{{ selectedSolo.silte }}</td>
+      <td>{{ selectedSolo.argila }}</td>
+      <td>{{ selectedSolo.mn }}</td>
+      <td>{{ selectedSolo.fe }}</td>
+      <td>{{ selectedSolo.cu }}</td>
+      <td>{{ selectedSolo.zn }}</td>
+      <td>{{ selectedSolo.b }}</td>
+     </tr>
+    </tbody>
+   </table>
+  </div>
+  <div class="button-container">
+  <button @click="showDetail = false" class="btn-back">Voltar</button>
+</div>
       </div>
       <!-- Exibe mensagem se não houver análises de solo cadastradas -->
       <div v-else-if="!showForm && analisesSolo.length === 0">
@@ -586,17 +611,14 @@ export default {
   width: 100%;
 }
 
-.table-responsive {
-  margin-top: 20px;
-}
-
 .table {
-  border: 1px solid grey;
-  background-color: whitesmoke;
+  border-radius: 10px;
+  overflow: hidden;
+  border: 1px solid #ddd;
 }
 
-.thead-dark th {
-  background-color: whitesmoke;
-  color: black;
+.button-container {
+  text-align: left;
+  margin-top: 20px;
 }
 </style>
