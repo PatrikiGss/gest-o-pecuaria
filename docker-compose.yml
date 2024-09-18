@@ -32,7 +32,7 @@ services:
     networks:
       - rede_pecuaria
     ports:
-      - "8080:8080"
+      - "8080:7777"
     volumes:
       - ./front_gestao-pecuaria/frontend:/front_gestao-pecuaria/frontend
     env_file:
