@@ -40,6 +40,9 @@ RUN mkdir -p /Projeto_Pesquisa_e_Gestão_Pecuaria/data/web/static/admin /Projeto
     
 RUN chmod -R +x /scripts
 
+RUN mkdir /Projeto_Pesquisa_e_Gestão_Pecuaria/apps/core/migrations
+RUN chmod -R 777 /Projeto_Pesquisa_e_Gestão_Pecuaria/apps/core/migrations
+
 # Verifica permissões e usuário atual (comando de depuração)
 RUN ls -la /Projeto_Pesquisa_e_Gestão_Pecuaria/data/web/static /Projeto_Pesquisa_e_Gestão_Pecuaria/data/web/media /Projeto_Pesquisa_e_Gestão_Pecuaria/data/web/static/admin
 RUN whoami
