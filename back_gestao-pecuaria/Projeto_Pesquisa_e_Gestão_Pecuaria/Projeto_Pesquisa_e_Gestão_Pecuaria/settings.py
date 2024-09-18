@@ -48,10 +48,13 @@ DJANGO_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
 ]
-THIRD_APPS = []
+
+THIRD_APPS = [
+    'corsheaders'
+]
 
 PROJECT_APPS = [
-    'core.apps.CoreConfig',
+    'core',
 ]
 
 INSTALLED_APPS = PROJECT_APPS + THIRD_APPS + DJANGO_APPS
@@ -60,6 +63,7 @@ MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
@@ -101,6 +105,8 @@ DATABASES = {
     }
 }
 
+# Configuração de CORS para permitir o acesso de origins cruzadas, nesse caso, request do frontend
+CORS_ALLOWED_ORIGINS = config('CORS_ALLOWED_ORIGINS', default='', cast=lambda v: [s.strip() for s in v.split(',')])
 
 # Password validation
 # https://docs.djangoproject.com/en/5.0/ref/settings/#auth-password-validators
