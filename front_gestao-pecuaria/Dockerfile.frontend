@@ -4,8 +4,8 @@ FROM node:16-alpine
 # Instalação do GIT & SSH
 RUN apk add --no-cache git openssh
 
-# Expor a porta 8080
-EXPOSE 8080
+# Expor a porta 7777
+EXPOSE 7777
 
 # Adiciona a chave SSH do GitHub aos hosts conhecidos
 #RUN mkdir -p ~/.ssh && ssh-keyscan github.com >> ~/.ssh/known_hosts
