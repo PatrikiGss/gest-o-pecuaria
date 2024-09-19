@@ -19,5 +19,6 @@ from django.urls import path,include
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', include('core.urls', namespace='core')),
+    path('', include('core.urls', namespace='core')),  # Rotas do app 'core'
+    path('accounts/', include('accounts.urls', namespace='accounts')),  # Rotas do app 'accounts'
 ]
