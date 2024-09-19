@@ -39,4 +39,3 @@ class UserDetailView(generics.RetrieveUpdateDestroyAPIView):
     def get_object(self):
         #Sobrescreve o método get_object para garantir que o usuário só possa acessar, editar ou excluir sua própria conta.
         return self.queryset.get(pk=self.request.user.pk)  # Retorna o usuário logado
-
