@@ -38,13 +38,16 @@ DJANGO_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+]
+THIRD_APPS = [ 
     'rest_framework',
     'corsheaders',
-]
-THIRD_APPS = []
+    'rest_framework_simplejwt',
+    ]
 
 PROJECT_APPS = [
     'core.apps.CoreConfig',
+    'accounts'
 ]
 
 INSTALLED_APPS = PROJECT_APPS + THIRD_APPS + DJANGO_APPS
@@ -160,11 +163,11 @@ CSRF_TRUSTED_ORIGINS = [
 # Django Rest Framework (DRF) Configuration
 REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': [
-        'rest_framework.permissions.AllowAny',  # Ajuste conforme necessário
+        'rest_framework.permissions.AllowAny', # AllowAny, IsAuthenticated
     ],
     'DEFAULT_AUTHENTICATION_CLASSES': [
         'rest_framework.authentication.SessionAuthentication',
         'rest_framework.authentication.BasicAuthentication',
-        # Adicione outras classes de autenticação se necessário
+        'rest_framework_simplejwt.authentication.JWTAuthentication',  # JWT Authentication
     ],
 }
