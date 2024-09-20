@@ -19,7 +19,6 @@ class Usuario(models.Model):
     def __str__(self):
         return str(self.nome)
 
-###
 
 class Produtor(models.Model):
     # Relacionamento com Usuario

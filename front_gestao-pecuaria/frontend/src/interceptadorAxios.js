@@ -6,4 +6,13 @@ const api = axios.create({
   // Outras configurações do Axios, se necessário
 });
 
+// // Adiciona o token JWT a cada requisição, se estiver disponível
+// api.interceptors.request.use(config => {
+//   const token = localStorage.getItem('token'); // Ou sessionStorage
+//   if (token) {
+//     config.headers.Authorization = `Bearer ${token}`;
+//   }
+//   return config;
+// });
+
 export default api;

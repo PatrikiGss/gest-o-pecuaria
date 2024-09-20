@@ -102,10 +102,10 @@
             <div class="col-12 col-sm-6 col-md-4 col-lg-1">Calcario Dolomitico</div>
             <div class="col-12 col-sm-6 col-md-4 col-lg-1">Calcario Magnesiano</div>
             <div class="col-12 col-sm-6 col-md-4 col-lg-1">Gesso</div>
-            <div class="col-12 col-sm-6 col-md-4 col-lg-1">kcl</div>
-            <div class="col-12 col-sm-6 col-md-4 col-lg-1">p2o5</div>
-            <div class="col-12 col-sm-6 col-md-4 col-lg-1">n</div>
-            <div class="col-12 col-sm-6 col-md-4 col-lg-1">s</div>
+            <div class="col-12 col-sm-6 col-md-4 col-lg-1">Cloreto de Potássio (kcl)</div>
+            <div class="col-12 col-sm-6 col-md-4 col-lg-1">Fosfato (P2O5)</div>
+            <div class="col-12 col-sm-6 col-md-4 col-lg-1">Nitrogênio (n)</div>
+            <div class="col-12 col-sm-6 col-md-4 col-lg-1">Enxofre (s)</div>
             <div class="col-12 col-sm-6 col-md-4 col-lg-1">Ações</div>
           </div>
           <!-- Loop para exibir cada recomendação na tabela -->
