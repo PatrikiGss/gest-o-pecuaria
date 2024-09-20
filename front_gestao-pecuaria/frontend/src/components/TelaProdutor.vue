@@ -58,21 +58,21 @@
       <div v-if="produtores.length">
         <div class="container-fluid">
           <div class="row font-weight-bold mb-2">
-            <div class="col-2">Usuário</div>
-            <div class="col-2">CPF</div>
-            <div class="col-2">Nome</div>
-            <div class="col-2">Telefone</div>
-            <div class="col-3">Email</div>
-            <div class="col-1">Ações</div>
+            <div class="col-12 col-sm-6 col-md-4 col-lg-2">Usuário</div>
+            <div class="col-12 col-sm-6 col-md-4 col-lg-2">CPF</div>
+            <div class="col-12 col-sm-6 col-md-4 col-lg-2">Nome</div>
+            <div class="col-12 col-sm-6 col-md-4 col-lg-2">Telefone</div>
+            <div class="col-12 col-sm-6 col-md-4 col-lg-2">Email</div>
+            <div class="col-12 col-sm-6 col-md-4 col-lg-2">Ações</div>
           </div>
           <div v-for="produtor in produtores" :key="produtor.id" class="row user-info mb-2">
-            <div class="col-2">{{ getUsuarioNome(produtor.usuario) }}</div>
-            <div class="col-2">{{ produtor.cpf }}</div>
-            <div class="col-2">{{ produtor.nome }}</div>
-            <div class="col-2">{{ produtor.telefone }}</div>
-            <div class="col-3">{{ produtor.email }}</div>
+            <div class="col-12 col-sm-6 col-md-4 col-lg-2">{{ getUsuarioNome(produtor.usuario) }}</div>
+            <div class="col-12 col-sm-6 col-md-4 col-lg-2">{{ produtor.cpf }}</div>
+            <div class="col-12 col-sm-6 col-md-4 col-lg-2">{{ produtor.nome }}</div>
+            <div class="col-12 col-sm-6 col-md-4 col-lg-2">{{ produtor.telefone }}</div>
+            <div class="col-12 col-sm-6 col-md-4 col-lg-2">{{ produtor.email }}</div>
             <!-- Botões para editar e excluir produtores -->
-            <div class="col-1">
+            <div class="col-12 col-sm-6 col-md-4 col-lg-2">
               <button @click="startEditing(produtor)" class="btn-edit">🖊️</button>
               <button @click="deleteProdutor(produtor.id)" class="btn-delete">🗑️</button>
             </div>

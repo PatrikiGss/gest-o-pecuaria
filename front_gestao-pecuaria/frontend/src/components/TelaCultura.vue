@@ -43,15 +43,15 @@
         <!-- Verifica se há culturas cadastradas -->
         <div v-if="culturas.length">
           <div class="row font-weight-bold mb-2">
-            <div class="col-6 col-md-4">Usuário</div>
-            <div class="col-6 col-md-4">Nome</div>
-            <div class="col-6 col-md-4">Ação</div>
+            <div class="col-12 col-sm-6 col-md-4 col-lg-4">Usuário</div>
+            <div class="col-12 col-sm-6 col-md-4 col-lg-4">Nome</div>
+            <div class="col-12 col-sm-6 col-md-4 col-lg-4">Ação</div>
           </div>
           <div v-for="cultura in culturas" :key="cultura.id" class="row user-info mb-2">
-            <div class="col-6 col-md-4">{{ getUsuarioNome(cultura.usuario) }}</div>
-            <div class="col-6 col-md-4">{{ cultura.nome }}</div>
+            <div class="col-12 col-sm-6 col-md-4 col-lg-4">{{ getUsuarioNome(cultura.usuario) }}</div>
+            <div class="col-12 col-sm-6 col-md-4 col-lg-4">{{ cultura.nome }}</div>
             <!-- Botões para editar e excluir culturas -->
-            <div class="col-6 col-md-4">
+            <div class="col-12 col-sm-6 col-md-4 col-lg-4">
               <button @click="startEditing(cultura)" class="btn-edit">🖊️</button>
               <button @click="deleteCulturas(cultura.id)" class="btn-delete">🗑️</button>
             </div>

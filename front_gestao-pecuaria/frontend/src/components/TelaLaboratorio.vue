@@ -71,25 +71,25 @@
         <!-- Verifica se há laboratórios cadastrados -->
         <div v-if="laboratorios.length">
           <div class="row font-weight-bold mb-2">
-            <div class="col-6 col-md-2">Usuário</div>
-            <div class="col-6 col-md-2">Endereço</div>
-            <div class="col-6 col-md-2">Nome</div>
-            <div class="col-6 col-md-2">Email</div>
-            <div class="col-6 col-md-1">Telefone</div>
-            <div class="col-6 col-md-1">Cidade</div>
-            <div class="col-6 col-md-1">Estado</div>
-            <div class="col-6 col-md-1">Ação</div>
+            <div class="col-12 col-sm-6 col-md-4 col-lg-2">Usuário</div>
+            <div class="col-12 col-sm-6 col-md-4 col-lg-2">Endereço</div>
+            <div class="col-12 col-sm-6 col-md-4 col-lg-2">Nome</div>
+            <div class="col-12 col-sm-6 col-md-4 col-lg-2">Email</div>
+            <div class="col-12 col-sm-6 col-md-4 col-lg-1">Telefone</div>
+            <div class="col-12 col-sm-6 col-md-4 col-lg-1">Cidade</div>
+            <div class="col-12 col-sm-6 col-md-4 col-lg-1">Estado</div>
+            <div class="col-12 col-sm-6 col-md-4 col-lg-1">Ação</div>
           </div>
           <div v-for="laboratorio in laboratorios" :key="laboratorio.id" class="row user-info mb-2">
-            <div class="col-6 col-md-2">{{ getUsuarioNome(laboratorio.usuario) }}</div>
-            <div class="col-6 col-md-2">{{ laboratorio.endereco }}</div>
-            <div class="col-6 col-md-2">{{ laboratorio.nome }}</div>
-            <div class="col-6 col-md-2">{{ laboratorio.email }}</div>
-            <div class="col-6 col-md-1">{{ laboratorio.telefone }}</div>
-            <div class="col-6 col-md-1">{{ laboratorio.cidade }}</div>
-            <div class="col-6 col-md-1">{{ laboratorio.estado }}</div>
+            <div class="col-12 col-sm-6 col-md-4 col-lg-2">{{ getUsuarioNome(laboratorio.usuario) }}</div>
+            <div class="col-12 col-sm-6 col-md-4 col-lg-2">{{ laboratorio.endereco }}</div>
+            <div class="col-12 col-sm-6 col-md-4 col-lg-2">{{ laboratorio.nome }}</div>
+            <div class="col-12 col-sm-6 col-md-4 col-lg-2">{{ laboratorio.email }}</div>
+            <div class="col-12 col-sm-6 col-md-4 col-lg-1">{{ laboratorio.telefone }}</div>
+            <div class="col-12 col-sm-6 col-md-4 col-lg-1">{{ laboratorio.cidade }}</div>
+            <div class="col-12 col-sm-6 col-md-4 col-lg-1">{{ laboratorio.estado }}</div>
             <!-- Botões para editar e excluir laboratórios -->
-            <div class="col-6 col-md-1">
+            <div class="col-12 col-sm-6 col-md-4 col-lg-1">
               <button @click="startEditing(laboratorio)" class="btn-edit">🖊️</button>
               <button @click="deleteLab(laboratorio.id)" class="btn-delete">🗑️</button>
             </div>
