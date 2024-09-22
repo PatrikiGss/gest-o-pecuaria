@@ -144,7 +144,7 @@ export default {
         this.usuarios = response.data;
       } catch (error) {
         console.error('Erro ao buscar usuários:', error);
-        alert('Erro ao buscar usuários. Verifique o console para mais detalhes.');
+
       }
     },
     // Busca todos os laboratórios
@@ -154,7 +154,6 @@ export default {
         this.laboratorios = response.data;
       } catch (error) {
         console.error('Erro ao buscar laboratórios:', error);
-        alert('Erro ao buscar laboratórios. Verifique o console para mais detalhes.');
       }
     },
     // Submete o formulário para cadastro ou edição

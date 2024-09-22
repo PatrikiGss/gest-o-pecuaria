@@ -7,6 +7,8 @@ import TelaLaboratorio from '@/components/TelaLaboratorio.vue'
 import TelaCultura from '@/components/TelaCultura.vue'
 import TelaAnaliseSolo from '../components/TelaAnaliseSolo.vue'
 import TelaRecomendações from '@/components/TelaRecomendações.vue'
+import TelaCadastro from '@/components/TelaCadastro.vue'
+
 
 
 const routes = [
@@ -49,6 +51,11 @@ const routes = [
     path: '/tela-recomendação',
     name: 'Recomendações',
     component: TelaRecomendações,
+  },
+  {
+    path: '/tela-cadastro',
+    name: 'cadastro',
+    component: TelaCadastro,
   },
 ]
 

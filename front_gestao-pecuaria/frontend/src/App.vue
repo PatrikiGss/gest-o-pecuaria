@@ -1,13 +1,14 @@
 <template>
   <div id="app">
-    <nav class="nav-bar">
+    <!-- v-if="isAuthenticated" adicionar essa lionha no nav quando a auntenticação estiver funcionando-->
+     <nav  class="nav-bar"> 
       <div class="nav-container">
         <div class="dropdown">
           <button class="btn dropdown-toggle nav-button" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
             ☰
           </button>
           <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-            <li><router-link class="dropdown-item" to="/">Home</router-link></li>
+            <li><router-link class="dropdown-item" to="/">Home</router-link></li><!--AQUI NESTA ROTA QUE FICA O FORMULARIO DE LOGIN-->
             <!--<li><router-link class="dropdown-item" to="/about">About</router-link></li>-->
             <li><router-link class="dropdown-item" to="/tela-usuario">Usuário</router-link></li>
             <li><router-link class="dropdown-item" to="/tela-produtor">Produtor</router-link></li>

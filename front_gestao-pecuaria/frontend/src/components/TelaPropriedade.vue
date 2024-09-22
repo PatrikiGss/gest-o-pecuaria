@@ -148,7 +148,6 @@ export default {
         this.propriedades = response.data;
       } catch (error) {
         console.error('Erro ao buscar propriedades:', error);
-        alert('Erro ao buscar propriedades. Verifique o console para mais detalhes.');
       }
     },
     async fetchProdutores() {
@@ -157,7 +156,6 @@ export default {
         this.produtores = response.data;
       } catch (error) {
         console.error('Erro ao buscar produtores:', error);
-        alert('Erro ao buscar produtores. Verifique o console para mais detalhes.');
       }
     },
     async submitForm() {

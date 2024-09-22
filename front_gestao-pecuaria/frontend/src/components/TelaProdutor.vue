@@ -124,7 +124,6 @@ export default {
         this.produtores = response.data;
       } catch (error) {
         console.error('Erro ao buscar produtores:', error);
-        alert('Erro ao buscar produtores. Verifique o console para mais detalhes.');
       }
     },
     // Busca todos os usuários
@@ -134,7 +133,6 @@ export default {
         this.usuarios = response.data;
       } catch (error) {
         console.error('Erro ao buscar usuários:', error);
-        alert('Erro ao buscar usuários. Verifique o console para mais detalhes.');
       }
     },
     // Envia o formulário de cadastro ou edição

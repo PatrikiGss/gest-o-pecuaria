@@ -111,7 +111,6 @@ export default {
         this.culturas = response.data;
       } catch (error) {
         console.error('Erro ao buscar culturas:', error);
-        alert('Erro ao buscar culturas. Verifique o console para mais detalhes.');
       }
     },
     // Submete o formulário para cadastro ou edição

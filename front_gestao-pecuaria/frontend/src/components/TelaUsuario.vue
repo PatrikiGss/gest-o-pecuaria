@@ -84,9 +84,9 @@ Portanto, a utilização de Single File Components (SFCs) é, de fato, a abordag
     <!-- Lista de usuários cadastrados -->
     <div v-else class="user-list-container">
       <!-- Botão para abrir o formulário de cadastro -->
-      <div class="button-container">
-        <button @click="toggleForm" class="btn-submit">Cadastrar Novo Usuário</button>
-      </div>
+      <!-- <div class="button-container">
+        <button v-if="!isAuthenticated" @click="toggleForm" class="btn-submit">Cadastrar Novo Usuário</button>
+      </div> -->
       <!-- Verifica se há usuários para exibir -->
       <div v-if="usuarios.length">
         <div class="container-fluid">
