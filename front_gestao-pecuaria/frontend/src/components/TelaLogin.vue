@@ -33,14 +33,14 @@ export default {
     async loginUsuario() {
       try {
         // Faz a requisição de login
-        const response = await axios.post('http://localhost:8000/login/', {
+        const response = await axios.post('http://127.0.0.1:8000/accounts/login/', {
           email: this.email,
           password: this.senha
         });
         const token = response.data.access;  // Pega o token JWT da resposta
         localStorage.setItem('token', token);  // Salva o token no localStorage
         alert("Login realizado com sucesso!");  // Alerta de sucesso
-        this.$router.push('/dashboard');  // Redireciona para o dashboard
+        // this.$router.push('/dashboard');  // Redireciona para o dashboard
       } catch (error) {
         alert("Erro no login. Verifique suas credenciais.");  // Alerta em caso de erro
       }

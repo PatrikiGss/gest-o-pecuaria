@@ -1,24 +1,8 @@
 from django.db import models
-
-class Usuario(models.Model):
-    # Definindo os campos do modelo Usuario
-    cpf = models.CharField(max_length=11, unique=True)
-    nome = models.CharField(max_length=255)
-    telefone = models.CharField(max_length=20)
-    email = models.EmailField(unique=True)
-    senha = models.CharField(max_length=128)
-    creditos = models.IntegerField()
-
-    
-    objects = models.Manager()
-
-    class Meta:
-        verbose_name = "Usuário"
-        verbose_name_plural = "Usuários"
-
-    def __str__(self):
-        return str(self.nome)
-
+import os
+import sys
+sys.path.append(os.getcwd())
+from accounts.models import Usuario
 
 class Produtor(models.Model):
     # Relacionamento com Usuario
