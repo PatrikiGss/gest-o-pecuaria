@@ -47,7 +47,7 @@ THIRD_APPS = [
 
 PROJECT_APPS = [
     'core.apps.CoreConfig',
-    'accounts'
+    # 'autenticacao'
 ]
 
 INSTALLED_APPS = PROJECT_APPS + THIRD_APPS + DJANGO_APPS
@@ -89,7 +89,7 @@ WSGI_APPLICATION = 'gestaoPecuaria.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql',#postgresql  sqlite3
         'NAME': config('DB_NAME'),
         'USER': config('DB_USER'),
         'PASSWORD': config('DB_PASSWORD'),
