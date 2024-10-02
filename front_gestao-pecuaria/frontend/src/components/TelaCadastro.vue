@@ -17,8 +17,8 @@
           </div>
           <!-- Campo para a senha -->
           <div class="mb-3">
-            <label for="senha" class="form-label">Senha</label>
-            <input type="password" class="form-control" id="senha" v-model="formData.senha" placeholder="Digite sua senha">
+            <label for="password" class="form-label">Senha</label>
+            <input type="password" class="form-control" id="password" v-model="formData.password" placeholder="Digite sua senha">
           </div>
           <!-- Campo para o telefone -->
           <div class="mb-3">
@@ -57,7 +57,7 @@
           email: '',
           telefone: '',
           cpf: '',
-          senha: '',
+          password: '',
           creditos: '',
         },
       };
@@ -89,7 +89,7 @@
           email: '',
           telefone: '',
           cpf: '',
-          senha: '',
+          password: '',
           creditos: '',
         };
       }

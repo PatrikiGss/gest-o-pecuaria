@@ -5,7 +5,7 @@
     <input class="input" v-model="email" type="text" placeholder="User-Name">
     <br><h1></h1>
     <!-- Campo de entrada para a senha -->
-    <input class="input" v-model="senha" type="password" placeholder="Password">
+    <input class="input" v-model="password" type="password" placeholder="Password">
     <br><h1></h1>
     <div class="cadastro">
       <!-- Botão para abrir o formulário de cadastro -->
@@ -25,7 +25,7 @@ export default {
   data() {
     return {
       email: '', // Armazena o nome de usuário
-      senha: ''  // Armazena a senha
+      password: ''  // Armazena a senha
     };
   },
   methods: {
@@ -35,7 +35,7 @@ export default {
         // Faz a requisição de login
         const response = await axios.post('http://127.0.0.1:8000/accounts/login/', {
           email: this.email,
-          password: this.senha
+          password: this.password
         });
         const token = response.data.access;  // Pega o token JWT da resposta
         localStorage.setItem('token', token);  // Salva o token no localStorage

@@ -49,8 +49,8 @@ Portanto, a utilização de Single File Components (SFCs) é, de fato, a abordag
         </div>
         <!-- Campo para a senha -->
         <div class="mb-3">
-          <label for="senha" class="form-label">Senha</label>
-          <input type="password" class="form-control" id="senha" v-model="formData.senha"
+          <label for="password" class="form-label">Senha</label>
+          <input type="password" class="form-control" id="password" v-model="formData.password"
             placeholder="Digite sua senha">
         </div>
         <!-- Campo para o telefone -->
@@ -136,7 +136,7 @@ export default {
         email: '',
         telefone: '',
         cpf: '',
-        senha: '',
+        password: '',
         creditos: '',
       },
       usuarios: [], // Lista de usuários
@@ -199,7 +199,7 @@ export default {
         email: '',
         telefone: '',
         cpf: '',
-        senha: '',
+        password: '',
         creditos: '',
       };
       this.editingUser = null; // Reseta o estado de edição
