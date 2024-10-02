@@ -47,7 +47,7 @@ THIRD_APPS = [
 
 PROJECT_APPS = [
     'core.apps.CoreConfig',
-    # 'autenticacao'
+    'autenticacao'
 ]
 
 INSTALLED_APPS = PROJECT_APPS + THIRD_APPS + DJANGO_APPS

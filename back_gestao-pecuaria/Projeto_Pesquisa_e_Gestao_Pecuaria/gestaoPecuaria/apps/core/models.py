@@ -1,28 +1,5 @@
 from django.db import models
-# import os
-# import sys
-# sys.path.append(os.getcwd())
-# from autenticacao.models import Usuario
-class Usuario(models.Model):
-    # Definindo os campos do modelo Usuario
-    cpf = models.CharField(max_length=11, unique=True)
-    nome = models.CharField(max_length=255)
-    telefone = models.CharField(max_length=20)
-    email = models.EmailField(unique=True)
-    senha = models.CharField(max_length=128)  # A coluna 'senha' está aqui
-    creditos = models.IntegerField()
-
-
-    
-    objects = models.Manager()
-
-    class Meta:
-        verbose_name = "Usuário"
-        verbose_name_plural = "Usuários"
-
-    def __str__(self):
-        return str(self.nome)
-
+from autenticacao.models import Usuario
 
 class Produtor(models.Model):
     # Relacionamento com Usuario
