@@ -43,6 +43,7 @@ THIRD_APPS = [
     'rest_framework',
     'corsheaders',
     'rest_framework_simplejwt',
+    'rest_framework.authtoken',
     ]
 
 PROJECT_APPS = [
