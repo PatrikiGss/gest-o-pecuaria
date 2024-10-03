@@ -14,9 +14,6 @@ router.register(r'recomendacoes', RecomendacaoViewSet)
 
 app_name = 'core'
 
-urlpatterns = [
-    
+urlpatterns = [ 
     path('', include(router.urls)),
-    path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),# Para obter o token JWT
-    path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),# Para atualizar o token JWT
 ]
