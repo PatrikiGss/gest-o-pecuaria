@@ -65,20 +65,20 @@
     methods: {
       // Método para enviar o formulário de cadastro
       async submitForm() {
-        try {
-          // Cadastra um novo usuário na rota correta
-          const response = await axios.post('http://127.0.0.1:8000/usuarios/', this.formData);
-          if (response.status === 201) {
-            alert('Cadastro realizado com sucesso!');
-            this.$router.push('/');  // Redireciona para a tela de login após o cadastro
-          } else {
-            alert('Erro ao cadastrar usuário. Tente novamente mais tarde.');
-          }
-        } catch (error) {
-          console.error('Erro ao enviar requisição:', error);
-          alert('Erro ao enviar requisição. Verifique o console para mais detalhes.');
-        }
-      },
+  try {
+    // Envia os dados do formulário para a rota de signup
+    const response = await axios.post('http://127.0.0.1:8000/autenticacao/signup/', this.formData);
+    if (response.status === 201 || response.status === 200) {
+    alert('Cadastro realizado com sucesso!');
+    this.$router.push('/');  // Redireciona para a tela de login após o cadastro
+} else {
+    alert('Erro ao cadastrar usuário. Tente novamente mais tarde.');
+}
+  } catch (error) {
+    console.error('Erro ao enviar requisição:', error);
+    alert('Erro ao enviar requisição. Verifique o console para mais detalhes.');
+  }
+},
       // Método para voltar à tela inicial
       goBack() {
         this.$router.push('/'); // Redireciona para a tela inicial

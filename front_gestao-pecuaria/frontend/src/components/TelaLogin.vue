@@ -2,7 +2,7 @@
   <div class="login">
     <h1>Login</h1>
     <!-- Campo de entrada para o nome de usuário -->
-    <input class="input" v-model="email" type="text" placeholder="User-Name">
+    <input class="input" v-model="email" type="text" placeholder="email">
     <br><h1></h1>
     <!-- Campo de entrada para a senha -->
     <input class="input" v-model="password" type="password" placeholder="Password">
@@ -33,14 +33,14 @@ export default {
     async loginUsuario() {
       try {
         // Faz a requisição de login
-        const response = await axios.post('http://127.0.0.1:8000/accounts/login/', {
+        const response = await axios.post('http://127.0.0.1:8000/autenticacao/token/', {
           email: this.email,
           password: this.password
         });
         const token = response.data.access;  // Pega o token JWT da resposta
         localStorage.setItem('token', token);  // Salva o token no localStorage
         alert("Login realizado com sucesso!");  // Alerta de sucesso
-        // this.$router.push('/dashboard');  // Redireciona para o dashboard
+        this.$router.push('/tela-usuario');  // Redireciona para o dashboard
       } catch (error) {
         alert("Erro no login. Verifique suas credenciais.");  // Alerta em caso de erro
       }
@@ -48,7 +48,7 @@ export default {
     // Método para redirecionar para a tela de cadastro
     redirectToCadastro() {
       this.$router.push('/tela-cadastro');  // Redireciona para a tela de cadastro
-    }
+    },
   }
 };
 </script>

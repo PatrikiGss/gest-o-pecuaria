@@ -1,50 +1,50 @@
 from rest_framework import serializers
 from .models import Usuario
-from django.contrib.auth import authenticate
-from django.utils.translation import gettext_lazy as _
-from django.contrib.auth import get_user_model
 
 class UsuarioSerializer(serializers.ModelSerializer):
     class Meta:
         model = Usuario
         fields = "__all__"
         extra_kwargs = {
-            'password': {'write_only': True}
+            'password': {'write_only': True}  # Garantir que a senha seja usada apenas na escrita
         }
 
     def create(self, validated_data):
-        password = validated_data.pop('password')
-        usuario = Usuario(**validated_data)
-        usuario.set_password(password)
-        usuario.save()
-        return usuario
+         password = validated_data.pop('password', None)
+         instance = self.Meta.model(**validated_data)
+         if password is not None:
+             instance.set_password(password)  # Criptografar a senha corretamente
+         instance.save()
+         return instance
+
+    def update(self, instance, validated_data):
+         password = validated_data.pop('password', None)
+         if password:
+             instance.set_password(password)  # Atualizar a senha com criptografia
+         return super().update(instance, validated_data)
+class UpdateUsuarioSerializer(serializers.ModelSerializer):
+     class Meta:
+         model = Usuario
+         fields = ['nome', 'cpf', 'telefone', 'email']  # Campos que podem ser atualizados
 
 
-class CustomAuthTokenSerializer(serializers.Serializer):
-    email = serializers.EmailField(label=_("Email"))
-    password = serializers.CharField(label=_("Password"), style={'input_type': 'password'}, trim_whitespace=False)
+class GetUsuarioSerializer(serializers.ModelSerializer):
+     class Meta:
+         model = Usuario
+         fields = ['nome', 'cpf', 'telefone', 'email']  # Campos exibidos na consulta
 
-    def validate(self, attrs):
-        email = attrs.get('email')
-        password = attrs.get('password')
 
-        # Busca o modelo de usuário
-        Usuario = get_user_model()
+class ChangePasswordSerializer(serializers.Serializer):
+     old_password = serializers.CharField(required=True)
+     new_password = serializers.CharField(required=True)
 
-        # Tenta buscar o usuário pelo email
-        user = Usuario.objects.filter(email=email).first()
-        
-        if user is None:
-            raise serializers.ValidationError(_('Usuário não encontrado com este email.'), code='authorization')
+     def validate_old_password(self, value):
+         user = self.context['request'].user
+         if not user.check_password(value):
+             raise serializers.ValidationError("Senha atual incorreta.")
+         return value
 
-        # Verifica se a senha está correta
-        if not user.check_password(password):
-            raise serializers.ValidationError(_('Credenciais inválidas.'), code='authorization')
-
-        if not user.is_active:
-            raise serializers.ValidationError(_('Esta conta está inativa.'), code='authorization')
-
-        # Se tudo estiver correto, retorna o usuário validado
-        attrs['user'] = user
-        return attrs
-    
+     def validate(self, attrs):
+         if attrs['old_password'] == attrs['new_password']:
+             raise serializers.ValidationError("A nova senha não pode ser igual à senha atual.")
+         return attrs
