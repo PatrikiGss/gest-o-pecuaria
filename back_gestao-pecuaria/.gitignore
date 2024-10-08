@@ -12,3 +12,7 @@ media/
 
 # Gerados automaticamente
 public/
+
+gestaopecuariadb
+
+postgres/data

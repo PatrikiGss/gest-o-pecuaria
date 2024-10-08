@@ -4,13 +4,15 @@
   "private": true,
   "scripts": {
     "dev": "vue-cli-service serve",
-    "serve": "docker compose up",
+    "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
     "test:unit": "vue-cli-service test:unit",
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
+    "@popperjs/core": "^2.11.8",
     "axios": "^1.7.3",
+    "bootstrap": "^5.3.3",
     "core-js": "^3.8.3",
     "register-service-worker": "^1.7.2",
     "vue": "^3.2.13",
