@@ -25,7 +25,7 @@ api.interceptors.response.use(
       // Redirecionar para a página de login ou outra ação se o token for inválido ou expirado
       console.log("Token inválido ou expirado. Faça login novamente.");
       // Por exemplo, você pode redirecionar para a página de login:
-       window.location.href = '/login';
+       window.location.href = '/';
     }
     return Promise.reject(error);  // Propaga o erro para que possa ser tratado na chamada original
   }

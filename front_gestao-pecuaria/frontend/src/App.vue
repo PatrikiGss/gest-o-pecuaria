@@ -1,7 +1,7 @@
 <template>
   <div id="app">
-    <!-- v-if="isAuthenticated" adicionar essa lionha no nav quando a auntenticação estiver funcionando-->
-     <nav class="nav-bar" > 
+    <nav v-if="isAuthenticated" class="nav-bar">
+      <router-link v-if="!isAuthenticated" class="dropdown-item" to="/">Home</router-link>
       <div class="nav-container">
         <div class="dropdown">
           <button class="btn dropdown-toggle nav-button" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
@@ -9,7 +9,6 @@
           </button>
           <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
             <li><router-link class="dropdown-item" to="/">Home</router-link></li>
-            <!--<li><router-link class="dropdown-item" to="/about">About</router-link></li>-->
             <li><router-link class="dropdown-item" to="/tela-usuario">Usuário</router-link></li>
             <li><router-link class="dropdown-item" to="/tela-produtor">Produtor</router-link></li>
             <li><router-link class="dropdown-item" to="/tela-Propriedade">Propriedade</router-link></li>
@@ -31,7 +30,8 @@ export default {
   name: 'App',
   data() {
     return {
-      currentName: ''
+      currentName: '',
+      isAuthenticated: false // Inicializa como falso
     };
   },
   watch: {
@@ -40,10 +40,31 @@ export default {
     }
   },
   mounted() {
-    this.currentPath = this.$route.path;
+    // Verifica se o token está presente no localStorage
+    this.checkAuthentication();
+    // Verifica a cada 3 segundos se o token ainda está presente
+    this.authCheckInterval = setInterval(this.checkAuthentication, 3000);
+  },
+  beforeUnmount() {
+    // Limpa o intervalo quando o componente é destruído
+    clearInterval(this.authCheckInterval);
+  },
+  methods: {
+    // Verifica se o token está presente no localStorage
+    checkAuthentication() {
+      this.isAuthenticated = !!localStorage.getItem('token');
+    },
+    // Método de logout
+    logout() {
+      localStorage.removeItem('token'); // Remove o token
+      this.checkAuthentication(); // Atualiza o estado
+      this.$router.push('/'); // Redireciona para a página inicial ou de login
+    }
   }
 };
 </script>
+
+
 
 <style>
 #app {

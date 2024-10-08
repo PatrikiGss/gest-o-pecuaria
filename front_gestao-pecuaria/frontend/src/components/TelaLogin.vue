@@ -24,7 +24,7 @@ import axios from 'axios'; // Importa o axios para fazer requisições HTTP
 export default {
   data() {
     return {
-      email: '', // Armazena o nome de usuário
+      email: '', // Armazena o email do usuário
       password: ''  // Armazena a senha
     };
   },
@@ -37,11 +37,20 @@ export default {
           email: this.email,
           password: this.password
         });
+        // Verifica se a resposta contém o token de acesso (JWT)
         const token = response.data.access;  // Pega o token JWT da resposta
-        localStorage.setItem('token', token);  // Salva o token no localStorage
-        alert("Login realizado com sucesso!");  // Alerta de sucesso
-        this.$router.push('/tela-usuario');  // Redireciona para o dashboard
+
+        // Se o token estiver presente, salva-o no localStorage
+        if (token) {
+          localStorage.setItem('token', token);  // Salva o token no localStorage
+          alert("Login realizado com sucesso!");  // Alerta de sucesso
+          this.$router.push('/tela-usuario');  // Redireciona para o dashboard ou tela de usuário
+        } else {
+          alert("Falha ao obter o token de autenticação.");
+        }
       } catch (error) {
+        // Em caso de erro, exibe uma mensagem apropriada
+        console.error("Erro no login:", error);
         alert("Erro no login. Verifique suas credenciais.");  // Alerta em caso de erro
       }
     },
@@ -52,6 +61,7 @@ export default {
   }
 };
 </script>
+
 
 <style scoped>
 .login {
