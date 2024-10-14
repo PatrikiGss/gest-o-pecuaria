@@ -63,6 +63,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'corsheaders.middleware.CorsMiddleware',
+    'django.middleware.csrf.CsrfViewMiddleware',
 ]
 
 ROOT_URLCONF = 'gestaoPecuaria.urls'
@@ -155,7 +156,7 @@ CORS_ALLOWED_ORIGINS = [
 ]
 
 # Se você deseja permitir todas as origens (não recomendado para produção)
-# CORS_ALLOW_ALL_ORIGINS = True
+CORS_ALLOW_ALL_ORIGINS = True
 
 # CSRF Configuration (opcional, dependendo do seu setup)
 CSRF_TRUSTED_ORIGINS = [
@@ -167,7 +168,7 @@ CSRF_TRUSTED_ORIGINS = [
 # Django Rest Framework (DRF) Configuration
 REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': [
-        'rest_framework.permissions.IsAuthenticated',  # AllowAny, IsAuthenticated
+        'rest_framework.permissions.AllowAny',  # AllowAny, IsAuthenticated
     ],
     'DEFAULT_AUTHENTICATION_CLASSES': [
         'rest_framework.authentication.SessionAuthentication',
