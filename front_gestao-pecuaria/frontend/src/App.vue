@@ -1,14 +1,11 @@
 <template>
   <div id="app">
     <nav v-if="isAuthenticated" class="nav-bar">
-      <!-- Container para o dropdown e nome da rota atual -->
       <div class="nav-container">
         <div class="dropdown">
-          <!-- Botão de dropdown com o ícone de menu -->
           <button class="btn dropdown-toggle nav-button" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
             ☰
           </button>
-          <!-- Itens do dropdown -->
           <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
             <li><router-link class="dropdown-item" to="/">Home</router-link></li>
             <li><router-link class="dropdown-item" to="/tela-usuario">Usuário</router-link></li>
@@ -20,15 +17,11 @@
             <li><router-link class="dropdown-item" to="/tela-recomendação">Recomendação</router-link></li>
           </ul>
         </div>
-        <!-- Exibição do nome da rota atual -->
         <span class="current-name">{{ currentName }}</span>
       </div>
 
-      <!-- Container para o nome do usuário e botão de logout -->
       <div class="user-info">
-        <!-- Nome do usuário logado -->
         <span class="user-name">{{ nome }}</span>
-        <!-- Botão de logout -->
         <button class="btn logout-button" @click="confirmLogout">Logout</button>
       </div>
     </nav>
@@ -42,7 +35,7 @@ export default {
   data() {
     return {
       currentName: '',  // Armazena o nome da rota atual
-      nome: 'Usuario',  // Armazena o nome do usuário da sessão
+      nome: 'Usuário',  // Armazena o nome do usuário da sessão
       isAuthenticated: false  // Indica se o usuário está autenticado
     };
   },
@@ -56,7 +49,7 @@ export default {
     // Verifica se o token de autenticação está no localStorage
     this.checkAuthentication();
     // Recupera o nome do usuário do localStorage (ou usa "Usuário" como padrão)
-    this.userName = localStorage.getItem('nome') || 'Usuário';
+    this.nome = localStorage.getItem('nome') || 'Usuário';  // Corrigido para this.nome
     // Verifica a cada 3 segundos se o token de autenticação ainda está presente
     this.authCheckInterval = setInterval(this.checkAuthentication, 3000);
   },
@@ -67,7 +60,7 @@ export default {
   methods: {
     // Verifica se o token de autenticação está no localStorage
     checkAuthentication() {
-      this.isAuthenticated = !!localStorage.getItem('token');
+      this.isAuthenticated = !!localStorage.getItem('token') || sessionStorage.getItem('token');
     },
     // Método para confirmar o logout
     confirmLogout() {
@@ -75,9 +68,11 @@ export default {
         this.logout();
       }
     },
-    // Realiza o logout removendo o token e redirecionando para a página inicial nao usando a rota de logout
+    // Realiza o logout removendo o token e redirecionando para a página inicial
     logout() {
       localStorage.removeItem('token');  // Remove o token
+      localStorage.removeItem('nome');  // Remove o nome do usuário
+      this.nome = 'Usuário';  // Redefine o nome para padrão após logout
       this.checkAuthentication();  // Atualiza o estado de autenticação
       this.$router.push('/');  // Redireciona para a página de login
     }

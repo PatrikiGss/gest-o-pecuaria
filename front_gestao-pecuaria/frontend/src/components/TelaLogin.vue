@@ -17,52 +17,52 @@
     </div>
   </div>
 </template>
-
 <script>
-import axios from 'axios'; // Importa o axios para fazer requisições HTTP
+import api from '@/interceptadorAxios'; // Usa o interceptador configurado
 
 export default {
   data() {
     return {
-      email: '', // Armazena o email do usuário
-      password: ''  // Armazena a senha
+      email: '',
+      password: '',
     };
   },
   methods: {
-    // Método para fazer login do usuário
+    // Método de login do usuário
     async loginUsuario() {
       try {
-        // Faz a requisição de login
-        const response = await axios.post('http://127.0.0.1:8000/autenticacao/token/', {
+        // Faz a requisição de login utilizando o interceptador
+        const response = await api.post('/autenticacao/token/', {
           email: this.email,
-          password: this.password
+          password: this.password,
         });
-        // Verifica se a resposta contém o token de acesso (JWT)
-        const token = response.data.access;  // Pega o token JWT da resposta
 
-        // Se o token estiver presente, salva-o no localStorage
-        if (token) {
-          localStorage.setItem('token', token);  // Salva o token no localStorage
-          alert("Login realizado com sucesso!");  // Alerta de sucesso
-          this.$router.push('/tela-usuario');  // Redireciona para o dashboard ou tela de usuário
+        // Verifica se a resposta foi bem-sucedida e contém o token
+        if (response.status === 200 && response.data.access) {
+          const token = response.data.access;  // Pega o token JWT da resposta
+
+          // Armazena o token no localStorage
+          localStorage.setItem('token', token);
+          alert('Login realizado com sucesso!');
+
+          // Redireciona para a tela de usuário
+          this.$router.push('/tela-usuario');
         } else {
-          alert("Falha ao obter o token de autenticação.");
+          alert('Falha ao obter o token de autenticação.');
         }
       } catch (error) {
-        // Em caso de erro, exibe uma mensagem apropriada
-        console.error("Erro no login:", error);
-        alert("Erro no login. Verifique suas credenciais.");  // Alerta em caso de erro
+        console.error('Erro ao realizar login:', error);
+        alert('Erro no login. Verifique suas credenciais.');
       }
     },
+    
     // Método para redirecionar para a tela de cadastro
     redirectToCadastro() {
-      this.$router.push('/tela-cadastro');  // Redireciona para a tela de cadastro
+      this.$router.push('/tela-cadastro');
     },
   }
 };
 </script>
-
-
 <style scoped>
 .login {
   background-color: rgba(0, 0, 0, 0.9);  /* Cor de fundo escura e semi-transparente */

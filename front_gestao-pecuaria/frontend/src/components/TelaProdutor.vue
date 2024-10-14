@@ -8,7 +8,7 @@
       <h1>{{ editingProdutor ? 'Editar Produtor' : 'Cadastro de Produtores' }}</h1>
       <form @submit.prevent="submitForm" class="producer-form">
         <!-- Campo para o usuário -->
-        <div class="mb-3">
+        <!-- <div class="mb-3">
           <label for="usuario" class="form-label">Usuário</label>
           <select id="usuario" v-model="formData.usuario" class="form-control" required>
             <option disabled value="">Selecione um usuário</option>
@@ -16,7 +16,7 @@
               {{ usuario.nome }}
             </option>
           </select>
-        </div>
+        </div> -->
         <!-- Campo para o CPF -->
         <div class="mb-3">
           <label for="cpf" class="form-label">CPF</label>
@@ -94,7 +94,7 @@ export default {
     return {
       showForm: false,
       formData: {
-        usuario: '',
+        // usuario: '',
         cpf: '',
         nome: '',
         telefone: '',
@@ -137,33 +137,38 @@ export default {
     },
     // Envia o formulário de cadastro ou edição
     async submitForm() {
-      try {
-        if (this.editingProdutor) {
-          // Atualiza o produtor existente
-          const response = await api.put(`/produtores/${this.formData.id}/`, this.formData);
-          if (response.status === 200) {
-            alert('Produtor atualizado com sucesso!');
-            this.fetchProdutores();
-            this.toggleForm();
-          } else {
-            alert('Erro ao atualizar produtor.');
-          }
-        } else {
-          // Cadastra um novo produtor
-          const response = await api.post('/produtores/', this.formData);
-          if (response.status === 201) {
-            alert('Produtor cadastrado com sucesso!');
-            this.produtores.push(response.data);
-            this.toggleForm();
-          } else {
-            alert('Erro ao cadastrar produtor. Tente novamente mais tarde.');
-          }
-        }
-      } catch (error) {
-        console.error('Erro ao enviar requisição:', error);
-        alert('Erro ao enviar requisição. Verifique o console para mais detalhes.');
+  try {
+    const token = localStorage.getItem('token')|| sessionStorage.getItem('token');
+    const config = {
+      headers: {
+        Authorization: `Bearer ${token}`  // Envia o token no cabeçalho de autorização
       }
-    },
+    };
+    if (this.editingProdutor) {
+      const response = await api.put(`/produtores/${this.formData.id}/`, this.formData, config);
+      if (response.status === 200) {
+        alert('Produtor atualizado com sucesso!');
+        this.fetchProdutores();
+        this.toggleForm();
+      } else {
+        alert('Erro ao atualizar produtor.');
+      }
+    } else {
+      // Cadastra um novo produtor
+      const response = await api.post('/produtores/', this.formData, config);
+      if (response.status === 201) {
+        alert('Produtor cadastrado com sucesso!');
+        this.produtores.push(response.data);
+        this.toggleForm();
+      } else {
+        alert('Erro ao cadastrar produtor. Tente novamente mais tarde.');
+      }
+    }
+  } catch (error) {
+    console.error('Erro ao enviar requisição:', error);
+    alert('Erro ao enviar requisição. Verifique o console para mais detalhes.');
+  }
+},
     // Inicia o modo de edição
     startEditing(produtor) {
       this.showForm = true;
