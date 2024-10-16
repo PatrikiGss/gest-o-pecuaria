@@ -13,6 +13,7 @@ import os
 import sys
 from pathlib import Path
 from decouple import config, Csv
+from datetime import timedelta  
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -168,11 +169,22 @@ CSRF_TRUSTED_ORIGINS = [
 # Django Rest Framework (DRF) Configuration
 REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': [
-        'rest_framework.permissions.AllowAny',  # AllowAny, IsAuthenticated
+        'rest_framework.permissions.AllowAny',  # AllowAny  IsAuthenticated
     ],
     'DEFAULT_AUTHENTICATION_CLASSES': [
-        'rest_framework.authentication.SessionAuthentication',
-        'rest_framework.authentication.BasicAuthentication',
-        'rest_framework_simplejwt.authentication.JWTAuthentication',  # JWT Authentication
+        'rest_framework_simplejwt.authentication.JWTAuthentication',  # Foca no JWT
     ],
+}
+SIMPLE_JWT = {
+    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=60),  # O tempo de vida do token de acesso
+    'REFRESH_TOKEN_LIFETIME': timedelta(days=1),  # O tempo de vida do token de refresh
+    'ROTATE_REFRESH_TOKENS': True,  # Gira os tokens de refresh automaticamente
+    'BLACKLIST_AFTER_ROTATION': True,  # Coloca o token antigo na lista negra
+    'ALGORITHM': 'HS256',  # Algoritmo de criptografia
+    'SIGNING_KEY': SECRET_KEY,  # Usa a chave secreta definida anteriormente
+    'AUTH_HEADER_TYPES': ('Bearer',),  # Tipo de cabeçalho de autenticação
+    'TOKEN_USER_CLASS': 'autenticacao.Usuario',  # O modelo de usuário que será autenticado
+    'TOKEN_BLACKLIST_ENABLED': True,  # Habilita o uso de blacklist para tokens
+    'SLIDING_TOKEN_LIFETIME': timedelta(minutes=60),  # Para tokens deslizantes, caso use
+    'SLIDING_TOKEN_REFRESH_LIFETIME': timedelta(days=1),
 }
