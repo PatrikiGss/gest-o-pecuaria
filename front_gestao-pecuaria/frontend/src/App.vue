@@ -1,5 +1,6 @@
 <template>
   <div id="app">
+    <!-- Exibe a navbar se o usuário estiver autenticado -->
     <nav v-if="isAuthenticated" class="nav-bar">
       <div class="nav-container">
         <div class="dropdown">
@@ -21,7 +22,9 @@
       </div>
 
       <div class="user-info">
+        <!-- Exibe o nome do usuário autenticado -->
         <span class="user-name">{{ nome }}</span>
+        <!-- Exibe o botão de logout com funcionalidade de confirmação -->
         <button class="btn logout-button" @click="confirmLogout">Logout</button>
       </div>
     </nav>
@@ -35,8 +38,8 @@ export default {
   data() {
     return {
       currentName: '',  // Armazena o nome da rota atual
-      nome: 'Usuário',  // Armazena o nome do usuário da sessão
-      isAuthenticated: false  // Indica se o usuário está autenticado
+      nome: 'Usuário',  // Nome do usuário logado
+      isAuthenticated: false  // Controle de autenticação
     };
   },
   watch: {
@@ -46,35 +49,36 @@ export default {
     }
   },
   mounted() {
-    // Verifica se o token de autenticação está no localStorage
+    // Verifica a autenticação ao carregar o componente
     this.checkAuthentication();
-    // Recupera o nome do usuário do localStorage (ou usa "Usuário" como padrão)
-    this.nome = localStorage.getItem('nome') || 'Usuário';  // Corrigido para this.nome
-    // Verifica a cada 3 segundos se o token de autenticação ainda está presente
+    // Recupera o nome do usuário do localStorage
+    this.nome = localStorage.getItem('nome_usuario') || 'Usuário';
+    // Revalida a cada 3 segundos para verificar se o token ainda está presente
     this.authCheckInterval = setInterval(this.checkAuthentication, 3000);
   },
   beforeUnmount() {
-    // Limpa o intervalo quando o componente é destruído
+    // Limpa o intervalo quando o componente for destruído
     clearInterval(this.authCheckInterval);
   },
   methods: {
-    // Verifica se o token de autenticação está no localStorage
+    // Verifica se o token de autenticação está presente no localStorage
     checkAuthentication() {
-      this.isAuthenticated = !!localStorage.getItem('token') || sessionStorage.getItem('token');
+      this.isAuthenticated = !!localStorage.getItem('access_token');  // Verifica se o token de acesso existe
     },
-    // Método para confirmar o logout
+    // Lógica para confirmar e realizar o logout
     confirmLogout() {
-      if (window.confirm('Você realmente deseja fazer logout?')) {
-        this.logout();
+      if (confirm("Você deseja encerrar a sessão?")) {
+        this.logoutUsuario();  // Executa o logout se o usuário confirmar
       }
     },
-    // Realiza o logout removendo o token e redirecionando para a página inicial
-    logout() {
-      localStorage.removeItem('token');  // Remove o token
-      localStorage.removeItem('nome');  // Remove o nome do usuário
-      this.nome = 'Usuário';  // Redefine o nome para padrão após logout
-      this.checkAuthentication();  // Atualiza o estado de autenticação
-      this.$router.push('/');  // Redireciona para a página de login
+    // Lógica de logout
+    logoutUsuario() {
+      // Remove o token do localStorage
+      localStorage.removeItem('access_token');
+      localStorage.removeItem('nome_usuario');
+      this.isAuthenticated = false;
+      // Redireciona para a tela de login ou outra rota adequada
+      this.$router.push('/');
     }
   }
 };
@@ -133,7 +137,7 @@ export default {
 /* Botão de logout */
 .logout-button {
   background-color: transparent;
-  color: black !important; /* Força a cor branca no botão de logout */
+  color: black !important; /* Força a cor preta no botão de logout */
   border: none;
   padding: 5px 10px;
   margin-right: 20px;
@@ -141,7 +145,7 @@ export default {
 
 .logout-button:hover {
   background-color: #ff4d4d;
-  color: rgb(32, 22, 22) !important; /* Força a cor branca ao passar o mouse */
+  color: rgb(32, 22, 22) !important; /* Muda a cor ao passar o mouse */
 }
 
 /* Nome da rota atual */
