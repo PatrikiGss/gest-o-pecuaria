@@ -96,7 +96,7 @@
         <div class="container-fluid">
           <!-- Cabeçalho da tabela de recomendações -->
           <div class="row font-weight-bold mb-2">
-            <div class="col-12 col-sm-6 col-md-4 col-lg-2">Análise de Solo</div>
+            <div class="col-12 col-sm-6 col-md-4 col-lg-2">Análise de Solo <p>(laudo)</p></div>
             <div class="col-12 col-sm-6 col-md-4 col-lg-1">Camada de Correção</div>
             <div class="col-12 col-sm-6 col-md-4 col-lg-1">Calcário Calcítico</div>
             <div class="col-12 col-sm-6 col-md-4 col-lg-1">Calcario Dolomitico</div>

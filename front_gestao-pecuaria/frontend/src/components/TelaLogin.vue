@@ -47,6 +47,7 @@ export default {
         if (response.status === 200 && response.data.access && response.data.refresh) {
           const accessToken = response.data.access;
           const refreshToken = response.data.refresh;
+          alert("login realizado com sucesso!");
 
           // Armazena os tokens no localStorage
           localStorage.setItem('access_token', accessToken);
