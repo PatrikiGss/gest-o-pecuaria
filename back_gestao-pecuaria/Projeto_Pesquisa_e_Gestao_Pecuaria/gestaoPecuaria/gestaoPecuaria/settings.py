@@ -24,8 +24,6 @@ sys.path.insert(0, APPS_DIR)
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
-
-# Carregando variáveis de ambiente
 SECRET_KEY = config('SECRET_KEY')
 DEBUG = config('DEBUG', default=False, cast=bool)
 
@@ -151,28 +149,26 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # CORS Headers Configuration
 CORS_ALLOWED_ORIGINS = [
-    "http://localhost:7777",  # Adicione a URL do seu front-end
+    "http://localhost:7777", 
     "http://127.0.0.1:7777",
-    # Adicione outras origens se necessário
+
 ]
 
-# Se você deseja permitir todas as origens (não recomendado para produção)
+
 CORS_ALLOW_ALL_ORIGINS = True
 
-# CSRF Configuration (opcional, dependendo do seu setup)
 CSRF_TRUSTED_ORIGINS = [
     "http://localhost:7777",
     "http://127.0.0.1:7777",
-    # Adicione outras origens se necessário
 ]
 
-# Django Rest Framework (DRF) Configuration
+#DRF Configuration
 REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': [
         'rest_framework.permissions.AllowAny',  # AllowAny  IsAuthenticated
     ],
     'DEFAULT_AUTHENTICATION_CLASSES': [
-        'rest_framework_simplejwt.authentication.JWTAuthentication',  # Foca no JWT
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
     ],
 }
 SIMPLE_JWT = {

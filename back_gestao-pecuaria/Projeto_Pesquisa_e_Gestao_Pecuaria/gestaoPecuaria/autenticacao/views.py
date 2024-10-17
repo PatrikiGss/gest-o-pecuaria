@@ -4,7 +4,6 @@ from rest_framework.response import Response
 from rest_framework.exceptions import NotFound
 from rest_framework.permissions import IsAuthenticated
 from .serializers import UsuarioSerializer, UpdateUsuarioSerializer, GetUsuarioSerializer, ChangePasswordSerializer
-
 from .models import Usuario
 
 # View para registro de novos usuários.

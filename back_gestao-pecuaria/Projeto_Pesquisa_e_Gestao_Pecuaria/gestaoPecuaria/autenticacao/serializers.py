@@ -1,13 +1,12 @@
 from rest_framework import serializers
 from .models import Usuario
 
-# Serializador principal para o modelo Usuario, utilizando todos os campos.
 class UsuarioSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Usuario  # Define o modelo que será utilizado pelo serializador.
-        fields = "__all__"  # Utiliza todos os campos do modelo.
+        model = Usuario 
+        fields = "__all__"  
         extra_kwargs = {
-            'password': {'write_only': True}  # Garante que o campo 'password' seja apenas para escrita e não retornado nas respostas.
+            'password': {'write_only': True}  # Garante q seja apenas para escrita e não retornado nas respostas.
         }
 
     # Método para criar um novo usuário.

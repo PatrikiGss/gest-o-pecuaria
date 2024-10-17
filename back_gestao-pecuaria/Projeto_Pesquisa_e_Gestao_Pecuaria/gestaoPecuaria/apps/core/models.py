@@ -1,10 +1,8 @@
 from django.db import models
-from autenticacao.models import Usuario
+from autenticacao.models import Usuario # pylint: disable=no-member
 
 class Produtor(models.Model):
-    # Relacionamento com Usuario
     usuario = models.ForeignKey(Usuario, on_delete=models.CASCADE)
-    # Definindo os campos do modelo Produtor
     cpf = models.CharField(max_length=11, unique=True)
     nome = models.CharField(max_length=255)
     telefone = models.CharField(max_length=20)
@@ -19,12 +17,8 @@ class Produtor(models.Model):
     def __str__(self):
         return str(self.nome)
 
-###
-
 class Propriedade(models.Model):
-    # Relacionamento com Produtor
     produtor = models.ForeignKey(Produtor, on_delete=models.CASCADE)
-    # Definindo os campos do modelo Propriedade
     nome = models.CharField(max_length=255)
     longitude = models.DecimalField(max_digits=9, decimal_places=6)
     latitude = models.DecimalField(max_digits=9, decimal_places=6)
@@ -41,12 +35,9 @@ class Propriedade(models.Model):
     def __str__(self):
         return str(self.nome)
 
-###
 
 class Laboratorio(models.Model):
-    # Relacionamento com Usuario
     usuario = models.ForeignKey(Usuario, on_delete=models.CASCADE)
-    # Definindo os campos do modelo Laboratorio
     nome = models.CharField(max_length=255)
     endereco = models.CharField(max_length=255)
     cidade = models.CharField(max_length=100)
@@ -63,12 +54,9 @@ class Laboratorio(models.Model):
     def __str__(self):
         return str(self.nome)
 
-###
 
 class Cultura(models.Model):
-    # Relacionamento com Usuario
     usuario = models.ForeignKey(Usuario, on_delete=models.CASCADE)
-    # Definindo os campos do modelo Cultura
     nome = models.CharField(max_length=255)
     
     objects = models.Manager()
@@ -80,14 +68,10 @@ class Cultura(models.Model):
     def __str__(self):
         return str(self.nome)
 
-###
-
 class AnaliseSolo(models.Model):
-    # Relacionamentos com Laboratorio, Propriedade e Cultura
     laboratorio = models.ForeignKey(Laboratorio, on_delete=models.CASCADE)
     propriedade = models.ForeignKey(Propriedade, on_delete=models.CASCADE)
     cultura = models.ForeignKey(Cultura, on_delete=models.CASCADE)
-    # Definindo os campos do modelo AnaliseSolo
     data = models.DateField()
     gleba = models.CharField(max_length=255)
     area = models.DecimalField(max_digits=10, decimal_places=2)
@@ -120,12 +104,8 @@ class AnaliseSolo(models.Model):
     def __str__(self):
         return f"Análise de Solo de {self.propriedade.nome} - {self.data}"  # pylint: disable=no-member
 
-######
-
 class Recomendacao(models.Model):
-    # Relacionamento com AnaliseSolo
     analise_solo = models.ForeignKey(AnaliseSolo, on_delete=models.CASCADE)
-    # Definindo os campos do modelo Recomendacao
     camada_correcao = models.CharField(max_length=255)
     calcario_calcitico = models.DecimalField(max_digits=5, decimal_places=2)
     calcario_dolomitico = models.DecimalField(max_digits=5, decimal_places=2)

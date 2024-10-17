@@ -1,3 +1,4 @@
+from django.forms import ValidationError
 from rest_framework import viewsets
 from django.db import models
 from .models import Usuario,Produtor,Propriedade,Laboratorio,Cultura,AnaliseSolo,Recomendacao 
@@ -10,30 +11,34 @@ class UsuarioViewSet(viewsets.ModelViewSet):
     serializer_class=UsuarioSerializer
     permission_classes = [IsAuthenticated]
     
-    
- 
+
 class ProdutorViewSet(viewsets.ModelViewSet):
+    permission_classes = [IsAuthenticated]
     queryset = Produtor.objects.all()
     serializer_class = ProdutorSerializer
-    permission_classes = [IsAuthenticated]
+
     def get_queryset(self):
+        # Filtra os produtores associados ao usuário logado
         return Produtor.objects.filter(usuario=self.request.user)
+
     def perform_create(self, serializer):
-        serializer.save(usuario=self.request.user) 
+        # Associa o usuário logado ao criar o produtor
+        serializer.save(usuario=self.request.user)
+
+    def perform_update(self, serializer):
+        # Garante que o usuário logado esteja sempre associado ao atualizar o produtor
+        serializer.save(usuario=self.request.user)
+
 
 
 class PropriedadeViewSet(viewsets.ModelViewSet):
+    permission_classes = [IsAuthenticated]
     queryset = Propriedade.objects.all()
     serializer_class = PropriedadeSerializer
-    permission_classes = [IsAuthenticated]
+
     def get_queryset(self):
         return Propriedade.objects.filter(produtor__usuario=self.request.user)
 
-    def perform_create(self, serializer):
-        produtor = Produtor.objects.get(usuario=self.request.user)
-        serializer.save(produtor=produtor)
-
-    
 
 class LaboratorioViewSet(viewsets.ModelViewSet):
     queryset=Laboratorio.objects.all()
@@ -42,6 +47,12 @@ class LaboratorioViewSet(viewsets.ModelViewSet):
     def get_queryset(self):
         return Laboratorio.objects.filter(usuario=self.request.user)
 
+    def perform_create(self, serializer):
+        serializer.save(usuario=self.request.user)
+
+    def perform_update(self, serializer):
+        serializer.save(usuario=self.request.user)
+
 
 class CulturaViewSet(viewsets.ModelViewSet):
     queryset=Cultura.objects.all()
@@ -49,6 +60,12 @@ class CulturaViewSet(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticated]
     def get_queryset(self):
         return Cultura.objects.filter(usuario=self.request.user)
+
+    def perform_create(self, serializer):
+        serializer.save(usuario=self.request.user)
+
+    def perform_update(self, serializer):
+        serializer.save(usuario=self.request.user)
     
 class AnaliseSoloViewSet(viewsets.ModelViewSet):
     queryset=AnaliseSolo.objects.all()
@@ -56,14 +73,6 @@ class AnaliseSoloViewSet(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticated]
     def get_queryset(self):
         return AnaliseSolo.objects.filter(propriedade__produtor__usuario=self.request.user)
-
-    def perform_create(self, serializer):
-        propriedade = Propriedade.objects.filter(produtor__usuario=self.request.user).first()
-        if propriedade:  
-            serializer.save(propriedade=propriedade)
-        else:
-            raise ValueError("este usuario nao possui propriedades cadastradas.")
-    
 
 
 class RecomendacaoViewSet(viewsets.ModelViewSet):
@@ -73,10 +82,4 @@ class RecomendacaoViewSet(viewsets.ModelViewSet):
     def get_queryset(self):
         return Recomendacao.objects.filter(analise_solo__propriedade__produtor__usuario=self.request.user)
 
-    def perform_create(self, serializer):
-        analise_solo = AnaliseSolo.objects.filter(propriedade__produtor__usuario=self.request.user).first()
-        if analise_solo:
-            serializer.save(analise_solo=analise_solo)
-        else:
-            raise ValueError("este usuario nao cadastrou nenhuma analise de solo")
 
