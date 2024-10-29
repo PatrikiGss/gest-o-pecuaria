@@ -10,8 +10,10 @@ class UsuarioViewSet(viewsets.ModelViewSet):
     queryset = Usuario.objects.all()
     serializer_class=UsuarioSerializer
     permission_classes = [IsAuthenticated]
+    def get_queryset(self):
+         return Usuario.objects.filter(id=self.request.user.id)
     
-
+    
 class ProdutorViewSet(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticated]
     queryset = Produtor.objects.all()
