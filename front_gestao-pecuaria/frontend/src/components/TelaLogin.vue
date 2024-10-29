@@ -57,10 +57,12 @@ export default {
           window.location.href = '/tela-usuario';
         } else {
           this.errorMessage = 'Falha ao obter os tokens de autenticação.';
+          window.location.href = '/';
         }
       } catch (error) {
         console.error('Erro ao realizar login:', error);
         this.errorMessage = 'Erro no login. Verifique suas credenciais.';
+        window.location.href = '/';
       }
     },
 

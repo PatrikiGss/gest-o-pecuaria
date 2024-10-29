@@ -48,7 +48,7 @@ Portanto, a utilização de Single File Components (SFCs) é, de fato, a abordag
           <input type="email" class="form-control" id="email" v-model="formData.email" placeholder="name@example.com">
         </div>
         <!-- Campo para a senha -->
-        <div class="mb-3">
+        <div v-if="!editingUser" class="mb-3">
           <label for="password" class="form-label">Senha</label>
           <input type="password" class="form-control" id="password" v-model="formData.password"
             placeholder="Digite sua senha">

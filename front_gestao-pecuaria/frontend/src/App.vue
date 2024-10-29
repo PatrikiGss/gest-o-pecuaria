@@ -15,17 +15,21 @@
             <li><router-link class="dropdown-item" to="/tela-Laboratorio">Laboratório</router-link></li>
             <li><router-link class="dropdown-item" to="/tela-cultura">Cultura</router-link></li>
             <li><router-link class="dropdown-item" to="/tela-analise-solo">Análise Solo</router-link></li>
-            <li><router-link class="dropdown-item" to="/tela-recomendação">Recomendação</router-link></li>
+            <li><router-link class="dropdown-item" to="/tela-recomendacoes">Recomendação</router-link></li>
           </ul>
         </div>
         <span class="current-name">{{ currentName }}</span>
       </div>
-
       <div class="user-info">
-        <!-- Exibe o nome do usuário autenticado -->
-        <span class="user-name">{{ nome }}</span>
-        <!-- Exibe o botão de logout com funcionalidade de confirmação -->
-        <button class="btn logout-button" @click="confirmLogout">Logout</button>
+        <div class="dropdown">
+          <button class="btn dropdown-toggle logout-button user-name" type="button" id="logoutDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+            <span class="user-name">{{ nome }}</span> 
+          </button>
+          <ul class="dropdown-menu" aria-labelledby="logoutDropdown">
+            <li><button class="dropdown-item" @click="confirmLogout">Logout</button></li>
+            <li><button class="dropdown-item" @click="changepassword">Alterar Senha</button></li>
+          </ul>
+        </div>
       </div>
     </nav>
     <router-view />
@@ -37,9 +41,9 @@ export default {
   name: 'App',
   data() {
     return {
-      currentName: '',  // Armazena o nome da rota atual
-      nome: 'Usuário',  // Nome do usuário logado
-      isAuthenticated: false  // Controle de autenticação
+      currentName: '',
+      nome: 'Usuário',
+      isAuthenticated: false
     };
   },
   watch: {
@@ -49,36 +53,30 @@ export default {
     }
   },
   mounted() {
-    // Verifica a autenticação ao carregar o componente
     this.checkAuthentication();
-    // Recupera o nome do usuário do localStorage
     this.nome = localStorage.getItem('nome_usuario') || 'Usuário';
-    // Revalida a cada 3 segundos para verificar se o token ainda está presente
     this.authCheckInterval = setInterval(this.checkAuthentication, 3000);
   },
   beforeUnmount() {
-    // Limpa o intervalo quando o componente for destruído
     clearInterval(this.authCheckInterval);
   },
   methods: {
-    // Verifica se o token de autenticação está presente no localStorage
     checkAuthentication() {
-      this.isAuthenticated = !!localStorage.getItem('access_token');  // Verifica se o token de acesso existe
+      this.isAuthenticated = !!localStorage.getItem('access_token');  
     },
-    // Lógica para confirmar e realizar o logout
     confirmLogout() {
       if (confirm("Você deseja encerrar a sessão?")) {
-        this.logoutUsuario();  // Executa o logout se o usuário confirmar
+        this.logoutUsuario(); 
       }
     },
-    // Lógica de logout
     logoutUsuario() {
-      // Remove o token do localStorage
       localStorage.removeItem('access_token');
       localStorage.removeItem('nome_usuario');
       this.isAuthenticated = false;
-      // Redireciona para a tela de login ou outra rota adequada
       this.$router.push('/');
+    },
+    changepassword(){
+      this.$router.push('/tela-edicao');
     }
   }
 };
@@ -130,7 +128,7 @@ export default {
 /* Nome do usuário */
 .user-name {
   margin-right: 10px;
-  color: white;
+  color: white; /* Cor branca para o nome do usuário */
   font-weight: bold;
 }
 
