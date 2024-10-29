@@ -18,15 +18,12 @@ class ProdutorViewSet(viewsets.ModelViewSet):
     serializer_class = ProdutorSerializer
 
     def get_queryset(self):
-        # Filtra os produtores associados ao usuário logado
         return Produtor.objects.filter(usuario=self.request.user)
 
     def perform_create(self, serializer):
-        # Associa o usuário logado ao criar o produtor
         serializer.save(usuario=self.request.user)
 
     def perform_update(self, serializer):
-        # Garante que o usuário logado esteja sempre associado ao atualizar o produtor
         serializer.save(usuario=self.request.user)
 
 
