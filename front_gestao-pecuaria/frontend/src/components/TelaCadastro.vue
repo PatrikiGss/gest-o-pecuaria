@@ -1,8 +1,6 @@
 <template>
     <div class="container-fluid">
-      <!-- Título da página -->
       <h1>Cadastro de Usuário</h1>
-      <!-- Formulário de cadastro de usuários -->
       <div class="form-container">
         <form @submit.prevent="submitForm" class="user-form">
           <!-- Campo para o nome -->
@@ -37,9 +35,9 @@
           </div>
           <!-- Botões para enviar ou voltar -->
           <div class="button-group">
-            <button type="button" class="btn-submit" @click="goBack">Voltar</button> <!-- Botão "Voltar" com redirecionamento -->
-            <span style="margin-right: 10px;"></span> <!-- Espaço entre os botões -->
-            <button type="submit" class="btn-submit">Enviar</button> <!-- Botão "Enviar" -->
+            <button type="button" class="btn-submit" @click="goBack">Voltar</button>
+            <span style="margin-right: 10px;"></span> 
+            <button type="submit" class="btn-submit">Enviar</button> 
           </div>
         </form>
       </div>
@@ -47,12 +45,12 @@
   </template>
   
   <script>
-  import axios from 'axios'; // Para enviar requisições HTTP
+  import axios from 'axios'; 
   
   export default {
     data() {
       return {
-        formData: { // Dados do formulário de usuário
+        formData: { 
           nome: '',
           email: '',
           telefone: '',
@@ -63,14 +61,12 @@
       };
     },
     methods: {
-      // Método para enviar o formulário de cadastro
       async submitForm() {
   try {
-    // Envia os dados do formulário para a rota de signup
     const response = await axios.post('http://127.0.0.1:8000/autenticacao/signup/', this.formData);
     if (response.status === 201 || response.status === 200) {
     alert('Cadastro realizado com sucesso!');
-    this.$router.push('/');  // Redireciona para a tela de login após o cadastro
+    this.$router.push('/'); 
 } else {
     alert('Erro ao cadastrar usuário. Tente novamente mais tarde.');
 }
@@ -79,9 +75,8 @@
     alert('Erro ao enviar requisição. Verifique o console para mais detalhes.');
   }
 },
-      // Método para voltar à tela inicial
       goBack() {
-        this.$router.push('/'); // Redireciona para a tela inicial
+        this.$router.push('/'); 
       },
       clearForm() {
         this.formData = {

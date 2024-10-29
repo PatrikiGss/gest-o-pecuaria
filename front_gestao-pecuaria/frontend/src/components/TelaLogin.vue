@@ -20,30 +20,26 @@
 
 
 <script>
-import api from '@/interceptadorAxios'; // Usa o interceptador configurado
+import api from '@/interceptadorAxios'; 
 
 export default {
   data() {
     return {
       email: '',
       password: '',
-      passwordType: 'password', // Controle de visibilidade da senha
-      errorMessage: '', // Mensagem de erro para o usuário
+      passwordType: 'password', 
+      errorMessage: '', 
     };
   },
   methods: {
-    // Método de login do usuário
     async loginUsuario() {
-      this.errorMessage = ''; // Limpa a mensagem de erro antes do login
-
+      this.errorMessage = ''; 
       try {
-        // Faz a requisição de login utilizando o interceptador
         const response = await api.post('/autenticacao/token/', {
           email: this.email,
           password: this.password,
         });
 
-        // Verifica se a resposta foi bem-sucedida e contém os tokens
         if (response.status === 200 && response.data.access && response.data.refresh) {
           const accessToken = response.data.access;
           const refreshToken = response.data.refresh;
@@ -53,11 +49,10 @@ export default {
           localStorage.setItem('access_token', accessToken);
           localStorage.setItem('refresh_token', refreshToken);
 
-          // Busca e armazena o nome do usuário
           const nomeUsuario = await this.obterNomeUsuario();
           localStorage.setItem('nome_usuario', nomeUsuario);
 
-          // Redireciona para a tela de usuário
+          
           this.$router.push('/tela-usuario');
           window.location.href = '/tela-usuario';
         } else {
@@ -94,78 +89,76 @@ export default {
 </script>
 
 <style scoped>
-/* Mantemos o CSS original, garantindo que a aparência não seja alterada */
 .login {
-  background-color: rgba(0, 0, 0, 0.9);  /* Cor de fundo escura e semi-transparente */
-  position: absolute;  /* Posiciona o login de forma absoluta */
-  top: 50%;  /* Centraliza verticalmente */
-  left: 50%;  /* Centraliza horizontalmente */
-  transform: translate(-50%, -50%);  /* Ajusta o centro da caixa */
-  padding: 80px;  /* Adiciona espaço interno */
-  border-radius: 20px;  /* Bordas arredondadas */
-  color: white;  /* Cor do texto */
+  background-color: rgba(0, 0, 0, 0.9);  
+  position: absolute; 
+  top: 50%; 
+  left: 50%;  
+  transform: translate(-50%, -50%);  
+  padding: 80px;  
+  border-radius: 20px;  
+  color: white;  
 }
 .input {
   padding: 15px;
   border: none;
   font-size: 15px;
   border-radius: 10px;
-  width: 100%; /* Certifica-se que os inputs ocupem toda a largura */
-  margin-bottom: 20px; /* Adiciona espaçamento inferior para melhor alinhamento */
-  box-sizing: border-box; /* Inclui padding e borda no cálculo da largura */
+  width: 100%;
+  margin-bottom: 20px;
+  box-sizing: border-box;
 }
 
 .toggle-password {
-  position: absolute; /* Coloca o ícone no campo de senha de forma relativa */
-  margin-left: -30px; /* Ajusta o ícone dentro do campo */
+  position: absolute;
+  margin-left: -30px;
   cursor: pointer;
 }
 
 .login input[type="text"],
 .login input[type="password"] {
-  width: calc(100% - 40px); /* Ajusta a largura dos inputs levando em conta o ícone de senha */
-  padding-right: 40px; /* Adiciona espaço à direita para o ícone */
+  width: calc(100% - 40px);
+  padding-right: 40px;
 }
 .envio {
-  text-align: left;  /* Alinha texto à esquerda */
-  margin-bottom: 20px;  /* Espaço inferior */
+  text-align: left;
+  margin-bottom: 20px;
 }
 .btn-envio {
-  background-color: #237837;  /* Cor de fundo do botão de envio */
-  border: none;  /* Remove a borda do botão */
-  padding: 15px;  /* Espaço interno do botão */
-  width: 100%;  /* Largura total */
-  border-radius: 10px;  /* Bordas arredondadas */
-  font-size: 15px;  /* Tamanho da fonte */
-  cursor: pointer;  /* Cursor como ponteiro */
+  background-color: #237837;
+  border: none;
+  padding: 15px;
+  width: 100%;
+  border-radius: 10px;
+  font-size: 15px;
+  cursor: pointer;
 }
 .cadastro {
-  text-align: left;  /* Alinha texto à esquerda */
-  margin-bottom: 20px;  /* Espaço inferior */
+  text-align: left;
+  margin-bottom: 20px;
 }
 .btn-cadastro {
-  background-color: transparent;  /* Remove o fundo do botão */
-  color: white;  /* Cor do texto */
-  border: none;  /* Remove a borda do botão */
-  width: 100%;  /* Largura total */
-  font-size: 15px;  /* Tamanho da fonte */
-  cursor: pointer;  /* Cursor como ponteiro */
+  background-color: transparent;
+  color: white;
+  border: none;
+  width: 100%;
+  font-size: 15px;
+  cursor: pointer;
 }
 .btn-cadastro:hover {
-  color: #ddd;  /* Muda a cor do texto no hover */
+  color: #ddd;
 }
 .btn-envio:hover {
-  background-color: #218838;  /* Muda a cor de fundo no hover */
+  background-color: #218838;
 }
 
-/* Estilização do ícone de visibilidade da senha */
 .toggle-password {
   cursor: pointer;
   margin-left: 10px;
 }
 
 .error-message {
-  color: red; /* Cor da mensagem de erro */
+  color: red;
   margin-top: 10px;
   font-size: 14px;
 }

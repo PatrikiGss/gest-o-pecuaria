@@ -187,14 +187,13 @@ export default {
     },
     // Método para editar um usuário
     editUser(usuario) {
-      this.editingUser = usuario.id; // Armazena o ID do usuário que está sendo editado
-      this.formData = { ...usuario }; // Preenche o formulário com os dados do usuário
-      this.formData.password = ''; // Limpa o campo de senha
-      this.showForm = true; // Exibe o formulário para edição
-    },
+  this.editingUser = usuario.id; // Armazena o ID do usuário que está sendo editado
+  this.formData = { ...usuario }; // Preenche o formulário com os dados do usuário
+  this.formData.password = usuario.password; // Carrega a senha atual no campo senha
+  this.showForm = true; // Exibe o formulário para edição
+},
     // Método para limpar o formulário
     clearForm() {
-      // Limpa os dados do formulário
       this.formData = {
         nome: '',
         email: '',

@@ -106,18 +106,15 @@ export default {
     };
   },
   methods: {
-    // Alterna a exibição do formulário e reseta os dados
     toggleForm() {
       this.showForm = !this.showForm;
       this.editingProdutor = false;
       this.formData = { usuario: '', cpf: '', nome: '', telefone: '', email: '' };
     },
-    // Obtém o nome do usuário a partir do ID
     getUsuarioNome(usuarioId) {
       const usuario = this.usuarios.find(u => u.id === usuarioId);
       return usuario ? usuario.nome : 'Desconhecido';
     },
-    // Busca todos os produtores
     async fetchProdutores() {
       try {
         const response = await api.get('/produtores/');
@@ -126,7 +123,6 @@ export default {
         console.error('Erro ao buscar produtores:', error);
       }
     },
-    // Busca todos os usuários
     async fetchUsuarios() {
       try {
         const response = await api.get('/usuarios/');
@@ -135,7 +131,6 @@ export default {
         console.error('Erro ao buscar usuários:', error);
       }
     },
-    // Envia o formulário de cadastro ou edição
     async submitForm() {
   try {
     const token = localStorage.getItem('token')|| sessionStorage.getItem('token');

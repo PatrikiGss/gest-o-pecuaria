@@ -307,15 +307,14 @@ export default {
       propriedades: [],
       culturas: [],
       showForm: false,
-      showDetail: false, // Novo: controla a exibição dos detalhes
+      showDetail: false, 
       editingSolo: false,
-      selectedSolo: null, // Novo: armazena a análise de solo selecionada para detalhes
+      selectedSolo: null,
     };
   },
   methods: {
-    // Exibe os detalhes da análise de solo selecionada
     viewDetails(analisesolo) {
-      this.selectedSolo = analisesolo; // Armazena a análise selecionada
+      this.selectedSolo = analisesolo; 
       this.showDetail = true; // Exibe os detalhes
     },
     // Alterna a exibição do formulário e reseta os dados
@@ -462,7 +461,7 @@ export default {
 </script>
 
 
-<!---->
+<!-------------------------------------------------------------------------------------------------------------------->
 
 
 <style scoped>
@@ -601,7 +600,6 @@ export default {
 .form-container select {
   width: 100%;
   box-sizing: border-box;
-  /* Inclui padding e border na largura total */
 }
 
 /* Certifica-se de que os campos de formulário ocupem o máximo de espaço horizontal */
