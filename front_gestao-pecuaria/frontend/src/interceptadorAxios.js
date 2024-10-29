@@ -85,12 +85,12 @@ api.interceptors.response.use(
         isRefreshing = false;
         onRefreshed(response.data.access); // Notifica as requisições pendentes que o token foi renovado
 
-        return api(originalRequest); // Refaz a requisição original com o novo token
+        return api(originalRequest); 
       } catch (err) {
         isRefreshing = false;
-        localStorage.clear(); // Limpa os tokens do localStorage
+        localStorage.clear(); 
         alert('Sua sessão expirou. Por favor, faça login novamente.');
-        router.push({ name: 'login' }); // Redireciona para o login se a renovação falhar
+        router.push('/'); 
       }
     }
 

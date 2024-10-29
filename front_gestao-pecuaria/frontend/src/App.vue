@@ -1,6 +1,5 @@
 <template>
   <div id="app">
-    <!-- Exibe a navbar se o usuário estiver autenticado -->
     <nav v-if="isAuthenticated" class="nav-bar">
       <div class="nav-container">
         <div class="dropdown">
@@ -47,7 +46,6 @@ export default {
     };
   },
   watch: {
-    // Atualiza o nome da rota quando a rota muda
     $route(to) {
       this.currentName = to.name;
     }
