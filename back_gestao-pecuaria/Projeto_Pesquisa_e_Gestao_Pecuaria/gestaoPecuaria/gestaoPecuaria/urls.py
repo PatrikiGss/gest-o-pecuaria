@@ -19,6 +19,6 @@ from django.urls import path,include
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', include('core.urls', namespace='core')),  # Rotas do app 'core'
-    path('autenticacao/', include('autenticacao.urls', namespace='autenticacao')),  # Rotas do app 'autenticacao'
+    path('', include('core.urls', namespace='core')),
+    path('autenticacao/', include('autenticacao.urls', namespace='autenticacao')),
 ]

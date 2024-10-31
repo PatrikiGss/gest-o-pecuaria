@@ -6,16 +6,6 @@
     <div v-if="showForm" class="form-container">
       <h1>{{ editingcultura ? 'Editar Cultura' : 'Cadastrar Cultura' }}</h1>
       <form @submit.prevent="submitForm" class="cultura-form">
-        <!-- Campo para o usuário -->
-        <div class="mb-3">
-          <label for="usuario" class="form-label">Usuário</label>
-          <select id="usuario" v-model="formData.usuario" class="form-control" required>
-            <option disabled value="">Selecione um usuário</option>
-            <option v-for="usuario in usuarios" :key="usuario.id" :value="usuario.id">
-              {{ usuario.nome }}
-            </option>
-          </select>
-        </div>
         <!-- Campo para o Nome -->
         <div class="mb-3">
           <label for="nome" class="form-label">Nome</label>
@@ -74,7 +64,6 @@ export default {
   data() {
     return {
       formData: {
-        usuario: null,
         nome: '',
       },
       usuarios: [],
@@ -116,9 +105,15 @@ export default {
     // Submete o formulário para cadastro ou edição
     async submitForm() {
       try {
+    const token = localStorage.getItem('token')|| sessionStorage.getItem('token');
+    const config = {
+      headers: {
+        Authorization: `Bearer ${token}`  // Envia o token no cabeçalho de autorização
+      }
+    };
         if (this.editingcultura) {
           // Atualiza o laboratório existente
-          const response = await api.put(`/culturas/${this.formData.id}/`, this.formData);
+          const response = await api.put(`/culturas/${this.formData.id}/`, this.formData, this.formData, config);
           if (response.status === 200) {
             alert('cultura atualizado com sucesso!');
             this.fetchculturas();
@@ -128,7 +123,7 @@ export default {
           }
         } else {
           // Cadastra um novo laboratório
-          const response = await api.post('/culturas/', this.formData);
+          const response = await api.post('/culturas/', this.formData, this.formData, config);
           if (response.status === 201) {
             alert('cultura cadastrada com sucesso!');
             this.culturas.push(response.data);

@@ -1,104 +1,167 @@
 <template>
   <div class="login">
     <h1>Login</h1>
-    <!-- Campo de entrada para o nome de usuário -->
     <input class="input" v-model="email" type="text" placeholder="email">
-    <br><h1></h1>
-    <!-- Campo de entrada para a senha -->
-    <input class="input" v-model="password" type="password" placeholder="Password">
-    <br><h1></h1>
+    <br>
+    <input class="input" v-model="password" :type="passwordType" placeholder="Password">
+    <span class="toggle-password" @click="togglePasswordVisibility">
+      <i :class="passwordType === 'password' ? 'fas fa-eye' : 'fas fa-eye-slash'"></i>
+    </span>
+    <br>
+    <div v-if="errorMessage" class="error-message">{{ errorMessage }}</div>
     <div class="cadastro">
-      <!-- Botão para abrir o formulário de cadastro -->
       <button class="btn-cadastro" @click="redirectToCadastro">cadastre-se</button>
     </div>
     <div class="envio">
-      <!-- Botão para enviar os dados de login -->
       <button class="btn-envio" @click="loginUsuario">enviar</button>
     </div>
   </div>
 </template>
 
+
 <script>
-import axios from 'axios'; // Importa o axios para fazer requisições HTTP
+import api from '@/interceptadorAxios'; 
 
 export default {
   data() {
     return {
-      email: '', // Armazena o nome de usuário
-      password: ''  // Armazena a senha
+      email: '',
+      password: '',
+      passwordType: 'password', 
+      errorMessage: '', 
     };
   },
   methods: {
-    // Método para fazer login do usuário
     async loginUsuario() {
+      this.errorMessage = ''; 
       try {
-        // Faz a requisição de login
-        const response = await axios.post('http://127.0.0.1:8000/autenticacao/token/', {
+        const response = await api.post('/autenticacao/token/', {
           email: this.email,
-          password: this.password
+          password: this.password,
         });
-        const token = response.data.access;  // Pega o token JWT da resposta
-        localStorage.setItem('token', token);  // Salva o token no localStorage
-        alert("Login realizado com sucesso!");  // Alerta de sucesso
-        this.$router.push('/tela-usuario');  // Redireciona para o dashboard
+
+        if (response.status === 200 && response.data.access && response.data.refresh) {
+          const accessToken = response.data.access;
+          const refreshToken = response.data.refresh;
+          alert("login realizado com sucesso!");
+
+          // Armazena os tokens no localStorage
+          localStorage.setItem('access_token', accessToken);
+          localStorage.setItem('refresh_token', refreshToken);
+
+          const nomeUsuario = await this.obterNomeUsuario();
+          localStorage.setItem('nome_usuario', nomeUsuario);
+
+          
+          this.$router.push('/tela-usuario');
+          window.location.href = '/tela-usuario';
+        } else {
+          this.errorMessage = 'Falha ao obter os tokens de autenticação.';
+          window.location.href = '/';
+        }
       } catch (error) {
-        alert("Erro no login. Verifique suas credenciais.");  // Alerta em caso de erro
+        console.error('Erro ao realizar login:', error);
+        this.errorMessage = 'Erro no login. Verifique suas credenciais.';
+        window.location.href = '/';
       }
     },
+
+    // Método para buscar o nome do usuário logado
+    async obterNomeUsuario() {
+      try {
+        const response = await api.get('/autenticacao/meuperfil/');
+        return response.data.nome || 'Usuário';
+      } catch (error) {
+        console.error('Erro ao obter dados do usuário:', error);
+        return 'Usuário';
+      }
+    },
+
     // Método para redirecionar para a tela de cadastro
     redirectToCadastro() {
-      this.$router.push('/tela-cadastro');  // Redireciona para a tela de cadastro
+      this.$router.push('/tela-cadastro');
     },
+
+    // Alterna a visibilidade da senha
+    togglePasswordVisibility() {
+      this.passwordType = this.passwordType === 'password' ? 'text' : 'password';
+    }
   }
 };
 </script>
 
 <style scoped>
 .login {
-  background-color: rgba(0, 0, 0, 0.9);  /* Cor de fundo escura e semi-transparente */
-  position: absolute;  /* Posiciona o login de forma absoluta */
-  top: 50%;  /* Centraliza verticalmente */
-  left: 50%;  /* Centraliza horizontalmente */
-  transform: translate(-50%, -50%);  /* Ajusta o centro da caixa */
-  padding: 80px;  /* Adiciona espaço interno */
-  border-radius: 20px;  /* Bordas arredondadas */
-  color: white;  /* Cor do texto */
+  background-color: rgba(0, 0, 0, 0.9);  
+  position: absolute; 
+  top: 50%; 
+  left: 50%;  
+  transform: translate(-50%, -50%);  
+  padding: 80px;  
+  border-radius: 20px;  
+  color: white;  
 }
 .input {
-  padding: 15px;  /* Espaço interno nos campos de entrada */
-  border: none;  /* Remove a borda padrão */
-  font-size: 15px;  /* Tamanho da fonte */
-  border-radius: 10px;  /* Bordas arredondadas nos campos de entrada */
+  padding: 15px;
+  border: none;
+  font-size: 15px;
+  border-radius: 10px;
+  width: 100%;
+  margin-bottom: 20px;
+  box-sizing: border-box;
+}
+
+.toggle-password {
+  position: absolute;
+  margin-left: -30px;
+  cursor: pointer;
+}
+
+.login input[type="text"],
+.login input[type="password"] {
+  width: calc(100% - 40px);
+  padding-right: 40px;
 }
 .envio {
-  text-align: left;  /* Alinha texto à esquerda */
-  margin-bottom: 20px;  /* Espaço inferior */
+  text-align: left;
+  margin-bottom: 20px;
 }
 .btn-envio {
-  background-color: #237837;  /* Cor de fundo do botão de envio */
-  border: none;  /* Remove a borda do botão */
-  padding: 15px;  /* Espaço interno do botão */
-  width: 100%;  /* Largura total */
-  border-radius: 10px;  /* Bordas arredondadas */
-  font-size: 15px;  /* Tamanho da fonte */
-  cursor: pointer;  /* Cursor como ponteiro */
+  background-color: #237837;
+  border: none;
+  padding: 15px;
+  width: 100%;
+  border-radius: 10px;
+  font-size: 15px;
+  cursor: pointer;
 }
 .cadastro {
-  text-align: left;  /* Alinha texto à esquerda */
-  margin-bottom: 20px;  /* Espaço inferior */
+  text-align: left;
+  margin-bottom: 20px;
 }
 .btn-cadastro {
-  background-color: transparent;  /* Remove o fundo do botão */
-  color: white;  /* Cor do texto */
-  border: none;  /* Remove a borda do botão */
-  width: 100%;  /* Largura total */
-  font-size: 15px;  /* Tamanho da fonte */
-  cursor: pointer;  /* Cursor como ponteiro */
+  background-color: transparent;
+  color: white;
+  border: none;
+  width: 100%;
+  font-size: 15px;
+  cursor: pointer;
 }
 .btn-cadastro:hover {
-  color: #ddd;  /* Muda a cor do texto no hover */
+  color: #ddd;
 }
 .btn-envio:hover {
-  background-color: #218838;  /* Muda a cor de fundo no hover */
+  background-color: #218838;
+}
+
+.toggle-password {
+  cursor: pointer;
+  margin-left: 10px;
+}
+
+.error-message {
+  color: red;
+  margin-top: 10px;
+  font-size: 14px;
 }
 </style>

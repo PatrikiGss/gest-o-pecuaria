@@ -73,21 +73,21 @@
             <div class="col-12 col-sm-6 col-md-4 col-lg-2">Produtor</div>
             <div class="col-12 col-sm-6 col-md-4 col-lg-2">Nome</div>
             <div class="col-12 col-sm-6 col-md-4 col-lg-2">Endereço</div>
-            <div class="col-12 col-sm-6 col-md-4 col-lg-2">Cidade</div>
+            <div class="col-12 col-sm-6 col-md-4 col-lg-1">Cidade</div>
             <div class="col-12 col-sm-6 col-md-4 col-lg-1">Latitude</div>
             <div class="col-12 col-sm-6 col-md-4 col-lg-1">Longitude</div>
             <div class="col-12 col-sm-6 col-md-4 col-lg-1">Estado</div>
-            <div class="col-12 col-sm-6 col-md-4 col-lg-1">Ação</div>
+            <div class="col-12 col-sm-6 col-md-4 col-lg-2">Ação</div>
           </div>
           <div v-for="propriedade in propriedades" :key="propriedade.id" class="row user-info mb-2">
             <div class="col-12 col-sm-6 col-md-4 col-lg-2">{{ getProdutorNome(propriedade.produtor) }}</div>
             <div class="col-12 col-sm-6 col-md-4 col-lg-2">{{ propriedade.nome }}</div>
             <div class="col-12 col-sm-6 col-md-4 col-lg-2">{{ propriedade.endereco }}</div>
-            <div class="col-12 col-sm-6 col-md-4 col-lg-2">{{ propriedade.cidade }}</div>
+            <div class="col-12 col-sm-6 col-md-4 col-lg-1">{{ propriedade.cidade }}</div>
             <div class="col-12 col-sm-6 col-md-4 col-lg-1">{{ propriedade.latitude }}</div>
             <div class="col-12 col-sm-6 col-md-4 col-lg-1">{{ propriedade.longitude }}</div>
             <div class="col-12 col-sm-6 col-md-4 col-lg-1">{{ propriedade.estado }}</div>
-            <div class="col-12 col-sm-6 col-md-4 col-lg-1">
+            <div class="col-12 col-sm-6 col-md-4 col-lg-2">
               <button @click="startEditing(propriedade)" class="btn-edit">🖊️</button>
               <button @click="deletePropriedade(propriedade.id)" class="btn-delete">🗑️</button>
             </div>

@@ -1,6 +1,19 @@
 # Serviços / Contêiners
 services:
 
+  # Contêiner do Banco de Dados
+  psql:
+    container_name: psql
+    image: postgres:13-alpine #imagem pré-pronta do postgres.
+    networks:
+      - rede_pecuaria #rede de comunicação do contêiner.
+    volumes:
+      - ./back_gestao-pecuaria/data/postgres/data:/var/lib/postgresql/data
+    env_file:
+      - ./back_gestao-pecuaria/.env
+    ports:
+      - "5432:5432"
+
   # Contêiner do Backend
   web_backend:
     container_name: gestao-pecuaria-web_backend
@@ -8,7 +21,7 @@ services:
       context: .
       dockerfile: ./back_gestao-pecuaria/Dockerfile.backend
     networks:
-      - rede_pecuaria
+      - rede_pecuaria #rede de comunicação do contêiner.
     ports:
       - "8000:8000"
     volumes:
@@ -17,10 +30,10 @@ services:
       - ./back_gestao-pecuaria/data/web/media:/back_gestao-pecuaria/data/web/media
     env_file:
       - ./back_gestao-pecuaria/.env
-    depends_on:
+    depends_on: #configuração de hierarquia para o serviço ficar disponível.
       - psql
-    user: "1000:1000" 
-    command: ["sh", "-c", "/scripts/commands.sh"]
+    user: "${UID}:${GID}" #permissão de usuário.
+    command: ["sh", "-c", "/scripts/commands.sh"] #comando de inicialização do container.
     
   # Container do Frontend
   web_frontend:
@@ -28,32 +41,18 @@ services:
     build: 
       context: .
       dockerfile: ./front_gestao-pecuaria/Dockerfile.frontend
-
     networks:
-      - rede_pecuaria
+      - rede_pecuaria #rede de comunicação do contêiner.
     ports:
       - "8080:8080"
     volumes:
       - ./front_gestao-pecuaria/frontend:/front_gestao-pecuaria/frontend
     env_file:
       - ./front_gestao-pecuaria/frontend/.env
-    depends_on:
+    depends_on: #configuração de hierarquia para o serviço ficar disponível.
       - psql
       - web_backend
-    command: ["yarn", "dev"]
-
-  # Contêiner do Banco de Dados
-  psql:
-    container_name: psql
-    image: postgres:13-alpine
-    networks:
-      - rede_pecuaria
-    volumes:
-      - ./back_gestao-pecuaria/data/postgres/data:/var/lib/postgresql/data
-    env_file:
-      - ./back_gestao-pecuaria/.env
-    ports:
-      - "5432:5432"
+    command: ["yarn", "serve"] #comando de inicialização do container.
 
 # Rede de comunicação entre os contêiners.
 networks:

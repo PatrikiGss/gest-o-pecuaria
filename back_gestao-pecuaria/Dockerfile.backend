@@ -9,6 +9,7 @@ WORKDIR /Projeto_Pesquisa_e_Gestão_Pecuaria
 
 # Cópia do código do projeto e scripts
 COPY ./back_gestao-pecuaria/Projeto_Pesquisa_e_Gestao_Pecuaria/gestaoPecuaria /Projeto_Pesquisa_e_Gestão_Pecuaria/
+COPY ./back_gestao-pecuaria/Projeto_Pesquisa_e_Gestao_Pecuaria/gestaoPecuaria/staticfiles /Projeto_Pesquisa_e_Gestão_Pecuaria/
 COPY ./back_gestao-pecuaria/scripts /scripts 
 
 # Expor a porta 8000
@@ -19,7 +20,7 @@ RUN python -m venv /venv && \
     /venv/bin/pip install --upgrade pip && \
     /venv/bin/pip install -r /Projeto_Pesquisa_e_Gestão_Pecuaria/requirements.txt
 
-# Ajuste do PATH / Verificar a rota!
+# Ajuste do PATH!
 ENV PATH="/scripts:/venv/bin:$PATH"
 
 # Instalação do cliente do PostgreSQL
@@ -31,13 +32,19 @@ RUN addgroup -g 1000 duser && \
 
 # Cria diretórios e ajusta permissões
 RUN mkdir -p /Projeto_Pesquisa_e_Gestão_Pecuaria/data/web/static/admin /Projeto_Pesquisa_e_Gestão_Pecuaria/data/web/media && \
+   # mkdir -p /Projeto_Pesquisa_e_Gestão_Pecuaria/static && \
     chown -R duser:duser /Projeto_Pesquisa_e_Gestão_Pecuaria/data/web && \
-    chmod -R 755 /Projeto_Pesquisa_e_Gestão_Pecuaria/data/web
+    # chmod -R 775 /Projeto_Pesquisa_e_Gestão_Pecuaria/static && \
+    chmod -R 755 /Projeto_Pesquisa_e_Gestão_Pecuaria/data/web  
+   
+RUN mkdir -p /Projeto_Pesquisa_e_Gestão_Pecuaria/static && \
+    chown -R duser:duser /Projeto_Pesquisa_e_Gestão_Pecuaria/static && \
+    chmod -R 775 /Projeto_Pesquisa_e_Gestão_Pecuaria/static
 
 RUN mkdir -p /data/web/static /data/web/media && \
     chown -R duser:duser /data && \
     chmod -R 755 /data
-    
+
 RUN chmod -R +x /scripts
 
 RUN mkdir /Projeto_Pesquisa_e_Gestão_Pecuaria/apps/core/migrations

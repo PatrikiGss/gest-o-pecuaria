@@ -6,10 +6,9 @@ import TelaPropriedade from '@/components/TelaPropriedade.vue'
 import TelaLaboratorio from '@/components/TelaLaboratorio.vue'
 import TelaCultura from '@/components/TelaCultura.vue'
 import TelaAnaliseSolo from '../components/TelaAnaliseSolo.vue'
-import TelaRecomendações from '@/components/TelaRecomendações.vue'
+import TelaRecomendacoes from '@/components/TelaRecomendacoes.vue'
 import TelaCadastro from '@/components/TelaCadastro.vue'
-
-
+import TelaEdicaoSenha from '@/components/TelaEdiçaoSenha.vue'
 
 const routes = [
   {
@@ -19,44 +18,49 @@ const routes = [
   },
   {
     path: '/tela-usuario',
-    name: 'Usuario',
+    name: 'usuario',
     component: TelaUsuario
   },
   {
     path: '/tela-produtor',
-    name: 'Produtor',
+    name: 'produtor',
     component: TelaProdutor
   },
   {
-    path: '/tela-Propriedade',
-    name: 'Propriedade',
-   component: TelaPropriedade
+    path: '/tela-propriedade',
+    name: 'propriedade',
+    component: TelaPropriedade
   },
-    {
-    path: '/tela-Laboratorio',
-    name: 'Laboratorio',
+  {
+    path: '/tela-laboratorio',
+    name: 'laboratorio',
     component: TelaLaboratorio
-    },
-      {
-   path: '/tela-Cultura',
-   name: 'Cultura',
- component: TelaCultura
   },
   {
-    path: '/tela-Analise-Solo',
-   name: 'AnaliseSolo',
-   component: TelaAnaliseSolo
+    path: '/tela-cultura',
+    name: 'cultura',
+    component: TelaCultura
   },
   {
-    path: '/tela-recomendação',
-    name: 'Recomendações',
-    component: TelaRecomendações,
+    path: '/tela-analise-solo',
+    name: 'analiseSolo',
+    component: TelaAnaliseSolo
+  },
+  {
+    path: '/tela-recomendacoes',
+    name: 'recomendação',
+    component: TelaRecomendacoes
   },
   {
     path: '/tela-cadastro',
     name: 'cadastro',
-    component: TelaCadastro,
+    component: TelaCadastro
   },
+  {
+    path: '/tela-edicao',
+    name: 'edicaoSenha',
+    component: TelaEdicaoSenha
+  }
 ]
 
 const router = createRouter({

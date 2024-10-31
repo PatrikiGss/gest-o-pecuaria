@@ -4,27 +4,14 @@ FROM node:16-alpine
 # Instalação do GIT & SSH
 RUN apk add --no-cache git openssh
 
-# Expor a porta 8080
-EXPOSE 8080
-
 # Expor a porta 7777
 EXPOSE 7777
-
-# Adiciona a chave SSH do GitHub aos hosts conhecidos
-#RUN mkdir -p ~/.ssh && ssh-keyscan github.com >> ~/.ssh/known_hosts
-
-# Configurções das permissôes do SSH
-#RUN chmod 700 ~/.ssh \ chmod 600 ~/.ssh/id_rsa \ chmod 644 ~/.ssh/known_hosts
 
 # Definição do diretório de trabalho
 WORKDIR /frontend
 
 # Cópia do código do projeto e scripts
 COPY ./front_gestao-pecuaria/frontend /frontend
-
-
-# Instalação do vue
-#RUN yarn add add@vue/cli 
 
 # Instalação dependências do projeto
 RUN npm install
@@ -38,4 +25,4 @@ RUN yarn install
 RUN npm run build
 
 # Comando de inicialização do contêiner
-CMD ["yarn", "dev"]
+CMD ["yarn", "serve"]

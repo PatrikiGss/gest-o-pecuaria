@@ -7,16 +7,6 @@
     <div v-if="showForm" class="form-container">
       <h1>{{ editingLab ? 'Editar Laboratório' : "Cadastrar Laboratório" }}</h1>
       <form @submit.prevent="submitForm" class="lab-form">
-        <!-- Campo para o usuário -->
-        <div class="mb-3">
-          <label for="usuario" class="form-label">Usuário</label>
-          <select id="usuario" v-model="formData.usuario" class="form-control" required>
-            <option disabled value="">Selecione um usuário</option>
-            <option v-for="usuario in usuarios" :key="usuario.id" :value="usuario.id">
-              {{ usuario.nome }}
-            </option>
-          </select>
-        </div>
         <!-- Campo para o Endereço -->
         <div class="mb-3">
           <label for="endereco" class="form-label">Endereço</label>
@@ -27,7 +17,7 @@
         <div class="mb-3">
           <label for="nome" class="form-label">Nome</label>
           <input type="text" class="form-control" id="nome" v-model="formData.nome"
-            placeholder="Digite o nome da propriedade" required />
+            placeholder="Digite o nome do laboratório" required />
         </div>
         <!-- Campo para o telefone -->
         <div class="mb-3">
@@ -72,24 +62,24 @@
         <div v-if="laboratorios.length">
           <div class="row font-weight-bold mb-2">
             <div class="col-12 col-sm-6 col-md-4 col-lg-2">Usuário</div>
-            <div class="col-12 col-sm-6 col-md-4 col-lg-2">Endereço</div>
-            <div class="col-12 col-sm-6 col-md-4 col-lg-2">Nome</div>
+            <div class="col-12 col-sm-6 col-md-4 col-lg-1">Endereço</div>
+            <div class="col-12 col-sm-6 col-md-4 col-lg-1">Nome</div>
             <div class="col-12 col-sm-6 col-md-4 col-lg-2">Email</div>
-            <div class="col-12 col-sm-6 col-md-4 col-lg-1">Telefone</div>
+            <div class="col-12 col-sm-6 col-md-4 col-lg-2">Telefone</div>
             <div class="col-12 col-sm-6 col-md-4 col-lg-1">Cidade</div>
             <div class="col-12 col-sm-6 col-md-4 col-lg-1">Estado</div>
-            <div class="col-12 col-sm-6 col-md-4 col-lg-1">Ação</div>
+            <div class="col-12 col-sm-6 col-md-4 col-lg-2">Ação</div>
           </div>
           <div v-for="laboratorio in laboratorios" :key="laboratorio.id" class="row user-info mb-2">
             <div class="col-12 col-sm-6 col-md-4 col-lg-2">{{ getUsuarioNome(laboratorio.usuario) }}</div>
-            <div class="col-12 col-sm-6 col-md-4 col-lg-2">{{ laboratorio.endereco }}</div>
-            <div class="col-12 col-sm-6 col-md-4 col-lg-2">{{ laboratorio.nome }}</div>
+            <div class="col-12 col-sm-6 col-md-4 col-lg-1">{{ laboratorio.endereco }}</div>
+            <div class="col-12 col-sm-6 col-md-4 col-lg-1">{{ laboratorio.nome }}</div>
             <div class="col-12 col-sm-6 col-md-4 col-lg-2">{{ laboratorio.email }}</div>
-            <div class="col-12 col-sm-6 col-md-4 col-lg-1">{{ laboratorio.telefone }}</div>
+            <div class="col-12 col-sm-6 col-md-4 col-lg-2">{{ laboratorio.telefone }}</div>
             <div class="col-12 col-sm-6 col-md-4 col-lg-1">{{ laboratorio.cidade }}</div>
             <div class="col-12 col-sm-6 col-md-4 col-lg-1">{{ laboratorio.estado }}</div>
             <!-- Botões para editar e excluir laboratórios -->
-            <div class="col-12 col-sm-6 col-md-4 col-lg-1">
+            <div class="col-12 col-sm-6 col-md-4 col-lg-2">
               <button @click="startEditing(laboratorio)" class="btn-edit">🖊️</button>
               <button @click="deleteLab(laboratorio.id)" class="btn-delete">🗑️</button>
             </div>
@@ -111,7 +101,6 @@ export default {
   data() {
     return {
       formData: {
-        usuario: null,
         endereco: '',
         nome: '',
         telefone: '',
@@ -130,23 +119,20 @@ export default {
     toggleForm() {
       this.showForm = !this.showForm;
       this.editingLab = false;
-      this.formData = { usuario: '', endereco: '', nome: '', telefone: '', email: '', cidade: '', estado: '' };
+      this.formData = {usuario:'', endereco: '', nome: '', telefone: '', email: '', cidade: '', estado: '' };
     },
-    // Obtém o nome do usuário a partir do ID
-    getUsuarioNome(usuarioId) {
+      getUsuarioNome(usuarioId) {
       const usuario = this.usuarios.find(u => u.id === usuarioId);
       return usuario ? usuario.nome : 'Desconhecido';
     },
-    // Busca todos os usuários
     async fetchUsuarios() {
-      try {
-        const response = await api.get('/usuarios/');
-        this.usuarios = response.data;
-      } catch (error) {
-        console.error('Erro ao buscar usuários:', error);
-
-      }
-    },
+    try {
+      const response = await api.get('/usuarios/'); // Atualize a URL conforme sua API
+      this.usuarios = response.data;
+    } catch (error) {
+      console.error('Erro ao buscar usuários:', error);
+    }
+  },
     // Busca todos os laboratórios
     async fetchlaboratorios() {
       try {
@@ -216,6 +202,7 @@ export default {
   }
 };
 </script>
+
 
 <style scoped>
 /* Container geral com fundo e borda */

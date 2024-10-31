@@ -12,11 +12,11 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 import os
 import sys
 from pathlib import Path
-from decouple import config
+from decouple import config, Csv
+from datetime import timedelta  
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
-DATA_DIR = BASE_DIR.parent / 'data' / 'web'
 
 APPS_DIR = os.path.join(BASE_DIR, 'apps')
 # Adiciona APPS_DIR no início da lista de caminhos do sistema
@@ -24,19 +24,10 @@ sys.path.insert(0, APPS_DIR)
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
-
-# Carregando variáveis de ambiente
-SECRET_KEY = config('SECRET_KEY', default='change-me')
+SECRET_KEY = config('SECRET_KEY')
 DEBUG = config('DEBUG', default=False, cast=bool)
 
-# Variáveis sensíveis e configuração de depuração
-# SECRET_KEY = secret_key
-# DEBUG = debug_mode
-ALLOWED_HOSTS = [
-    h.strip() for h in os.getenv('ALLOWED_HOSTS', '').split(',')
-    if h.strip()
-]
-
+ALLOWED_HOSTS = []
 
 # Application definition
 DJANGO_APPS = [
@@ -46,7 +37,6 @@ DJANGO_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'rest_framework',
 ]
 THIRD_APPS = [ 
     'rest_framework',
@@ -72,6 +62,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'corsheaders.middleware.CorsMiddleware',
+    'django.middleware.csrf.CsrfViewMiddleware',
 ]
 
 ROOT_URLCONF = 'gestaoPecuaria.urls'
@@ -100,7 +91,7 @@ WSGI_APPLICATION = 'gestaoPecuaria.wsgi.application'
 
 DATABASES = {
    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
+        'ENGINE': 'django.db.backends.postgresql', #postgresql  sqlite3
         'NAME': os.environ.get('DB_NAME'),
         'USER': os.environ.get('POSTGRES_USER'),
         'PASSWORD': os.environ.get('POSTGRES_PASSWORD'),
@@ -109,8 +100,6 @@ DATABASES = {
     }
 }
 
-# Configuração de CORS para permitir o acesso de origins cruzadas, nesse caso, request do frontend
-CORS_ALLOWED_ORIGINS = config('CORS_ALLOWED_ORIGINS', default='', cast=lambda v: [s.strip() for s in v.split(',')])
 
 # Password validation
 # https://docs.djangoproject.com/en/5.0/ref/settings/#auth-password-validators
@@ -147,9 +136,9 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
 
 STATIC_URL = '/static/'
-STATIC_ROOT = DATA_DIR / 'static'
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 MEDIA_URL = '/media/'
-MEDIA_ROOT = DATA_DIR / 'media'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 STATICFILES_DIRS = [os.path.join(BASE_DIR, 'staticfiles')]
 
 # Default primary key field type
@@ -160,29 +149,39 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # CORS Headers Configuration
 CORS_ALLOWED_ORIGINS = [
-    "http://localhost:8080",  # Adicione a URL do seu front-end
+    "http://localhost:8080", 
     "http://127.0.0.1:8080",
-    # Adicione outras origens se necessário
+
 ]
 
-# Se você deseja permitir todas as origens (não recomendado para produção)
-# CORS_ALLOW_ALL_ORIGINS = True
+ALLOWED_HOSTS=["localhost", "127.0.0.1", "web_backend"]
 
-# CSRF Configuration (opcional, dependendo do seu setup)
+CORS_ALLOW_ALL_ORIGINS = True
+
 CSRF_TRUSTED_ORIGINS = [
     "http://localhost:8080",
     "http://127.0.0.1:8080",
-    # Adicione outras origens se necessário
 ]
 
-# Django Rest Framework (DRF) Configuration
+#DRF Configuration
 REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': [
-        'rest_framework.permissions.IsAuthenticated',  # AllowAny, IsAuthenticated
+        'rest_framework.permissions.AllowAny',  # AllowAny  IsAuthenticated
     ],
     'DEFAULT_AUTHENTICATION_CLASSES': [
-        'rest_framework.authentication.SessionAuthentication',
-        'rest_framework.authentication.BasicAuthentication',
-        'rest_framework_simplejwt.authentication.JWTAuthentication',  # JWT Authentication
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
     ],
+}
+SIMPLE_JWT = {
+    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=60),  # O tempo de vida do token de acesso
+    'REFRESH_TOKEN_LIFETIME': timedelta(days=1),  # O tempo de vida do token de refresh
+    'ROTATE_REFRESH_TOKENS': True,  # Gira os tokens de refresh automaticamente
+    'BLACKLIST_AFTER_ROTATION': True,  # Coloca o token antigo na lista negra
+    'ALGORITHM': 'HS256',  # Algoritmo de criptografia
+    'SIGNING_KEY': SECRET_KEY,  # Usa a chave secreta definida anteriormente
+    'AUTH_HEADER_TYPES': ('Bearer',),  # Tipo de cabeçalho de autenticação
+    'TOKEN_USER_CLASS': 'autenticacao.Usuario',  # O modelo de usuário que será autenticado
+    'TOKEN_BLACKLIST_ENABLED': True,  # Habilita o uso de blacklist para tokens
+    'SLIDING_TOKEN_LIFETIME': timedelta(minutes=60),  # Para tokens deslizantes, caso use
+    'SLIDING_TOKEN_REFRESH_LIFETIME': timedelta(days=1),
 }

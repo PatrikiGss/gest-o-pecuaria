@@ -8,11 +8,10 @@ migrations/
 media/
 
 # Ambiente
-.env
+.env.local
+.env.*.local
 
 # Gerados automaticamente
 public/
 
-gestaopecuariadb
 
-postgres/data

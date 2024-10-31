@@ -1,11 +1,8 @@
 <template>
   <div class="container-fluid">
-    <!-- Título da página -->
     <h1></h1>
-    <!-- Exibe o título "Lista de recomendações" se o formulário não estiver sendo exibido -->
     <h1 v-if="!showForm"><br>Lista de Recomendações </h1>
     <h1 v-if="!showForm"><br></h1>
-    <!--formulario de cadastro/edição de recomendação-->
     <div v-if="showForm" class="form-container">
       <h1>{{ editingRec ? 'Editar Recomendação' : 'Cadastro de Recomendação' }}</h1>
       <form @submit.prevent="submitForm" class="recomendação-form">
@@ -74,7 +71,6 @@
             placeholder="Informe a quantidade de Enxofre (S)">
         </div>
 
-        <!-- Grupo de botões -->
         <div class="button-group">
           <!-- Botão para voltar sem salvar alterações -->
           <button @click="toggleForm" class="btn-back">Voltar</button>
@@ -96,7 +92,7 @@
         <div class="container-fluid">
           <!-- Cabeçalho da tabela de recomendações -->
           <div class="row font-weight-bold mb-2">
-            <div class="col-12 col-sm-6 col-md-4 col-lg-2">Análise de Solo</div>
+            <div class="col-12 col-sm-6 col-md-4 col-lg-2">Análise de Solo <p>(laudo)</p></div>
             <div class="col-12 col-sm-6 col-md-4 col-lg-1">Camada de Correção</div>
             <div class="col-12 col-sm-6 col-md-4 col-lg-1">Calcário Calcítico</div>
             <div class="col-12 col-sm-6 col-md-4 col-lg-1">Calcario Dolomitico</div>
@@ -130,7 +126,6 @@
           </div>
         </div>
       </div>
-      <!-- Exibe mensagem se não houver recomendações cadastradas -->
       <div v-else>
         <p>Nenhuma recomendação encontrada.</p>
       </div>
@@ -139,12 +134,12 @@
 </template>
 
 <script>
-import api from '@/interceptadorAxios'; // Importa o módulo para fazer requisições HTTP com Axios
+import api from '@/interceptadorAxios'; 
 export default {
   data() {
     return {
       showForm: false,
-      formData: {  // Era FormData
+      formData: {
         analisesolo: null,
         camada_correcao: '',
         calcario_calcitico: '',
@@ -156,64 +151,60 @@ export default {
         n: '',
         s: '',
       },
-      analisesolo: [],  // Lista de analises de solo
-      recomendacoes: [],  // Lista de recomendações
-      editingRec: null,  // Mantém o ID da recomendação que está sendo editada
+      analisesolo: [],  
+      recomendacoes: [], 
+      editingRec: null,  
     };
   }
   ,
   methods: {
-    // Alterna a exibição do formulário de usuário
     toggleForm() {
-      this.showForm = !this.showForm; // Inverte o estado do formulário
-      this.clearForm(); // Limpa os dados do formulário
+      this.showForm = !this.showForm; 
+      this.clearForm(); 
     },
 
     getLaudoByAnaliseSoloId(analisesoloId) {
       console.log('ID da análise de solo recebido:', analisesoloId);
 
-      // Verifica se o array de análises de solo está carregado e contém elementos
       if (!Array.isArray(this.analise_solo) || this.analise_solo.length === 0) {
         console.log('Array analise_solo não carregado ou vazio');
-        return 'desconhecido';  // Retorna um valor padrão
+        return 'desconhecido'; 
       }
 
-      // Verifica se o ID da análise de solo é válido
+      
       if (!analisesoloId) {
         console.log('ID da análise de solo não fornecido ou inválido');
-        return 'ID inválido';  // Retorna mensagem para ID inválido
+        return 'ID inválido';  
       }
 
-      // Busca a análise de solo no array com base no ID fornecido
       const analise = this.analise_solo.find(a => {
         console.log(`Comparando ${String(a.id)} com ${String(analisesoloId)}`);
-        return String(a.id) === String(analisesoloId);  // Converte ambos para string
+        return String(a.id) === String(analisesoloId); 
       });
 
-      // Se a análise for encontrada, retorna o laudo ou uma mensagem padrão se estiver ausente
+      
       if (analise) {
         console.log('Laudo encontrado:', analise.laudo);
-        return analise.laudo || 'Laudo não disponível';  // Retorna o laudo ou mensagem padrão
+        return analise.laudo || 'Laudo não disponível';  
       } else {
         console.log('Análise de solo não encontrada para o ID:', analisesoloId);
-        return 'Análise não encontrada';  // Mensagem padrão quando o ID não é encontrado
+        return 'Análise não encontrada'; 
       }
     },
 
 
 
 
-    // Busca todas as analises de solo
     async fetchAnaliseSolo() {
       try {
         const response = await api.get('/analisesolo/');
-        console.log('Dados recebidos:', response.data);  // Debug para ver os dados recebidos
-        this.analise_solo = response.data;  // Certifique-se de que os dados estão sendo atribuídos
+        console.log('Dados recebidos:', response.data);
+        this.analise_solo = response.data; 
       } catch (error) {
         console.error('Erro ao buscar análises de solo: ', error);
       }
     },
-    // Busca todas as recomendações
+
     async fetchRecomendação() {
       try {
         const response = await api.get('/recomendacoes/');
@@ -222,11 +213,9 @@ export default {
         console.error('erro ao buscae recomendações: ', error);
       }
     },
-    // Método para enviar o formulário
     async submitForm() {
       try {
         if (this.editingRec) {
-          //atualiza uma recomendação ja existente
           const response = await api.put(`/recomendacoes/${this.editingRec}/`, this.formData);
           if (response.status === 200) {
             alert('recomendação atualizada com sucesso!');
@@ -234,7 +223,6 @@ export default {
             alert('erro ao atualizar a recomendação.')
           }
         } else {
-          // Cadastra uma nova recomendação
           const response = await api.post('/recomendacoes/', this.formData);
           if (response.status === 201) {
             alert(' recomendação foi cadastrada com sucesso!');
@@ -242,22 +230,20 @@ export default {
             alert('recomendação nao pode ser cadastrada.');
           }
         }
-        this.fetchRecomendação();// Atualiza a liste recoemndação
-        this.showForm = false;// Oculta o formulário após o cadastro ou atualização
+        this.fetchRecomendação();
+        this.showForm = false;
       } catch (error) {
         console.error('erro ao enviuar requisição:', error);
         alert('erro ao enviar requisauição. verifique o console')
       }
     },
-    // Método para editar uma recomendação
+
     editRec(recomendacoes) {
-      this.editingRec = recomendacoes.id;// Armazena o ID da recomendação que está sendo editada
-      this.formData = { ...recomendacoes }; // Preenche o formulário com os dados da recomendação
-      this.showForm = true; // Exibe o formulário para edição
+      this.editingRec = recomendacoes.id
+      this.formData = { ...recomendacoes }; 
+      this.showForm = true;
     },
-    // Método para limpar o formulário
     clearForm() {
-      // Limpa os dados do formulário
       this.formData = {
         analisesolo: null,
         camada_correcao: '',
@@ -270,16 +256,15 @@ export default {
         n: '',
         s: '',
       };
-      this.editingRec = null; //reseta estado da edição
+      this.editingRec = null;
     },
-    // Método para excluir uma recomendação
     async deleteRec(id) {
       if (confirm('tem certeza que deseja excluir esta recomendação?')) {
         try {
           const response = await api.delete(`/recomendacoes/${id}/`);
-          if (response.status === 204) {  // Status 204 indica sucesso sem conteúdo
+          if (response.status === 204) { 
             alert('Recomendação excluída com sucesso!');
-            this.fetchRecomendação();  // Atualiza a lista após a exclusão
+            this.fetchRecomendação();
           } else {
             alert('Erro ao tentar excluir a recomendação.');
           }
@@ -291,8 +276,8 @@ export default {
     }
   },
   mounted() {
-    this.fetchAnaliseSolo();// Busca a lista de analises de solo quando o componente é criado
-    this.fetchRecomendação();// Busca a lista de recomendações quando o componente é criado
+    this.fetchAnaliseSolo();
+    this.fetchRecomendação();
   }
 };
 </script>

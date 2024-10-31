@@ -48,7 +48,7 @@ Portanto, a utilização de Single File Components (SFCs) é, de fato, a abordag
           <input type="email" class="form-control" id="email" v-model="formData.email" placeholder="name@example.com">
         </div>
         <!-- Campo para a senha -->
-        <div class="mb-3">
+        <div v-if="!editingUser" class="mb-3">
           <label for="password" class="form-label">Senha</label>
           <input type="password" class="form-control" id="password" v-model="formData.password"
             placeholder="Digite sua senha">
@@ -91,7 +91,6 @@ Portanto, a utilização de Single File Components (SFCs) é, de fato, a abordag
       <div v-if="usuarios.length">
         <div class="container-fluid">
           <!-- Cabeçalho da tabela de usuários -->
-          <!-- Cabeçalho da tabela de usuários -->
           <div class="row font-weight-bold mb-2">
             <div class="col-12 col-sm-6 col-md-4 col-lg-2">Nome</div>
             <div class="col-12 col-sm-6 col-md-4 col-lg-2">E-mail</div>
@@ -125,7 +124,7 @@ Portanto, a utilização de Single File Components (SFCs) é, de fato, a abordag
 
 
 <script>
-import api from '@/interceptadorAxios'; // Importa o módulo para fazer requisições HTTP com Axios
+import api from '@/interceptadorAxios'; // Importa o Axios configurado
 
 export default {
   data() {
@@ -136,7 +135,7 @@ export default {
         email: '',
         telefone: '',
         cpf: '',
-        password: '',
+        password: '', // Este campo será omitido na atualização
         creditos: '',
       },
       usuarios: [], // Lista de usuários
@@ -183,17 +182,18 @@ export default {
         this.usuarios = response.data; // Atribui a lista de usuários ao array
       } catch (error) {
         console.error('Erro ao buscar usuários:', error);
+        // Opcional: Mostrar uma mensagem ao usuário
       }
     },
     // Método para editar um usuário
     editUser(usuario) {
-      this.editingUser = usuario.id; // Armazena o ID do usuário que está sendo editado
-      this.formData = { ...usuario }; // Preenche o formulário com os dados do usuário
-      this.showForm = true; // Exibe o formulário para edição
-    },
+  this.editingUser = usuario.id; // Armazena o ID do usuário que está sendo editado
+  this.formData = { ...usuario }; // Preenche o formulário com os dados do usuário
+  this.formData.password = usuario.password; // Carrega a senha atual no campo senha
+  this.showForm = true; // Exibe o formulário para edição
+},
     // Método para limpar o formulário
     clearForm() {
-      // Limpa os dados do formulário
       this.formData = {
         nome: '',
         email: '',
@@ -217,13 +217,14 @@ export default {
           }
         } catch (error) {
           console.error('Erro ao excluir usuário:', error);
+          alert('Erro ao excluir usuário. Verifique o console para mais detalhes.');
         }
       }
-    }
+    },
   },
   created() {
     this.fetchUsuarios(); // Busca a lista de usuários quando o componente é criado
-  }
+  },
 };
 </script>
 
