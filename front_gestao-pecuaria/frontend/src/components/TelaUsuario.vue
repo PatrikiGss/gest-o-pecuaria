@@ -21,7 +21,7 @@ Por que essa é a abordagem padrão?
 Coesão: HTML, CSS e JavaScript estão intimamente relacionados dentro de um componente, então mantê-los no mesmo arquivo promove coesão e facilita o desenvolvimento.
 Reutilização: Um arquivo .vue pode ser facilmente reutilizado em diferentes partes da aplicação ou em outros projetos.
 Ferramentas de Build: O Vue CLI e outras ferramentas de build como Webpack são configuradas para compilar arquivos .vue automaticamente, transformando-os em JavaScript, CSS e HTML prontos para o navegador.
-Portanto, a utilização de Single File Components (SFCs) é de fato, a abordagem recomendada e mais comum em projetos Vue.js.
+Portanto, a utilização de Single File Components (SFCs) é, de fato, a abordagem recomendada e mais comum em projetos Vue.js.
 -->
 <template>
   <div class="container-fluid">
