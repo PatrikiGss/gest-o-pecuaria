@@ -90,13 +90,15 @@ WSGI_APPLICATION = 'gestaoPecuaria.wsgi.application'
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',#postgresql  sqlite3
-        'NAME': config('DB_NAME'),
-        'USER': config('DB_USER'),
-        'PASSWORD': config('DB_PASSWORD'),
-        'HOST': config('DB_HOST'),
-        'PORT': config('DB_PORT'),
+
+   'default': {
+        'ENGINE': 'django.db.backends.postgresql', #postgresql  sqlite3
+        'NAME': os.environ.get('DB_NAME'),
+        'USER': os.environ.get('POSTGRES_USER'),
+        'PASSWORD': os.environ.get('POSTGRES_PASSWORD'),
+        'HOST': os.environ.get('POSTGRES_HOST', 'psql'),  # nome do serviço do PostgreSQL no docker-compose.yml
+        'PORT': os.environ.get('POSTGRES_PORT', '5432'),
+
     }
 }
 
@@ -149,6 +151,20 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # CORS Headers Configuration
 CORS_ALLOWED_ORIGINS = [
+
+    "http://localhost:8080", 
+    "http://127.0.0.1:8080",
+
+]
+
+ALLOWED_HOSTS=["localhost", "127.0.0.1", "web_backend"]
+
+CORS_ALLOW_ALL_ORIGINS = True
+
+CSRF_TRUSTED_ORIGINS = [
+    "http://localhost:8080",
+    "http://127.0.0.1:8080",
+=======
     "http://localhost:7777", 
     "http://127.0.0.1:7777",
 
@@ -160,6 +176,7 @@ CORS_ALLOW_ALL_ORIGINS = True
 CSRF_TRUSTED_ORIGINS = [
     "http://localhost:7777",
     "http://127.0.0.1:7777",
+
 ]
 
 #DRF Configuration

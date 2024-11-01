@@ -9,13 +9,16 @@ from rest_framework.permissions import IsAuthenticated
 class UsuarioViewSet(viewsets.ModelViewSet):
     queryset = Usuario.objects.all()
     serializer_class=UsuarioSerializer
+
     permission_classes = [IsAuthenticated]
+
     def get_queryset(self):
          return Usuario.objects.filter(id=self.request.user.id)
     
     
 class ProdutorViewSet(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticated]
+
     queryset = Produtor.objects.all()
     serializer_class = ProdutorSerializer
 
@@ -31,6 +34,7 @@ class ProdutorViewSet(viewsets.ModelViewSet):
 
 
 class PropriedadeViewSet(viewsets.ModelViewSet):
+
     permission_classes = [IsAuthenticated]
     queryset = Propriedade.objects.all()
     serializer_class = PropriedadeSerializer
@@ -57,6 +61,7 @@ class CulturaViewSet(viewsets.ModelViewSet):
     queryset=Cultura.objects.all()
     serializer_class=CulturaSerializer
     permission_classes = [IsAuthenticated]
+
     def get_queryset(self):
         return Cultura.objects.filter(usuario=self.request.user)
 

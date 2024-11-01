@@ -1,0 +1,28 @@
+# Imagem Base
+FROM node:16-alpine 
+
+# Instalação do GIT & SSH
+RUN apk add --no-cache git openssh
+
+# Expor a porta 7777
+EXPOSE 7777
+
+# Definição do diretório de trabalho
+WORKDIR /frontend
+
+# Cópia do código do projeto e scripts
+COPY ./front_gestao-pecuaria/frontend /frontend
+
+# Instalação dependências do projeto
+RUN npm install
+
+# Cópia das dependências para o diretório de trabalho e instalação dos arquivos package.json
+COPY ./front_gestao-pecuaria/frontend/package.json /frontend
+COPY ./front_gestao-pecuaria/package-lock.json /frontend
+RUN yarn install
+
+# Compila a aplicação
+RUN npm run build
+
+# Comando de inicialização do contêiner
+CMD ["yarn", "serve"]
